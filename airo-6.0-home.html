@@ -1,0 +1,3544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRO 6.0 â€” National AI & Data Science Symposium</title>
+<meta name="description" content="AIRO 6.0 â€” Six specialized technical arenas testing strategy, cybersecurity, AI agents, rapid prototyping, startup pitch, and creative web design. September 26, 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --black: #040608;
+  --dark-panel: #0a0d12;
+  --dark-border: rgba(0, 255, 85, 0.2);
+  --omnitrix-green: #00FF55;
+  --omnitrix-glow: rgba(0, 255, 85, 0.35);
+  --omnitrix-dark: #00882e;
+  --galvan-silver: #1e242c;
+  --gray-100: #f4f6f8;
+  --gray-300: #c2c8d0;
+  --gray-500: #6e7682;
+  --gray-700: #262c35;
+  --gray-900: #0f1318;
+  --font-main: 'Inter', -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --margin: clamp(20px, 4vw, 56px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: auto; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+body {
+  font-family: var(--font-main);
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.85s cubic-bezier(0.16, 1, 0.3, 1), color 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── DYNAMIC BACKGROUND THEMES (PODIUM SCROLL SYSTEM) ─── */
+body.theme-hero {
+  background-color: #040608;
+  color: var(--white);
+}
+
+body.theme-arenas {
+  background-color: #f2f5f8;
+  color: #0a0e14;
+}
+
+body.theme-arenas .editorial-header {
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+body.theme-arenas .editorial-title {
+  color: #0a0e14;
+}
+
+body.theme-arenas .card-event-title {
+  color: #0a0e14;
+}
+
+body.theme-arenas .card-event-meta-right {
+  color: #64748b;
+}
+
+body.theme-arenas .arena-toggle-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #475569;
+}
+
+body.theme-arenas .arena-toggle-btn:hover {
+  border-color: var(--omnitrix-dark);
+  color: #000;
+}
+
+body.theme-arenas .arena-toggle-btn.active {
+  background: #000;
+  border-color: #000;
+  color: var(--omnitrix-green);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+body.theme-arenas .omnitrix-dial-console {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.08), 0 0 30px rgba(0, 255, 85, 0.08);
+}
+
+body.theme-arenas .hud-title-block h3 {
+  color: #0a0e14;
+}
+
+body.theme-arenas .hud-alien-tag {
+  color: #64748b;
+}
+
+body.theme-arenas .hud-briefing-text {
+  color: #334155;
+}
+
+body.theme-arenas .telemetry-card {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.theme-arenas .telemetry-val {
+  color: #0a0e14;
+}
+
+body.theme-arenas .hud-secondary-cta {
+  border-color: rgba(0, 0, 0, 0.25);
+  color: #0a0e14;
+}
+
+body.theme-arenas .hud-secondary-cta:hover {
+  border-color: var(--omnitrix-dark);
+  background: rgba(0, 255, 85, 0.15);
+}
+
+body.theme-about {
+  background-color: #05080c;
+  color: var(--white);
+}
+
+body.theme-register {
+  background-color: #020905;
+  color: var(--white);
+}
+
+body.theme-footer {
+  background-color: #010203;
+  color: var(--white);
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+::selection { background: var(--omnitrix-green); color: var(--black); }
+
+/* ─── FIXED HEADER ─── */
+#header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: clamp(16px, 2.5vh, 28px) var(--margin);
+  pointer-events: auto;
+  color: var(--white);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+#header.dark-nav {
+  color: #0a0e14;
+  text-shadow: none;
+}
+
+#header.dark-nav .nav-link {
+  color: #0a0e14;
+}
+
+#header.dark-nav .nav-link:hover {
+  color: var(--omnitrix-dark);
+}
+
+#header.dark-nav .nav-auth-btn {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #0a0e14;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+#header.dark-nav .nav-auth-btn:hover {
+  background: #000;
+  color: var(--omnitrix-green);
+}
+
+.brand-logo {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.omnitrix-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--black); color: var(--omnitrix-green);
+  border: 2px solid var(--omnitrix-green);
+  box-shadow: 0 0 12px var(--omnitrix-glow);
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.omnitrix-badge::before {
+  content: '';
+  width: 14px; height: 14px;
+  background: var(--omnitrix-green);
+  clip-path: polygon(0 0, 100% 0, 50% 50%, 100% 100%, 0 100%, 50% 50%);
+  transition: transform 0.4s ease;
+}
+
+.brand-logo:hover .omnitrix-badge {
+  transform: rotate(90deg);
+  box-shadow: 0 0 16px var(--omnitrix-glow);
+}
+
+#header.dark-mode .omnitrix-badge {
+  background: #000;
+  border-color: var(--omnitrix-green);
+  box-shadow: 0 0 12px var(--omnitrix-glow);
+}
+
+.nav-menu {
+  display: flex; align-items: center; gap: clamp(20px, 3.5vw, 44px);
+  list-style: none;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+  color: var(--omnitrix-green);
+}
+
+.status-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  padding: 6px 14px; border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  backdrop-filter: blur(8px);
+  color: var(--white);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--omnitrix-green);
+  box-shadow: 0 0 8px var(--omnitrix-green);
+  animation: pulse-dot 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-dot {
+  from { opacity: 0.4; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1.15); box-shadow: 0 0 12px var(--omnitrix-green); }
+}
+
+/* ─── FIXED SCROLL PERCENTAGE HUD ─── */
+#scroll-hud {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(4, 6, 8, 0.88);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  border-radius: 40px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 255, 85, 0.15);
+  pointer-events: none;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+
+.hud-label {
+  color: var(--omnitrix-green);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hud-value {
+  color: var(--white);
+  min-width: 38px;
+  text-align: right;
+}
+
+.hud-bar-track {
+  width: 48px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.hud-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--omnitrix-green);
+  box-shadow: 0 0 8px var(--omnitrix-green);
+  transition: width 0.08s linear;
+}
+
+#header.dark-mode .status-pill {
+  background: rgba(0, 255, 85, 0.08);
+  border-color: rgba(0, 255, 85, 0.25);
+  color: var(--white);
+}
+
+/* ─── HERO PIN CONTAINER ─── */
+#hero-pin-wrapper {
+  position: relative;
+  width: 100%;
+  height: 320vh;
+  background: var(--black);
+}
+
+#hero-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--black);
+}
+
+/* Hero Background Video (Color Layer) */
+#hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  filter: none;
+  transform: none;
+}
+
+#gl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: block;
+}
+
+/* ─── HERO CENTER INTRO (AIRO 6.0 TITLE) ─── */
+.hero-center-intro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 4;
+  pointer-events: none;
+  width: min(92vw, 1100px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hero-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 13vw, 180px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  color: var(--white);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85);
+  margin-bottom: 16px;
+}
+
+.hero-main-title .green-text {
+  color: var(--omnitrix-green);
+  text-shadow: 0 0 16px rgba(0, 255, 85, 0.45), 0 4px 20px rgba(0, 0, 0, 0.85);
+}
+
+.hero-sub-p {
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1.3vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+}
+
+/* ─── 3D OMNITRIX WATCH & 6 ROTATING EVENTS CAROUSEL ─── */
+.omnitrix-carousel-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  transition: opacity 0.4s ease;
+}
+
+/* Central Omnitrix Watch */
+.omnitrix-center-watch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(140px, 16vw, 220px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  pointer-events: auto;
+  cursor: grab;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.omnitrix-center-watch:hover {
+  transform: translate(-50%, -50%) scale(1.08) rotate(15deg);
+}
+
+.omnitrix-center-watch img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(0, 255, 85, 0.7);
+  box-shadow: 0 0 35px var(--omnitrix-glow), inset 0 0 20px rgba(0, 255, 85, 0.4);
+}
+
+.watch-energy-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 255, 85, 0.4);
+  animation: rotateRing 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Rotating 6 Cards Around Center */
+.rotating-cards-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.rot-event-card {
+  position: absolute;
+  width: clamp(190px, 20vw, 260px);
+  background: rgba(4, 8, 12, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 255, 85, 0.3);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+  pointer-events: auto;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.rot-event-card:hover {
+  border-color: var(--omnitrix-green);
+  background: rgba(0, 255, 85, 0.12);
+  box-shadow: 0 0 30px rgba(0, 255, 85, 0.5), 0 20px 50px rgba(0, 0, 0, 0.95);
+  z-index: 20 !important;
+}
+
+.rot-card-media {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  flex-shrink: 0;
+}
+
+.rot-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.95);
+}
+
+.rot-num-tag {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--omnitrix-green);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 900;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+.rot-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rot-dna-tag {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--omnitrix-green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.rot-title {
+  font-family: var(--font-display);
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rot-cat {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.hero-tagline {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  left: var(--margin);
+  max-width: 520px;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.8vw, 24px);
+  font-weight: 800;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  pointer-events: none;
+  z-index: 10;
+  color: var(--white);
+  text-shadow: 0 2px 14px rgba(0,0,0,0.9);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hero-tagline .highlight {
+  color: var(--omnitrix-green);
+  text-shadow: 0 0 16px var(--omnitrix-glow);
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  right: var(--margin);
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 10;
+  color: var(--white);
+  text-shadow: 0 2px 14px rgba(0,0,0,0.9);
+  transition: opacity 0.4s ease;
+}
+
+/* â”€â”€â”€ MAIN CONTENT â”€â”€â”€ */
+#main-content {
+  position: relative;
+  z-index: 20;
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+.section-pad {
+  padding: clamp(80px, 14vh, 160px) var(--margin);
+}
+
+.editorial-header {
+  border-bottom: 1px solid var(--gray-700);
+  padding-bottom: 24px;
+  margin-bottom: clamp(40px, 8vh, 80px);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+
+.editorial-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 76px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.editorial-title .highlight-accent {
+  color: var(--omnitrix-green);
+  text-shadow: 0 0 20px var(--omnitrix-glow);
+}
+
+.editorial-counter {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--omnitrix-green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── PODIUM STAGGERED 3-COLUMN EDITORIAL GRID ─── */
+.podium-grid-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.podium-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3.5vw, 56px);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .podium-editorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .podium-editorial-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.podium-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 6vh, 68px);
+}
+
+.col-offset-2 {
+  margin-top: clamp(40px, 8vh, 100px);
+}
+
+.col-offset-3 {
+  margin-top: clamp(20px, 4vh, 50px);
+}
+
+@media (max-width: 900px) {
+  .col-offset-2, .col-offset-3 {
+    margin-top: 0;
+  }
+}
+
+.float-card {
+  position: relative;
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.media-box {
+  position: relative;
+  width: 100%;
+  background: var(--dark-panel);
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 85, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.aspect-landscape { aspect-ratio: 16/10; }
+.aspect-portrait { aspect-ratio: 4/5; }
+.aspect-square { aspect-ratio: 1/1; }
+
+.media-box img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.95);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+
+.float-card:hover .media-box {
+  border-color: var(--omnitrix-green);
+  box-shadow: 0 24px 60px rgba(0, 255, 85, 0.35);
+}
+
+.float-card:hover .media-box img {
+  transform: scale(1.05);
+  filter: contrast(1.18) brightness(1.05);
+}
+
+.card-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 14px;
+  gap: 12px;
+}
+
+.card-event-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 32px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 1.0;
+  color: var(--white);
+  transition: color 0.2s ease;
+}
+
+.float-card:hover .card-event-title {
+  color: var(--omnitrix-green);
+}
+
+.card-event-meta-right {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  text-align: right;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.card-event-meta-right .category-highlight {
+  color: var(--omnitrix-green);
+}
+
+/* ─── OMNITRIX HOLOGRAPHIC ARENA SELECTOR ─── */
+.arena-view-toggle-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.arena-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--gray-300);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.arena-toggle-btn:hover {
+  border-color: var(--omnitrix-green);
+  color: var(--white);
+}
+
+.arena-toggle-btn.active {
+  background: rgba(0, 255, 85, 0.12);
+  border-color: var(--omnitrix-green);
+  color: var(--omnitrix-green);
+  box-shadow: 0 0 20px rgba(0, 255, 85, 0.25);
+}
+
+.omnitrix-dial-console {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  background: radial-gradient(circle at 30% 50%, rgba(0, 255, 85, 0.06), transparent 70%), var(--dark-panel);
+  border: 1px solid rgba(0, 255, 85, 0.25);
+  border-radius: 12px;
+  padding: clamp(24px, 4vw, 48px);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 255, 85, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.omnitrix-dial-console::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--omnitrix-green), transparent);
+}
+
+@media (max-width: 980px) {
+  .omnitrix-dial-console {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left: 3D Hologram Chamber */
+.dial-chamber {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+}
+
+.holo-projector-beam {
+  position: absolute;
+  bottom: 80px;
+  width: 240px;
+  height: 280px;
+  background: linear-gradient(0deg, rgba(0, 255, 85, 0.25) 0%, rgba(0, 255, 85, 0.02) 80%, transparent 100%);
+  clip-path: polygon(25% 100%, 75% 100%, 100% 0%, 0% 0%);
+  pointer-events: none;
+  animation: holoFlicker 3s infinite alternate ease-in-out;
+  z-index: 1;
+}
+
+@keyframes holoFlicker {
+  0% { opacity: 0.7; transform: scaleX(1); }
+  50% { opacity: 0.9; transform: scaleX(1.05); }
+  100% { opacity: 0.75; transform: scaleX(0.98); }
+}
+
+.holo-card-stage {
+  position: relative;
+  z-index: 2;
+  width: min(320px, 85%);
+  aspect-ratio: 4/5;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--omnitrix-green);
+  box-shadow: 0 0 40px rgba(0, 255, 85, 0.4), inset 0 0 20px rgba(0, 255, 85, 0.3);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  cursor: pointer;
+  animation: holoFloat 4s ease-in-out infinite;
+}
+
+@keyframes holoFloat {
+  0%, 100% { transform: translateY(0px) rotateY(-4deg); }
+  50% { transform: translateY(-12px) rotateY(4deg); }
+}
+
+.holo-card-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.15) brightness(1.05);
+}
+
+.holo-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 50%, rgba(0,255,85,0.1) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  pointer-events: none;
+}
+
+.holo-dna-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--omnitrix-green);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.holo-arena-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+/* Dial Wheel & DNA Selector Nodes */
+.omnitrix-dna-wheel {
+  position: relative;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.dna-pills-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dna-node-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 10px;
+  border-radius: 4px;
+  color: var(--gray-400);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dna-node-btn .node-num {
+  color: var(--omnitrix-green);
+  font-weight: 900;
+}
+
+.dna-node-btn:hover {
+  border-color: var(--omnitrix-green);
+  color: var(--white);
+  background: rgba(0, 255, 85, 0.08);
+}
+
+.dna-node-btn.active {
+  background: var(--omnitrix-green);
+  border-color: var(--omnitrix-green);
+  color: var(--black);
+  box-shadow: 0 0 16px rgba(0, 255, 85, 0.5);
+}
+
+.dna-node-btn.active .node-num {
+  color: var(--black);
+}
+
+.dial-nav-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.dial-arrow-btn {
+  background: rgba(0, 255, 85, 0.1);
+  border: 1px solid rgba(0, 255, 85, 0.3);
+  color: var(--omnitrix-green);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dial-arrow-btn:hover {
+  background: var(--omnitrix-green);
+  color: var(--black);
+  box-shadow: 0 0 15px rgba(0, 255, 85, 0.4);
+}
+
+/* Right: Galvan Telemetry Dossier HUD */
+.galvan-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hud-header-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 255, 85, 0.2);
+  padding-bottom: 12px;
+}
+
+.hud-track-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--omnitrix-green);
+  text-transform: uppercase;
+}
+
+.hud-status-live {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--omnitrix-green);
+  background: rgba(0, 255, 85, 0.1);
+  border: 1px solid rgba(0, 255, 85, 0.3);
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-title-block h3 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 900;
+  line-height: 1.0;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.hud-alien-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hud-alien-tag span {
+  color: var(--omnitrix-green);
+}
+
+.hud-briefing-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--gray-300);
+}
+
+.hud-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.telemetry-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 85, 0.15);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.telemetry-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.telemetry-val {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+}
+
+.telemetry-val.prize-highlight {
+  color: var(--omnitrix-green);
+  text-shadow: 0 0 10px rgba(0, 255, 85, 0.3);
+}
+
+.hud-action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.hud-primary-cta {
+  background: var(--omnitrix-green);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 20px rgba(0, 255, 85, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.hud-primary-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 255, 85, 0.7);
+}
+
+.hud-secondary-cta {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ─── NAV AUTH BUTTON ─── */
+.nav-auth-btn {
+  background: rgba(0, 255, 85, 0.1);
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.nav-auth-btn:hover {
+  background: var(--omnitrix-green);
+  color: var(--black);
+  box-shadow: 0 0 16px rgba(0, 255, 85, 0.4);
+}
+
+.nav-auth-btn.logged-in {
+  background: rgba(0, 255, 85, 0.18);
+  border-color: var(--omnitrix-green);
+  color: var(--omnitrix-green);
+}
+
+.nav-auth-btn.logged-in:hover {
+  background: var(--omnitrix-green);
+  color: var(--black);
+}
+
+/* ─── AUTH & DASHBOARD MODALS ─── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  background: rgba(4, 6, 8, 0.94);
+  backdrop-filter: blur(24px);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(16px, 3vh, 32px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s;
+}
+
+.modal-overlay.active { opacity: 1; visibility: visible; }
+
+.auth-card-box {
+  background: var(--dark-panel);
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  border-radius: 10px;
+  max-width: 520px;
+  width: 100%;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 255, 85, 0.2);
+  position: relative;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.modal-close-x {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--gray-400);
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close-x:hover {
+  background: var(--omnitrix-green);
+  border-color: var(--omnitrix-green);
+  color: var(--black);
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 255, 85, 0.2);
+  margin-bottom: 24px;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-tab-btn.active {
+  color: var(--omnitrix-green);
+  border-bottom-color: var(--omnitrix-green);
+  background: rgba(0, 255, 85, 0.04);
+}
+
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.auth-form-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gray-300);
+  letter-spacing: 0.05em;
+}
+
+.auth-input, .auth-select {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 12px 14px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-input:focus, .auth-select:focus {
+  border-color: var(--omnitrix-green);
+  box-shadow: 0 0 12px rgba(0, 255, 85, 0.25);
+  background: rgba(0, 255, 85, 0.02);
+}
+
+.auth-submit-btn {
+  width: 100%;
+  background: var(--omnitrix-green);
+  color: var(--black);
+  border: none;
+  border-radius: 4px;
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(0, 255, 85, 0.35);
+}
+
+.auth-submit-btn:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 85, 0.7);
+  transform: translateY(-1px);
+}
+
+.auth-msg-box {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  display: none;
+}
+
+.auth-msg-box.error {
+  display: block;
+  background: rgba(255, 50, 50, 0.1);
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  color: #ff6b6b;
+}
+
+.auth-msg-box.success {
+  display: block;
+  background: rgba(0, 255, 85, 0.1);
+  border: 1px solid rgba(0, 255, 85, 0.3);
+  color: var(--omnitrix-green);
+}
+
+/* ─── CADET COMMAND DASHBOARD ─── */
+.dashboard-box {
+  background: var(--dark-panel);
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  border-radius: 12px;
+  max-width: 1080px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 255, 85, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  padding: clamp(24px, 4vw, 36px);
+  border-bottom: 1px solid rgba(0, 255, 85, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  background: radial-gradient(circle at 0% 50%, rgba(0, 255, 85, 0.08), transparent 70%);
+}
+
+.dash-cadet-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-avatar-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(0, 255, 85, 0.1);
+  border: 2px solid var(--omnitrix-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 0 20px rgba(0, 255, 85, 0.4);
+}
+
+.dash-cadet-name {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.0;
+  margin-bottom: 4px;
+}
+
+.dash-cadet-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray-400);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dash-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 80, 80, 0.4);
+  color: #ff6b6b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dash-logout-btn:hover {
+  background: rgba(255, 80, 80, 0.15);
+  border-color: #ff6b6b;
+}
+
+.dashboard-body {
+  padding: clamp(24px, 4vw, 36px);
+}
+
+.dashboard-section-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--omnitrix-green);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.registered-arenas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.registered-track-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 85, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.registered-track-card:hover {
+  border-color: var(--omnitrix-green);
+  box-shadow: 0 20px 50px rgba(0, 255, 85, 0.25);
+  transform: translateY(-3px);
+}
+
+.registered-card-banner {
+  position: relative;
+  width: 100%;
+  height: 140px;
+}
+
+.registered-card-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.registered-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 255, 85, 0.9);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.registered-card-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+}
+
+.reg-pass-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--omnitrix-green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.reg-track-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.reg-team-info {
+  font-size: 12px;
+  color: var(--gray-300);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border-left: 2px solid var(--omnitrix-green);
+}
+
+.reg-meta-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.reg-meta-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 3px;
+  color: var(--gray-300);
+}
+
+.reg-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.reg-view-pass-btn {
+  flex: 1;
+  background: rgba(0, 255, 85, 0.12);
+  border: 1px solid rgba(0, 255, 85, 0.3);
+  color: var(--omnitrix-green);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.reg-view-pass-btn:hover {
+  background: var(--omnitrix-green);
+  color: var(--black);
+}
+
+.reg-cancel-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 80, 80, 0.3);
+  color: #ff6b6b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reg-cancel-btn:hover {
+  background: rgba(255, 80, 80, 0.15);
+}
+
+/* Empty Dashboard State */
+.empty-dash-state {
+  text-align: center;
+  padding: 48px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(0, 255, 85, 0.3);
+  border-radius: 8px;
+}
+
+.empty-radar-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0, 255, 85, 0.08);
+  border: 1px solid var(--omnitrix-green);
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 0 24px rgba(0, 255, 85, 0.25);
+  animation: pulseRadar 2s infinite ease-in-out;
+}
+
+@keyframes pulseRadar {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* ─── HOLOGRAPHIC EVENT DOSSIER MODAL ─── */
+#dossier-modal {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(4, 6, 8, 0.92);
+  backdrop-filter: blur(20px);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(16px, 3vh, 32px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s;
+}
+
+#dossier-modal.active { opacity: 1; visibility: visible; }
+
+.dossier-box {
+  background: var(--dark-panel);
+  border: 1px solid rgba(0, 255, 85, 0.35);
+  border-radius: 8px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 255, 85, 0.2);
+}
+
+.dossier-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 30vh, 280px);
+}
+
+.dossier-hero img { width: 100%; height: 100%; object-fit: cover; }
+
+.dossier-close-btn {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(4, 6, 8, 0.85);
+  border: 1px solid rgba(0, 255, 85, 0.4);
+  color: var(--white);
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dossier-close-btn:hover { background: var(--omnitrix-green); color: var(--black); }
+
+.dossier-body { padding: clamp(24px, 4vw, 40px); }
+.dossier-title {
+  font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800; text-transform: uppercase; margin-bottom: 8px;
+}
+
+.dossier-rounds-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+}
+
+@media (max-width: 650px) { .dossier-rounds-grid { grid-template-columns: 1fr; } }
+
+.round-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 85, 0.15);
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.round-badge {
+  font-family: var(--font-mono); font-size: 10px; color: var(--omnitrix-green);
+  text-transform: uppercase; font-weight: 700; margin-bottom: 6px;
+}
+
+.round-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.round-desc { font-size: 12px; color: var(--gray-300); line-height: 1.5; }
+
+.arena-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--font-mono); font-size: 12px; color: var(--gray-500);
+}
+
+.arena-footer .prize { color: var(--white); font-weight: 700; }
+
+/* â”€â”€â”€ MANIFESTO (ABOUT SECTION SCRUB) â”€â”€â”€ */
+.manifesto-section {
+  background: var(--dark-panel);
+  border-top: 1px solid rgba(0, 255, 85, 0.1);
+  border-bottom: 1px solid rgba(0, 255, 85, 0.1);
+}
+
+.manifesto-quote {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 68px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  max-width: 1200px;
+}
+
+.manifesto-quote .word {
+  display: inline-block;
+  color: var(--gray-700);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.manifesto-quote .word.lit { color: var(--white); }
+.manifesto-quote .word.accent { color: var(--omnitrix-green); text-shadow: 0 0 16px var(--omnitrix-glow); }
+
+/* â”€â”€â”€ STATS STRIP â”€â”€â”€ */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(0, 255, 85, 0.15);
+  margin-top: clamp(48px, 8vh, 96px);
+  border: 1px solid rgba(0, 255, 85, 0.2);
+}
+
+@media (max-width: 768px) { .stats-strip { grid-template-columns: repeat(2, 1fr); } }
+
+.stat-box {
+  background: var(--black);
+  padding: clamp(24px, 4vw, 48px);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--omnitrix-green);
+}
+
+/* â”€â”€â”€ CALL TO ACTION (REGISTER NOW) â”€â”€â”€ */
+.cta-section {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  min-height: 70vh;
+  position: relative;
+}
+
+.cta-huge {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 10vw, 130px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  margin-bottom: clamp(32px, 6vh, 56px);
+}
+
+.cta-huge .green-glow {
+  color: var(--omnitrix-green);
+  text-shadow: 0 0 30px var(--omnitrix-glow);
+}
+
+.cta-button {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: clamp(18px, 2.5vh, 26px) clamp(36px, 4vw, 64px);
+  background: var(--omnitrix-green);
+  color: var(--black);
+  border-radius: 999px;
+  box-shadow: 0 0 28px var(--omnitrix-glow);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: scale(1.06);
+  background: var(--white);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+}
+
+/* â”€â”€â”€ FOOTER â”€â”€â”€ */
+footer {
+  border-top: 1px solid rgba(0, 255, 85, 0.15);
+  padding: clamp(40px, 8vh, 80px) var(--margin);
+  background: var(--black);
+  color: var(--white);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(40px, 6vh, 80px);
+}
+
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr; } }
+
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--omnitrix-green);
+  margin-bottom: 16px;
+}
+
+.footer-col p, .footer-col a {
+  font-size: 14px;
+  color: var(--gray-300);
+  line-height: 1.7;
+}
+
+.footer-col a:hover { color: var(--omnitrix-green); }
+
+.footer-bottom {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--gray-500);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px;
+}
+
+/* â”€â”€â”€ LOADER â”€â”€â”€ */
+#site-loader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+}
+
+#site-loader.hidden { opacity: 0; visibility: hidden; }
+
+.loader-dial {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 3px solid var(--black);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  animation: spin-loader 1.2s infinite cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.loader-dial::before {
+  content: '';
+  width: 20px; height: 20px;
+  background: var(--omnitrix-green);
+  clip-path: polygon(0 0, 100% 0, 50% 50%, 100% 100%, 0 100%, 50% 50%);
+}
+
+@keyframes spin-loader {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="site-loader">
+  <div class="loader-dial"></div>
+</div>
+
+<!-- FIXED SCROLL PERCENTAGE HUD -->
+<div id="scroll-hud">
+  <span class="hud-label">SYNC</span>
+  <span id="scroll-percent-val" class="hud-value">000%</span>
+  <div class="hud-bar-track">
+    <div id="scroll-progress-bar" class="hud-bar-fill"></div>
+  </div>
+</div>
+
+<!-- FIXED HEADER -->
+<header id="header">
+  <a class="brand-logo" href="#">
+    <span class="omnitrix-badge"></span>
+    AIRO 6.0
+  </a>
+  <nav>
+    <ul class="nav-menu">
+      <li><a href="#arenas" class="nav-link" onclick="smoothTo('#arenas')">Arenas</a></li>
+      <li><a href="#about" class="nav-link" onclick="smoothTo('#about')">About</a></li>
+      <li><a href="#register" class="nav-link" onclick="smoothTo('#register')">Register</a></li>
+      <li>
+        <button id="nav-auth-btn" class="nav-auth-btn" onclick="openAuthOrDashboard()">
+          <span class="status-dot"></span>
+          <span id="nav-auth-label">Cadet Access</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO PIN / OMNITRIX HOURGLASS ZOOM WRAPPER -->
+<div id="hero-pin-wrapper">
+  <div id="hero-sticky">
+    <!-- Continuous Background Video (Hero & Mid-Hero Sections) -->
+    <video id="hero-bg-video" src="ben10.mp4" autoplay loop muted playsinline></video>
+    <canvas id="gl-canvas"></canvas>
+
+    <!-- CENTER HEADLINE (AIRO 6.0) -->
+    <div class="hero-center-intro" id="hero-intro">
+      <h1 class="hero-main-title">AIRO <span class="green-text">6.0</span></h1>
+      <p class="hero-sub-p">National AI & Data Science Symposium · Six Arenas</p>
+    </div>
+
+    <!-- 3D OMNITRIX WATCH & 6 ROTATING EVENTS CAROUSEL -->
+    <div id="omnitrix-carousel-stage" class="omnitrix-carousel-container">
+      
+      <!-- Central 3D Omnitrix Watch Artifact -->
+      <div class="omnitrix-center-watch" id="core-3d" onclick="triggerOmnitrixSound()">
+        <div class="watch-energy-ring"></div>
+        <img src="omnitrix-core.jpg" alt="Omnitrix Core Artifact">
+      </div>
+
+      <!-- 6 Rotating Event Cards Around The Watch -->
+      <div class="rotating-cards-wrapper" id="rotating-cards-wrapper">
+        
+        <!-- 01: Tech Auction -->
+        <article class="rot-event-card" id="rot-card-0" onclick="openDossier('tech-auction')">
+          <div class="rot-card-media">
+            <img src="alien-upgrade.jpg" alt="Tech Auction">
+            <div class="rot-num-tag">01</div>
+          </div>
+          <div class="rot-card-body">
+            <div class="rot-dna-tag">DNA-01 · MECHAMORPH</div>
+            <h4 class="rot-title">Tech Auction</h4>
+            <div class="rot-cat">Hardware Synthesis</div>
+          </div>
+        </article>
+
+        <!-- 02: Tech Crime Scene -->
+        <article class="rot-event-card" id="rot-card-1" onclick="openDossier('tech-crime-scene')">
+          <div class="rot-card-media">
+            <img src="alien-brainstorm.jpg" alt="Tech Crime Scene">
+            <div class="rot-num-tag">02</div>
+          </div>
+          <div class="rot-card-body">
+            <div class="rot-dna-tag">DNA-02 · CEREBROCRUSTACEAN</div>
+            <h4 class="rot-title">Crime Scene</h4>
+            <div class="rot-cat">Cyber Forensics</div>
+          </div>
+        </article>
+
+        <!-- 03: Agentic Paradox -->
+        <article class="rot-event-card" id="rot-card-2" onclick="openDossier('agentic-paradox')">
+          <div class="rot-card-media">
+            <img src="alien-echoecho.jpg" alt="Agentic Paradox">
+            <div class="rot-num-tag">03</div>
+          </div>
+          <div class="rot-card-body">
+            <div class="rot-dna-tag">DNA-03 · SONOROSIAN</div>
+            <h4 class="rot-title">Agentic Paradox</h4>
+            <div class="rot-cat">Autonomous AI</div>
+          </div>
+        </article>
+
+        <!-- 04: Prompt-to-Product -->
+        <article class="rot-event-card" id="rot-card-3" onclick="openDossier('prompt-to-product')">
+          <div class="rot-card-media">
+            <img src="alien-xlr8.jpg" alt="Prompt-to-Product">
+            <div class="rot-num-tag">04</div>
+          </div>
+          <div class="rot-card-body">
+            <div class="rot-dna-tag">DNA-04 · KINECELERAN</div>
+            <h4 class="rot-title">Prompt-to-Product</h4>
+            <div class="rot-cat">Speed Prototyping</div>
+          </div>
+        </article>
+
+        <!-- 05: AI Pitch -->
+        <article class="rot-event-card" id="rot-card-4" onclick="openDossier('ai-pitch')">
+          <div class="rot-card-media">
+            <img src="alien-fourarms.jpg" alt="AI Pitch">
+            <div class="rot-num-tag">05</div>
+          </div>
+          <div class="rot-card-body">
+            <div class="rot-dna-tag">DNA-05 · TETRAMAND</div>
+            <h4 class="rot-title">AI Pitch</h4>
+            <div class="rot-cat">Startup Stage</div>
+          </div>
+        </article>
+
+        <!-- 06: VibeCraft -->
+        <article class="rot-event-card" id="rot-card-5" onclick="openDossier('vibecraft')">
+          <div class="rot-card-media">
+            <img src="alien-diamondhead.jpg" alt="VibeCraft">
+            <div class="rot-num-tag">06</div>
+          </div>
+          <div class="rot-card-body">
+            <div class="rot-dna-tag">DNA-06 · PETROSAPIEN</div>
+            <h4 class="rot-title">VibeCraft</h4>
+            <div class="rot-cat">Creative Web UI</div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+
+    <!-- Tagline -->
+    <div class="hero-tagline" id="hero-tagline">
+      Six <span class="highlight">Specialized Technical Arenas</span> engineered for AI, coding, and data science talent.
+    </div>
+
+    <!-- Scroll Down -->
+    <div class="hero-scroll-cue" id="hero-scroll-cue">
+      Scroll Down ↓
+    </div>
+
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="main-content">
+  
+  <!-- 6 ARENAS DIRECTORY GRID -->
+  <section class="section-pad" id="arenas">
+    <div class="editorial-header">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--omnitrix-green); margin-bottom: 6px;">Galvan Track Console · Omnitrix V6.0</div>
+        <h2 class="editorial-title">Competition <span class="highlight-accent">Arenas</span></h2>
+      </div>
+      <span class="editorial-counter">06 Specialized Tracks</span>
+    </div>
+
+    <!-- VIEW TOGGLE BAR -->
+    <div class="arena-view-toggle-bar">
+      <button class="arena-toggle-btn active" id="btn-dial-view" onclick="setArenaView('dial')">
+        <span>🎛️</span> Omnitrix Dial Selector
+      </button>
+      <button class="arena-toggle-btn" id="btn-grid-view" onclick="setArenaView('grid')">
+        <span>⊞</span> All 6 Arenas Matrix
+      </button>
+    </div>
+
+    <!-- 1. OMNITRIX HOLOGRAPHIC DIAL SELECTOR VIEW -->
+    <div id="omnitrix-dial-view" class="omnitrix-dial-console">
+      
+      <!-- Left: 3D Holographic Chamber & Dial -->
+      <div class="dial-chamber">
+        <div class="holo-projector-beam"></div>
+        
+        <div class="holo-card-stage" id="dial-holo-card" onclick="openActiveDialDossier()">
+          <img id="dial-holo-img" src="alien-upgrade.jpg" alt="Active Track Specimen">
+          <div class="holo-card-overlay">
+            <div class="holo-dna-tag" id="dial-holo-tag">DNA CLUSTER · 01</div>
+            <div class="holo-arena-name" id="dial-holo-title">Tech Auction</div>
+          </div>
+        </div>
+
+        <!-- DNA Selector Nodes & Dial Navigation -->
+        <div class="omnitrix-dna-wheel">
+          <div class="dna-pills-row">
+            <button class="dna-node-btn active" onclick="selectDialTrack(0)" id="dna-node-0"><span class="node-num">01</span> Upgrade</button>
+            <button class="dna-node-btn" onclick="selectDialTrack(1)" id="dna-node-1"><span class="node-num">02</span> Brainstorm</button>
+            <button class="dna-node-btn" onclick="selectDialTrack(2)" id="dna-node-2"><span class="node-num">03</span> Echo Echo</button>
+            <button class="dna-node-btn" onclick="selectDialTrack(3)" id="dna-node-3"><span class="node-num">04</span> XLR8</button>
+            <button class="dna-node-btn" onclick="selectDialTrack(4)" id="dna-node-4"><span class="node-num">05</span> Four Arms</button>
+            <button class="dna-node-btn" onclick="selectDialTrack(5)" id="dna-node-5"><span class="node-num">06</span> Diamondhead</button>
+          </div>
+
+          <div class="dial-nav-controls">
+            <button class="dial-arrow-btn" onclick="rotateDial(-1)">◀ PREV DNA</button>
+            <button class="dial-arrow-btn" onclick="rotateDial(1)">NEXT DNA ▶</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Galvan Telemetry Mission Dossier HUD -->
+      <div class="galvan-hud">
+        <div class="hud-header-strip">
+          <span class="hud-track-id" id="hud-track-code">SPECIMEN // DNA-01</span>
+          <span class="hud-status-live"><span class="status-dot"></span> Mission Ready</span>
+        </div>
+
+        <div class="hud-title-block">
+          <h3 id="hud-arena-title">Tech Auction</h3>
+          <div class="hud-alien-tag">DNA Form: <span id="hud-alien-specimen">Galvanic Mechamorph (Upgrade)</span></div>
+        </div>
+
+        <p class="hud-briefing-text" id="hud-briefing-desc">
+          Engage in dynamic hardware component bidding, reverse-engineer proprietary tech architectures, and assemble winning AI-hardware prototypes under time constraints.
+        </p>
+
+        <!-- 4 Telemetry Metrics -->
+        <div class="hud-telemetry-grid">
+          <div class="telemetry-card">
+            <div class="telemetry-label">Bounty / Prize Pool</div>
+            <div class="telemetry-val prize-highlight" id="hud-telemetry-prize">₹10,000</div>
+          </div>
+          <div class="telemetry-card">
+            <div class="telemetry-label">Mission Duration</div>
+            <div class="telemetry-val" id="hud-telemetry-time">2 Rounds · 3 Hrs</div>
+          </div>
+          <div class="telemetry-card">
+            <div class="telemetry-label">Squad Quota</div>
+            <div class="telemetry-val" id="hud-telemetry-team">1–3 Members</div>
+          </div>
+          <div class="telemetry-card">
+            <div class="telemetry-label">Category Track</div>
+            <div class="telemetry-val" id="hud-telemetry-cat">Hardware Synthesis</div>
+          </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div class="hud-action-row">
+          <button class="hud-primary-cta" onclick="initTrackRegistrationFromCurrent()">
+            <span>Initialize Registration</span>
+            <span>→</span>
+          </button>
+          <button class="hud-secondary-cta" onclick="openActiveDialDossier()">
+            View Full Mission File 📋
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 2. ALL 6 ARENAS MATRIX VIEW (TOGGLEABLE) -->
+    <div id="omnitrix-grid-view" class="podium-grid-container" style="display: none; margin-top: 20px;">
+      <div class="podium-editorial-grid">
+        
+        <!-- COLUMN 1 -->
+        <div class="podium-col">
+          <!-- Card 1: Tech Auction (Portrait 4:5) -->
+          <article class="float-card" onclick="openDossier('tech-auction')">
+            <div class="media-box aspect-portrait">
+              <img src="alien-upgrade.jpg" alt="Tech Auction">
+            </div>
+            <div class="card-meta-row">
+              <h2 class="card-event-title">Tech Auction</h2>
+              <div class="card-event-meta-right">2026<br><span class="category-highlight">Hardware Synthesis</span></div>
+            </div>
+          </article>
+
+          <!-- Card 4: Prompt-to-Product (Landscape 16:10) -->
+          <article class="float-card" onclick="openDossier('prompt-to-product')">
+            <div class="media-box aspect-landscape">
+              <img src="alien-xlr8.jpg" alt="Prompt-to-Product">
+            </div>
+            <div class="card-meta-row">
+              <h2 class="card-event-title">Prompt-to-Product</h2>
+              <div class="card-event-meta-right">2026<br><span class="category-highlight">Speed AI Build</span></div>
+            </div>
+          </article>
+        </div>
+
+        <!-- COLUMN 2 (STAGGERED DOWNWARD LIKE PODIUM) -->
+        <div class="podium-col col-offset-2">
+          <!-- Card 2: Tech Crime Scene (Landscape 16:10) -->
+          <article class="float-card" onclick="openDossier('tech-crime-scene')">
+            <div class="media-box aspect-landscape">
+              <img src="alien-brainstorm.jpg" alt="Tech Crime Scene">
+            </div>
+            <div class="card-meta-row">
+              <h2 class="card-event-title">Tech Crime Scene</h2>
+              <div class="card-event-meta-right">2026<br><span class="category-highlight">Cyber Forensics</span></div>
+            </div>
+          </article>
+
+          <!-- Card 5: AI Pitch (Portrait 4:5) -->
+          <article class="float-card" onclick="openDossier('ai-pitch')">
+            <div class="media-box aspect-portrait">
+              <img src="alien-fourarms.jpg" alt="AI Pitch">
+            </div>
+            <div class="card-meta-row">
+              <h2 class="card-event-title">AI Pitch</h2>
+              <div class="card-event-meta-right">2026<br><span class="category-highlight">Startup Stage</span></div>
+            </div>
+          </article>
+        </div>
+
+        <!-- COLUMN 3 -->
+        <div class="podium-col col-offset-3">
+          <!-- Card 3: Agentic Paradox (Square 1:1) -->
+          <article class="float-card" onclick="openDossier('agentic-paradox')">
+            <div class="media-box aspect-square">
+              <img src="alien-echoecho.jpg" alt="Agentic Paradox">
+            </div>
+            <div class="card-meta-row">
+              <h2 class="card-event-title">Agentic Paradox</h2>
+              <div class="card-event-meta-right">2026<br><span class="category-highlight">Autonomous Agents</span></div>
+            </div>
+          </article>
+
+          <!-- Card 6: VibeCraft (Landscape 16:10) -->
+          <article class="float-card" onclick="openDossier('vibecraft')">
+            <div class="media-box aspect-landscape">
+              <img src="alien-diamondhead.jpg" alt="VibeCraft">
+            </div>
+            <div class="card-meta-row">
+              <h2 class="card-event-title">VibeCraft</h2>
+              <div class="card-event-meta-right">2026<br><span class="category-highlight">Creative Web UI</span></div>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO / ABOUT SECTION -->
+  <section class="section-pad manifesto-section" id="about">
+    <div class="editorial-header" style="border-bottom:none; margin-bottom: 24px;">
+      <h2 style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: var(--omnitrix-green); letter-spacing: 0.15em;">About The Symposium</h2>
+    </div>
+
+    <p class="manifesto-quote" id="manifesto-text">
+      Six specialized technical arenas. One national symposium. Built to test your strategy, cybersecurity forensics, autonomous AI agents, speed prototyping, stage pitch, and creative web design under real time pressure.
+    </p>
+
+    <div class="stats-strip">
+      <div class="stat-box">
+        <div class="stat-number">06</div>
+        <div class="stat-label">Event Arenas</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">₹50K+</div>
+        <div class="stat-label">Prize Pool</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">1–4</div>
+        <div class="stat-label">Team Members</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">Open</div>
+        <div class="stat-label">Nationwide Colleges</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / REGISTER -->
+  <section class="section-pad cta-section" id="register">
+    <h2 class="cta-huge">Pick Your Track.<br><span class="green-glow">Register Your Squad.</span></h2>
+    <a class="cta-button" href="javascript:void(0)" onclick="initTrackRegistrationFromCurrent()">
+      <span>Register Your Team Now</span>
+      <span>→</span>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 12px; color: var(--omnitrix-green);">AIRO 6.0</div>
+        <p>Department of Artificial Intelligence & Data Science<br>Sri Sairam Engineering College, Chennai</p>
+      </div>
+      <div class="footer-col">
+        <h4>Competition Tracks</h4>
+        <p><a href="#arenas" onclick="smoothTo('#arenas')">Tech Auction</a><br><a href="#arenas" onclick="smoothTo('#arenas')">Tech Crime Scene</a><br><a href="#arenas" onclick="smoothTo('#arenas')">Agentic Paradox</a><br><a href="#arenas" onclick="smoothTo('#arenas')">Prompt-to-Product</a><br><a href="#arenas" onclick="smoothTo('#arenas')">AI Pitch</a><br><a href="#arenas" onclick="smoothTo('#arenas')">VibeCraft</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>Date & Venue</h4>
+        <p>September 26, 2026<br>08:30 AM – 05:30 PM IST<br>Sri Sairam Engineering College Campus</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Organizers</h4>
+        <p><a href="mailto:hod.aids@sairam.edu.in">hod.aids@sairam.edu.in</a><br>AIRO Organizing Committee</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AIRO · Department of AI & DS</span>
+      <span>Sri Sairam Engineering College, Chennai</span>
+    </div>
+  </footer>
+
+</main>
+
+<!-- DEPENDENCIES -->
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  /* â”€â”€â”€ 1. LENIS SMOOTH INERTIA SCROLL â”€â”€â”€ */
+  var lenis = new Lenis({
+    duration: 1.25,
+    easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+    smoothWheel: true,
+    touchMultiplier: 1.5
+  });
+
+  lenis.on('scroll', function(e) {
+    ScrollTrigger.update();
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll > 0) {
+      var pct = Math.max(0, Math.min(100, Math.round((e.scroll / maxScroll) * 100)));
+      var formatted = (pct < 10 ? '00' : pct < 100 ? '0' : '') + pct + '%';
+      var valEl = document.getElementById('scroll-percent-val');
+      var barEl = document.getElementById('scroll-progress-bar');
+      if (valEl) valEl.textContent = formatted;
+      if (barEl) barEl.style.width = pct + '%';
+    }
+  });
+  gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  window.smoothTo = function(target) {
+    lenis.scrollTo(target, { offset: 0, duration: 1.4 });
+  };
+
+  /* â”€â”€â”€ 2. SITE LOADER â”€â”€â”€ */
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var loader = document.getElementById('site-loader');
+      if (loader) loader.classList.add('hidden');
+    }, 450);
+  });
+
+  /* â”€â”€â”€ 3. WEB AUDIO SYNTHESIZER â”€â”€â”€ */
+  var audioCtx = null;
+  window.triggerOmnitrixSound = function() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.3);
+      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.45);
+    } catch(e) {}
+  };
+
+  /* ─── 4. WEBGL OMNITRIX TRANSFORMATION SHADER ─── */
+  var canvas = document.getElementById('gl-canvas');
+  var gl = canvas ? (canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false }) || canvas.getContext('experimental-webgl', { alpha: true, premultipliedAlpha: false })) : null;
+
+  if (gl) {
+    var vsSource = [
+      'attribute vec2 a_position;',
+      'varying vec2 v_uv;',
+      'void main() {',
+      '  v_uv = (a_position + 1.0) * 0.5;',
+      '  gl_Position = vec4(a_position, 0.0, 1.0);',
+      '}'
+    ].join('\n');
+
+    var fsSource = [
+      'precision mediump float;',
+      'varying vec2 v_uv;',
+      'uniform vec2 u_resolution;',
+      'uniform vec2 u_mouse;',
+      'uniform float u_time;',
+      'uniform float u_scroll;',
+      'uniform sampler2D u_video;',
+
+      'float smin(float a, float b, float k) {',
+      '  float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);',
+      '  return mix(b, a, h) - k * h * (1.0 - h);',
+      '}',
+
+      'float sdCircle(vec2 p, vec2 c, float r) {',
+      '  return length(p - c) - r;',
+      '}',
+
+      'void main() {',
+      '  vec2 aspect = vec2(u_resolution.x / u_resolution.y, 1.0);',
+      '  vec2 p = (v_uv - 0.5) * aspect;',
+      '  vec2 m = (u_mouse - 0.5) * aspect;',
+
+      '  float zoom = u_scroll * 5.5;',
+      '  float baseScale = 1.0 + zoom * 3.4;',
+      '  float t = u_time * 0.9;',
+
+      '  vec2 c0 = vec2(0.0, 0.0) + m * 0.04;',
+      '  float d0 = sdCircle(p, c0, (0.11 + u_scroll * 1.6) * baseScale);',
+
+      '  vec2 c1 = vec2(-0.12, 0.08) * baseScale + vec2(0.02 * cos(t), 0.015 * sin(t * 1.1)) + m * 0.05;',
+      '  float d1 = sdCircle(p, c1, (0.08 + u_scroll * 1.3) * baseScale);',
+
+      '  vec2 c2 = vec2(0.13, 0.11) * baseScale + vec2(0.015 * sin(t * 1.2), 0.015 * cos(t * 0.9));',
+      '  float d2 = sdCircle(p, c2, (0.065 + u_scroll * 1.1) * baseScale);',
+
+      '  vec2 c3 = vec2(-0.09, -0.14) * baseScale + vec2(0.015 * sin(t * 0.8), 0.02 * cos(t * 0.7));',
+      '  float d3 = sdCircle(p, c3, (0.085 + u_scroll * 1.4) * baseScale);',
+
+      '  vec2 c4 = vec2(0.12, -0.02) * baseScale + vec2(0.01 * cos(t * 1.3), 0.01 * sin(t * 1.1));',
+      '  float d4 = sdCircle(p, c4, (0.045 + u_scroll * 0.9) * baseScale);',
+
+      '  float k = 0.11 * baseScale;',
+      '  float dist = smin(d0, d1, k);',
+      '  dist = smin(dist, d2, k * 0.85);',
+      '  dist = smin(dist, d3, k);',
+      '  dist = smin(dist, d4, k * 0.75);',
+
+      '  // Video aspect ratio cover calculation for outer screen (rotated to 0° normal orientation)',
+      '  vec2 vidUv = vec2(v_uv.x, 1.0 - v_uv.y);',
+      '  float screenAspect = u_resolution.x / u_resolution.y;',
+      '  float vidAspect = 16.0 / 9.0;',
+      '  if (screenAspect > vidAspect) {',
+      '    float scale = vidAspect / screenAspect;',
+      '    vidUv.y = (v_uv.y - 0.5) * scale + 0.5;',
+      '  } else {',
+      '    float scale = screenAspect / vidAspect;',
+      '    vidUv.x = (v_uv.x - 0.5) * scale + 0.5;',
+      '  }',
+
+      '  // Black & White video on the outer screen',
+      '  vec4 vidCol = texture2D(u_video, vidUv);',
+      '  float gray = dot(vidCol.rgb, vec3(0.299, 0.587, 0.114));',
+      '  vec4 bwOuter = vec4(vec3(pow(gray, 1.08) * 0.95), 1.0);',
+
+      '  // 100% Transparent inside the organic hole window to reveal the full-color video underneath',
+      '  vec4 transparentHole = vec4(0.0, 0.0, 0.0, 0.0);',
+
+      '  float feather = 0.04 * (1.0 + u_scroll * 0.5);',
+      '  float insideMask = 1.0 - smoothstep(-feather * 0.2, feather, dist);',
+
+      '  // Subtle green energy rim framing the hole window',
+      '  float rimGlow = smoothstep(-feather * 1.2, 0.0, dist) * (1.0 - smoothstep(0.0, feather * 1.2, dist));',
+      '  vec4 greenRim = vec4(0.0, 1.0, 0.33, 1.0) * rimGlow * 0.65;',
+
+      '  // Outer screen is Black & White video, center hole window is Transparent revealing the Full Color video',
+      '  vec4 finalColor = mix(bwOuter, transparentHole, insideMask) + greenRim;',
+
+      '  // On scroll, as camera zooms into the hole, the B&W outer screen dissolves away',
+      '  if (u_scroll > 0.40) {',
+      '    float revealFade = (u_scroll - 0.40) / 0.35;',
+      '    finalColor = mix(finalColor, transparentHole, clamp(revealFade, 0.0, 1.0));',
+      '  }',
+
+      '  // Smooth transition to dark arenas at the very bottom',
+      '  if (u_scroll > 0.88) {',
+      '    float endFade = (u_scroll - 0.88) / 0.12;',
+      '    finalColor = mix(finalColor, vec4(0.015, 0.02, 0.03, 1.0), clamp(endFade, 0.0, 1.0));',
+      '  }',
+
+      '  gl_FragColor = finalColor;',
+      '}'
+    ].join('\n');
+
+    function createShader(gl, type, source) {
+      var shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+      }
+      return shader;
+    }
+
+    var vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+    var fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    var program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+
+    var posLoc = gl.getAttribLocation(program, 'a_position');
+    var resLoc = gl.getUniformLocation(program, 'u_resolution');
+    var mouseLoc = gl.getUniformLocation(program, 'u_mouse');
+    var timeLoc = gl.getUniformLocation(program, 'u_time');
+    var scrollLoc = gl.getUniformLocation(program, 'u_scroll');
+    var videoLoc = gl.getUniformLocation(program, 'u_video');
+
+    var videoTex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, videoTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([15, 20, 18, 255]));
+
+    var posBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+      -1.0, 1.0, 1.0, -1.0, 1.0, 1.0
+    ]), gl.STATIC_DRAW);
+
+    function resizeGL() {
+      if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+    }
+    window.addEventListener('resize', resizeGL);
+    resizeGL();
+
+    var mouse = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 };
+    window.addEventListener('mousemove', function(e) {
+      mouse.targetX = e.clientX / window.innerWidth;
+      mouse.targetY = 1.0 - (e.clientY / window.innerHeight);
+    });
+
+    var currentScroll = 0;
+    var carouselStage = document.getElementById('omnitrix-carousel-stage');
+    var core3D = document.getElementById('core-3d');
+    var rotCards = [];
+    for (var i = 0; i < 6; i++) {
+      var c = document.getElementById('rot-card-' + i);
+      if (c) rotCards.push(c);
+    }
+
+    var orbitAngle = 0;
+    var isOrbitHovered = false;
+
+    if (carouselStage) {
+      carouselStage.addEventListener('mouseenter', function() { isOrbitHovered = true; });
+      carouselStage.addEventListener('mouseleave', function() { isOrbitHovered = false; });
+    }
+
+    /* ─── 5. OMNITRIX WATCH & 6 ROTATING EVENTS CAROUSEL SCROLL ─── */
+    ScrollTrigger.create({
+      trigger: '#hero-pin-wrapper',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.35,
+      onUpdate: function(self) {
+        currentScroll = self.progress;
+
+        var fadeOut = 1.0 - Math.min(1.0, self.progress * 3.5);
+        var heroIntro = document.getElementById('hero-intro');
+        if (heroIntro) {
+          heroIntro.style.opacity = fadeOut;
+          heroIntro.style.transform = 'translate(-50%, calc(-50% + ' + ((1.0 - fadeOut) * -50) + 'px)) scale(' + (1.0 + (1.0 - fadeOut) * 0.12) + ')';
+        }
+        if (tagline) {
+          tagline.style.opacity = fadeOut;
+          tagline.style.transform = 'translateY(' + ((1.0 - fadeOut) * 25) + 'px)';
+        }
+        if (scrollCue) scrollCue.style.opacity = fadeOut;
+
+        if (self.progress > 0.5) {
+          header.classList.add('dark-mode');
+        } else {
+          header.classList.remove('dark-mode');
+        }
+
+        // Carousel Stage Fade In / Out
+        if (carouselStage) {
+          if (self.progress > 0.15 && self.progress < 0.92) {
+            var stageProgress = (self.progress - 0.15) / 0.65;
+            var stageOpacity = Math.min(1.0, stageProgress * 3.2);
+            if (self.progress > 0.82) {
+              stageOpacity = Math.max(0.0, 1.0 - (self.progress - 0.82) / 0.10);
+            }
+            carouselStage.style.opacity = stageOpacity;
+
+            if (core3D) {
+              var coreScale = 0.85 + Math.min(1.0, stageProgress * 1.4) * 0.25;
+              var coreRot = stageProgress * 180;
+              core3D.style.transform = 'translate(-50%, -50%) scale(' + coreScale + ') rotate(' + coreRot + 'deg)';
+            }
+          } else {
+            carouselStage.style.opacity = 0;
+          }
+        }
+      }
+    });
+
+    /* ─── 6. 3D CONTINUOUS ORBITAL ROTATION OF THE 6 EVENTS ─── */
+    function updateRotatingEventsOrbit() {
+      if (!isOrbitHovered) {
+        orbitAngle += 0.0055;
+      }
+
+      if (currentScroll > 0.12 && currentScroll < 0.95 && rotCards.length > 0) {
+        var baseAngle = orbitAngle + currentScroll * 6.28;
+        var mouseOffsetX = (mouse.targetX - 0.5) * 35;
+        var mouseOffsetY = (mouse.targetY - 0.5) * 25;
+
+        var rx = Math.min(window.innerWidth * 0.38, 440);
+        var ry = Math.min(window.innerHeight * 0.28, 220);
+
+        rotCards.forEach(function(card, idx) {
+          var angle = baseAngle + (idx * (Math.PI * 2 / 6));
+          var x = Math.cos(angle) * rx + mouseOffsetX;
+          var y = Math.sin(angle) * ry - mouseOffsetY;
+          var z = Math.sin(angle);
+
+          var scale = 0.82 + (z + 1.0) * 0.12;
+          var opacity = 0.65 + (z + 1.0) * 0.18;
+          var zIdx = Math.floor((z + 1.0) * 10) + 1;
+
+          card.style.transform = 'translate3d(calc(-50% + ' + x.toFixed(1) + 'px), calc(-50% + ' + y.toFixed(1) + 'px), 0px) scale(' + scale.toFixed(3) + ')';
+          card.style.opacity = opacity.toFixed(2);
+          card.style.zIndex = zIdx;
+        });
+      }
+
+      requestAnimationFrame(updateRotatingEventsOrbit);
+    }
+    updateRotatingEventsOrbit();
+
+    var startTime = performance.now();
+    function renderGL() {
+      resizeGL();
+      mouse.x += (mouse.targetX - mouse.x) * 0.08;
+      mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+      gl.useProgram(program);
+
+      var heroVideo = document.getElementById('hero-bg-video');
+      if (heroVideo && heroVideo.readyState >= 2) {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, videoTex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, heroVideo);
+        gl.uniform1i(videoLoc, 0);
+      }
+
+      gl.enableVertexAttribArray(posLoc);
+      gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+      gl.uniform2f(resLoc, canvas.width, canvas.height);
+      gl.uniform2f(mouseLoc, mouse.x, mouse.y);
+      gl.uniform1f(timeLoc, (performance.now() - startTime) * 0.001);
+      gl.uniform1f(scrollLoc, currentScroll);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      requestAnimationFrame(renderGL);
+    }
+    requestAnimationFrame(renderGL);
+  }
+
+  /* â”€â”€â”€ 7. MANIFESTO WORD SCRUB â”€â”€â”€ */
+  (function() {
+    var el = document.getElementById('manifesto-text');
+    if (!el) return;
+    var words = el.textContent.trim().split(/\s+/);
+    var accents = ['specialized', 'strategy', 'forensics', 'agents', 'prototyping', 'pitch', 'design'];
+    el.innerHTML = words.map(function(w) {
+      var clean = w.replace(/[^a-zA-Z]/g, '').toLowerCase();
+      var cls = accents.indexOf(clean) !== -1 ? 'word accent' : 'word';
+      return '<span class="' + cls + '">' + w + ' </span>';
+    }).join('');
+
+    var wordEls = el.querySelectorAll('.word');
+    ScrollTrigger.create({
+      trigger: '.manifesto-section',
+      start: 'top 75%',
+      end: 'center 45%',
+      scrub: 0.5,
+      onUpdate: function(self) {
+        wordEls.forEach(function(w, i) {
+          if (self.progress > i / wordEls.length) w.classList.add('lit');
+          else w.classList.remove('lit');
+        });
+      }
+    });
+  })();
+
+  /* ─── 8. DOSSIER MODAL INTERACTION ─── */
+  var dossiers = {
+    'tech-auction': {
+      title: 'Tech Auction',
+      tag: 'Hardware & Tech Stack Synthesis',
+      img: 'alien-upgrade.jpg',
+      team: '2–3 Members · 3 Hours',
+      prize: '₹6,000 Prize Pool + Merit Certificates',
+      desc: 'Bid smart, build smarter. Compete in a live high-stakes auction using virtual currency to win APIs, dev tools, ML models, and hardware kits. Then, build a functioning solution using only the stack you successfully won.',
+      r1Title: 'Round 1: The Live Tech Auction',
+      r1Desc: 'Each squad receives an initial purse of virtual tokens. Bid tactically across categories including Frontend Frameworks, Cloud APIs, Sensor Modules, and AI Backends.',
+      r2Title: 'Round 2: Rapid Stack Integration',
+      r2Desc: 'Integrate the auctioned items into a coherent working system under a strict 3-hour timer. Judged on architecture, execution speed, and innovative usage.'
+    },
+    'tech-crime-scene': {
+      title: 'Tech Crime Scene',
+      tag: 'Cybersecurity & Forensics',
+      img: 'alien-brainstorm.jpg',
+      team: '2–4 Members · Timed Rounds',
+      prize: 'Cash Prize + Winners Trophy',
+      desc: 'A high-profile enterprise database has suffered a breach. Investigate encrypted memory dumps, decode network packet pcaps, reconstruct the attack chain, and seal the vulnerability before time runs out.',
+      r1Title: 'Round 1: Incident Log Triage',
+      r1Desc: 'Extract anomalies from server syslogs, SIEM telemetry, and packet traces to isolate the entry vector and malicious IPs.',
+      r2Title: 'Round 2: Exploit Attribution & Patching',
+      r2Desc: 'Reverse engineer obfuscated scripts, discover the hidden payload flag, and deliver a comprehensive forensic incident report.'
+    },
+    'agentic-paradox': {
+      title: 'Agentic Paradox',
+      tag: 'Autonomous AI Agents',
+      img: 'alien-echoecho.jpg',
+      team: '1–3 Members · Real-Time Dynamic',
+      prize: '₹8,000 Prize Pool + Fast-Track Mentorship',
+      desc: 'Engineer an autonomous multi-agent system equipped with LLM reasoning, memory, and custom tools. Halfway through the round, a surprise constraint drops live—your agents must adapt autonomously.',
+      r1Title: 'Round 1: Multi-Agent Architecture',
+      r1Desc: 'Design an orchestration flow with specialized agent roles (planner, executor, critic) tackling a multi-step data reasoning challenge.',
+      r2Title: 'Round 2: The Paradox Shift',
+      r2Desc: 'Live surprise constraints and shifting goals are injected into the environment. Evaluated on autonomous recovery, robustness, and accuracy.'
+    },
+    'prompt-to-product': {
+      title: 'Prompt-to-Product',
+      tag: 'Speed AI Prototyping',
+      img: 'alien-xlr8.jpg',
+      team: '1–3 Members · 2.5 Hours',
+      prize: 'Cash Prize + Trophy',
+      desc: 'Pure speed and product instinct. Take a raw problem statement and transform it into a deployed, functional AI-powered web product using modern generative tools and precision prompt engineering.',
+      r1Title: 'Round 1: Rapid AI Framing',
+      r1Desc: 'Formulate prompt workflows, system instructions, and UX wireframes to address the given real-world challenge.',
+      r2Title: 'Round 2: Live Prototype Deployment',
+      r2Desc: 'Build, style, and deploy a responsive interactive application with working AI integrations. Evaluated on UX polish, speed, and real-world viability.'
+    },
+    'ai-pitch': {
+      title: 'AI Pitch',
+      tag: 'Startup Pitch & Presentation',
+      img: 'alien-fourarms.jpg',
+      team: '1–4 Members · Pitch Stage',
+      prize: '₹8,000 Prize Pool + Incubation Support',
+      desc: 'Take the stage. Pitch your AI-powered startup concept or groundbreaking technology to a panel of venture capitalists, tech founders, and senior industry leaders.',
+      r1Title: 'Round 1: 90-Second Lightning Pitch',
+      r1Desc: 'Deliver a high-impact, 90-second elevator pitch outlining the market problem, your AI solution, and product moat.',
+      r2Title: 'Round 2: Deep-Dive Defense & Q&A',
+      r2Desc: 'Present product architecture, go-to-market strategy, and defend financial models in a rigorous 5-minute VC grilling.'
+    },
+    'vibecraft': {
+      title: 'VibeCraft',
+      tag: 'Creative Web Design & UI',
+      img: 'alien-diamondhead.jpg',
+      team: '1–2 Members · 3 Hours',
+      prize: 'Cash Prize + Design Trophy',
+      desc: 'Where art meets clean code. Recreate cutting-edge web layouts, implement micro-interactions, silky smooth GSAP animations, and construct state-of-the-art interactive digital experiences.',
+      r1Title: 'Round 1: Aesthetic Precision Re-creation',
+      r1Desc: 'Match complex editorial typography, glassmorphic textures, and responsive layouts from high-tier reference mockups.',
+      r2Title: 'Round 2: Motion & Interaction Crafting',
+      r2Desc: 'Add fluid scroll interactions, kinetic cursor animations, and custom WebGL/CSS shaders that wow the judges.'
+    }
+  };
+
+  /* ─── 8. OMNITRIX HOLOGRAPHIC DIAL & DNA SELECTOR ─── */
+  var dialTracks = [
+    {
+      id: 'tech-auction',
+      dnaCode: 'SPECIMEN // DNA-01',
+      title: 'Tech Auction',
+      alien: 'Galvanic Mechamorph (Upgrade)',
+      img: 'alien-upgrade.jpg',
+      desc: 'Engage in dynamic hardware component bidding, reverse-engineer proprietary tech architectures, and assemble winning AI-hardware prototypes under time constraints.',
+      prize: '₹10,000',
+      duration: '2 Rounds · 3 Hrs',
+      team: '1–3 Members',
+      category: 'Hardware Synthesis'
+    },
+    {
+      id: 'tech-crime-scene',
+      dnaCode: 'SPECIMEN // DNA-02',
+      title: 'Tech Crime Scene',
+      alien: 'Cerebrocrustacean (Brainstorm)',
+      img: 'alien-brainstorm.jpg',
+      desc: 'Investigate complex simulated data breaches, dissect compromised memory dumps, trace adversary footprints, and defend the network before time runs out.',
+      prize: '₹12,000',
+      duration: '2 Rounds · 3.5 Hrs',
+      team: '1–3 Members',
+      category: 'Cyber Forensics'
+    },
+    {
+      id: 'agentic-paradox',
+      dnaCode: 'SPECIMEN // DNA-03',
+      title: 'Agentic Paradox',
+      alien: 'Sonorosian (Echo Echo)',
+      img: 'alien-echoecho.jpg',
+      desc: 'Architect multi-agent autonomous swarms capable of self-healing workflows, real-time decision loops, and complex algorithmic reasoning benchmarks.',
+      prize: '₹15,000',
+      duration: '2 Rounds · 4 Hrs',
+      team: '1–3 Members',
+      category: 'Autonomous Agents'
+    },
+    {
+      id: 'prompt-to-product',
+      dnaCode: 'SPECIMEN // DNA-04',
+      title: 'Prompt-to-Product',
+      alien: 'Kineceleran (XLR8)',
+      img: 'alien-xlr8.jpg',
+      desc: 'Speed is your superpower. Transform high-level ambiguous problem briefs into fully styled, interactive, production-ready applications within rapid sprint windows.',
+      prize: '₹10,000',
+      duration: '2 Rounds · 2.5 Hrs',
+      team: '1–2 Members',
+      category: 'Speed AI Build'
+    },
+    {
+      id: 'ai-pitch',
+      dnaCode: 'SPECIMEN // DNA-05',
+      title: 'AI Pitch',
+      alien: 'Tetramand (Four Arms)',
+      img: 'alien-fourarms.jpg',
+      desc: 'Take the startup stage. Deliver a ruthless 90-second lightning pitch and defend your AI venture architecture against a panel of seasoned tech investors.',
+      prize: '₹8,000 + VC Support',
+      duration: '2 Stages · Live Stage',
+      team: '1–4 Members',
+      category: 'Startup Stage'
+    },
+    {
+      id: 'vibecraft',
+      dnaCode: 'SPECIMEN // DNA-06',
+      title: 'VibeCraft',
+      alien: 'Petrosapien (Diamondhead)',
+      img: 'alien-diamondhead.jpg',
+      desc: 'Craft state-of-the-art interactive web experiences with kinetic typography, silky smooth micro-interactions, responsive design, and bespoke creative shaders.',
+      prize: '₹10,000 + Trophy',
+      duration: '2 Rounds · 3 Hrs',
+      team: '1–2 Members',
+      category: 'Creative Web UI'
+    }
+  ];
+
+  var currentDialIdx = 0;
+
+  window.setArenaView = function(view) {
+    var dialView = document.getElementById('omnitrix-dial-view');
+    var gridView = document.getElementById('omnitrix-grid-view');
+    var btnDial = document.getElementById('btn-dial-view');
+    var btnGrid = document.getElementById('btn-grid-view');
+
+    if (view === 'grid') {
+      dialView.style.display = 'none';
+      gridView.style.display = 'block';
+      btnGrid.classList.add('active');
+      btnDial.classList.remove('active');
+    } else {
+      dialView.style.display = 'grid';
+      gridView.style.display = 'none';
+      btnDial.classList.add('active');
+      btnGrid.classList.remove('active');
+    }
+    triggerOmnitrixSound();
+  };
+
+  window.selectDialTrack = function(idx) {
+    if (idx < 0) idx = dialTracks.length - 1;
+    if (idx >= dialTracks.length) idx = 0;
+    currentDialIdx = idx;
+
+    var track = dialTracks[currentDialIdx];
+    if (!track) return;
+
+    // Update Hologram Card with subtle pop effect
+    var holoCard = document.getElementById('dial-holo-card');
+    if (holoCard) {
+      holoCard.style.opacity = '0.3';
+      holoCard.style.transform = 'scale(0.95)';
+      setTimeout(function() {
+        document.getElementById('dial-holo-img').src = track.img;
+        document.getElementById('dial-holo-tag').textContent = track.dnaCode;
+        document.getElementById('dial-holo-title').textContent = track.title;
+        holoCard.style.opacity = '1';
+        holoCard.style.transform = 'scale(1)';
+      }, 150);
+    }
+
+    // Update Galvan HUD
+    document.getElementById('hud-track-code').textContent = track.dnaCode;
+    document.getElementById('hud-arena-title').textContent = track.title;
+    document.getElementById('hud-alien-specimen').textContent = track.alien;
+    document.getElementById('hud-briefing-desc').textContent = track.desc;
+    document.getElementById('hud-telemetry-prize').textContent = track.prize;
+    document.getElementById('hud-telemetry-time').textContent = track.duration;
+    document.getElementById('hud-telemetry-team').textContent = track.team;
+    document.getElementById('hud-telemetry-cat').textContent = track.category;
+
+    // Update DNA Node Button Active States
+    for (var i = 0; i < dialTracks.length; i++) {
+      var btn = document.getElementById('dna-node-' + i);
+      if (btn) {
+        if (i === currentDialIdx) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    }
+
+    triggerOmnitrixSound();
+  };
+
+  window.rotateDial = function(delta) {
+    selectDialTrack(currentDialIdx + delta);
+  };
+
+  window.openActiveDialDossier = function() {
+    var track = dialTracks[currentDialIdx];
+    if (track && window.openDossier) {
+      window.openDossier(track.id);
+    }
+  };
+
+  // Keyboard navigation for Dial (Left/Right arrow keys)
+  window.addEventListener('keydown', function(e) {
+    if (document.getElementById('dossier-modal').classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') rotateDial(-1);
+    if (e.key === 'ArrowRight') rotateDial(1);
+  });
+
+  window.openDossier = function(id) {
+    var data = dossiers[id];
+    if (!data) return;
+    document.getElementById('dossier-hero-img').src = data.img;
+    document.getElementById('dossier-title').textContent = data.title;
+    document.getElementById('dossier-tag').textContent = data.tag;
+    document.getElementById('dossier-team').textContent = 'Team: ' + data.team;
+    document.getElementById('dossier-prize').textContent = 'Prize: ' + data.prize;
+    document.getElementById('dossier-desc').textContent = data.desc;
+    document.getElementById('dossier-r1-title').textContent = data.r1Title;
+    document.getElementById('dossier-r1-desc').textContent = data.r1Desc;
+    document.getElementById('dossier-r2-title').textContent = data.r2Title;
+    document.getElementById('dossier-r2-desc').textContent = data.r2Desc;
+
+    var modal = document.getElementById('dossier-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    triggerOmnitrixSound();
+  };
+
+  window.closeDossier = function() {
+    var modal = document.getElementById('dossier-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  /* ─── 9. CADET AUTHENTICATION & SQUAD DASHBOARD SYSTEM ─── */
+  var pendingTrackToRegister = null;
+
+  function getUsers() {
+    try {
+      return JSON.parse(localStorage.getItem('airo_users')) || [];
+    } catch(e) { return []; }
+  }
+
+  function saveUsers(users) {
+    localStorage.setItem('airo_users', JSON.stringify(users));
+  }
+
+  function getCurrentUser() {
+    try {
+      return JSON.parse(localStorage.getItem('airo_current_user')) || null;
+    } catch(e) { return null; }
+  }
+
+  function setCurrentUser(user) {
+    if (user) {
+      localStorage.setItem('airo_current_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('airo_current_user');
+    }
+    updateNavAuthStatus();
+  }
+
+  function updateNavAuthStatus() {
+    var user = getCurrentUser();
+    var authLabel = document.getElementById('nav-auth-label');
+    var authBtn = document.getElementById('nav-auth-btn');
+    if (!authLabel || !authBtn) return;
+
+    if (user) {
+      var firstName = user.name.split(' ')[0];
+      authLabel.textContent = 'Cadet ' + firstName;
+      authBtn.classList.add('logged-in');
+    } else {
+      authLabel.textContent = 'Cadet Access';
+      authBtn.classList.remove('logged-in');
+    }
+  }
+
+  window.openAuthOrDashboard = function() {
+    var user = getCurrentUser();
+    if (user) {
+      openDashboardModal();
+    } else {
+      openAuthModal();
+    }
+  };
+
+  window.openAuthModal = function(msg) {
+    var modal = document.getElementById('auth-modal');
+    var msgBox = document.getElementById('auth-msg');
+    if (msg) {
+      msgBox.className = 'auth-msg-box error';
+      msgBox.textContent = msg;
+      msgBox.style.display = 'block';
+    } else {
+      msgBox.style.display = 'none';
+    }
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    triggerOmnitrixSound();
+  };
+
+  window.closeAuthModal = function() {
+    var modal = document.getElementById('auth-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.setAuthTab = function(tab) {
+    var tabLogin = document.getElementById('tab-login-btn');
+    var tabSignup = document.getElementById('tab-signup-btn');
+    var formLogin = document.getElementById('auth-login-form');
+    var formSignup = document.getElementById('auth-signup-form');
+    var msgBox = document.getElementById('auth-msg');
+    msgBox.style.display = 'none';
+
+    if (tab === 'signup') {
+      tabSignup.classList.add('active');
+      tabLogin.classList.remove('active');
+      formSignup.style.display = 'block';
+      formLogin.style.display = 'none';
+    } else {
+      tabLogin.classList.add('active');
+      tabSignup.classList.remove('active');
+      formLogin.style.display = 'block';
+      formSignup.style.display = 'none';
+    }
+  };
+
+  window.handleLoginSubmit = function(e) {
+    e.preventDefault();
+    var email = document.getElementById('login-email').value.trim().toLowerCase();
+    var pass = document.getElementById('login-password').value;
+    var msgBox = document.getElementById('auth-msg');
+
+    var users = getUsers();
+    var matched = users.find(function(u) { return u.email === email && u.password === pass; });
+
+    if (!matched) {
+      // If no users registered yet, provide default fallback demo registration
+      if (email === 'ben@plumbers.org' || users.length === 0) {
+        matched = {
+          name: 'Ben Tennyson',
+          college: 'Galvan Academy of Tech',
+          email: email,
+          phone: '+91 98765 43210',
+          password: pass,
+          cadetId: 'CADET-OMN-01'
+        };
+        users.push(matched);
+        saveUsers(users);
+      } else {
+        msgBox.className = 'auth-msg-box error';
+        msgBox.textContent = 'Invalid cadet email or passcode. Please check credentials or create a profile.';
+        msgBox.style.display = 'block';
+        return;
+      }
+    }
+
+    setCurrentUser(matched);
+    closeAuthModal();
+    triggerOmnitrixSound();
+
+    if (pendingTrackToRegister) {
+      var trackId = pendingTrackToRegister;
+      pendingTrackToRegister = null;
+      openTrackRegModal(trackId);
+    } else {
+      openDashboardModal();
+    }
+  };
+
+  window.handleSignupSubmit = function(e) {
+    e.preventDefault();
+    var name = document.getElementById('signup-name').value.trim();
+    var college = document.getElementById('signup-college').value.trim();
+    var email = document.getElementById('signup-email').value.trim().toLowerCase();
+    var phone = document.getElementById('signup-phone').value.trim();
+    var pass = document.getElementById('signup-password').value;
+    var msgBox = document.getElementById('auth-msg');
+
+    var users = getUsers();
+    if (users.find(function(u) { return u.email === email; })) {
+      msgBox.className = 'auth-msg-box error';
+      msgBox.textContent = 'A cadet profile with this email already exists. Please log in.';
+      msgBox.style.display = 'block';
+      return;
+    }
+
+    var newUser = {
+      name: name,
+      college: college,
+      email: email,
+      phone: phone,
+      password: pass,
+      cadetId: 'CADET-' + Math.floor(1000 + Math.random() * 9000)
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+    setCurrentUser(newUser);
+    closeAuthModal();
+    triggerOmnitrixSound();
+
+    if (pendingTrackToRegister) {
+      var trackId = pendingTrackToRegister;
+      pendingTrackToRegister = null;
+      openTrackRegModal(trackId);
+    } else {
+      openDashboardModal();
+    }
+  };
+
+  window.handleLogout = function() {
+    setCurrentUser(null);
+    closeDashboardModal();
+    triggerOmnitrixSound();
+  };
+
+  /* ─── EVENT REGISTRATION MODAL LOGIC ─── */
+  window.openTrackRegModal = function(trackId) {
+    var user = getCurrentUser();
+    if (!user) {
+      pendingTrackToRegister = trackId;
+      openAuthModal('Please authenticate your cadet profile before registering for an arena.');
+      return;
+    }
+
+    var trackData = dossiers[trackId] || dialTracks.find(function(t) { return t.id === trackId; });
+    var modal = document.getElementById('track-reg-modal');
+    document.getElementById('reg-track-id').value = trackId;
+    document.getElementById('reg-modal-track-title').textContent = trackData ? trackData.title : 'Arena Registration';
+    document.getElementById('reg-modal-dna-tag').textContent = (trackData ? trackData.tag : 'DNA TRACK') + ' // REGISTRATION';
+    document.getElementById('reg-leader-name').value = user.name + ' (' + user.college + ')';
+    document.getElementById('reg-contact-phone').value = user.phone || '';
+    document.getElementById('reg-msg').style.display = 'none';
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    triggerOmnitrixSound();
+  };
+
+  window.closeTrackRegModal = function() {
+    var modal = document.getElementById('track-reg-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.initTrackRegistrationFromCurrent = function() {
+    var track = dialTracks[currentDialIdx];
+    if (track) {
+      openTrackRegModal(track.id);
+    }
+  };
+
+  function getUserRegistrations(userEmail) {
+    try {
+      return JSON.parse(localStorage.getItem('airo_regs_' + userEmail)) || [];
+    } catch(e) { return []; }
+  }
+
+  function saveUserRegistrations(userEmail, regs) {
+    localStorage.setItem('airo_regs_' + userEmail, JSON.stringify(regs));
+  }
+
+  window.handleTrackRegSubmit = function(e) {
+    e.preventDefault();
+    var user = getCurrentUser();
+    if (!user) return;
+
+    var trackId = document.getElementById('reg-track-id').value;
+    var teamName = document.getElementById('reg-team-name').value.trim();
+    var member2 = document.getElementById('reg-member-2').value.trim();
+    var member3 = document.getElementById('reg-member-3').value.trim();
+    var phone = document.getElementById('reg-contact-phone').value.trim();
+
+    var trackData = dialTracks.find(function(t) { return t.id === trackId; }) || dossiers[trackId];
+    var regs = getUserRegistrations(user.email);
+
+    // Check if already registered for this track
+    if (regs.find(function(r) { return r.trackId === trackId; })) {
+      var msg = document.getElementById('reg-msg');
+      msg.className = 'auth-msg-box error';
+      msg.textContent = 'Your squad is already registered for ' + (trackData ? trackData.title : 'this arena') + '!';
+      msg.style.display = 'block';
+      return;
+    }
+
+    var squadMembers = [user.name + ' (Lead)'];
+    if (member2) squadMembers.push(member2);
+    if (member3) squadMembers.push(member3);
+
+    var newReg = {
+      passId: 'AIRO-' + trackId.toUpperCase().slice(0, 3) + '-' + Math.floor(1000 + Math.random() * 9000),
+      trackId: trackId,
+      trackTitle: trackData ? trackData.title : 'Competition Arena',
+      alien: trackData ? trackData.alien || trackData.tag : 'Alien Specimen',
+      img: trackData ? trackData.img : 'alien-upgrade.jpg',
+      teamName: teamName,
+      members: squadMembers,
+      phone: phone,
+      timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      venue: 'Main Tech Complex · Lab 0' + (Math.floor(Math.random() * 4) + 1),
+      time: '09:30 AM – 01:00 PM IST',
+      prize: trackData ? trackData.prize : '₹10,000'
+    };
+
+    regs.push(newReg);
+    saveUserRegistrations(user.email, regs);
+
+    closeTrackRegModal();
+    openDashboardModal();
+    triggerOmnitrixSound();
+  };
+
+  /* ─── CADET COMMAND DASHBOARD LOGIC ─── */
+  window.openDashboardModal = function() {
+    var user = getCurrentUser();
+    if (!user) {
+      openAuthModal('Please log in to access your Cadet Command Dashboard.');
+      return;
+    }
+
+    // Render User Header
+    document.getElementById('dash-name').textContent = user.name;
+    document.getElementById('dash-meta').textContent = (user.college || 'Institution') + ' · ' + user.email + ' · ' + (user.cadetId || 'OPERATIVE');
+
+    renderDashboardEvents(user);
+
+    var modal = document.getElementById('dashboard-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    triggerOmnitrixSound();
+  };
+
+  window.closeDashboardModal = function() {
+    var modal = document.getElementById('dashboard-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  function renderDashboardEvents(user) {
+    var regs = getUserRegistrations(user.email);
+    var grid = document.getElementById('dash-registered-grid');
+    var countBadge = document.getElementById('dash-event-count');
+
+    countBadge.textContent = regs.length + ' / 06 Tracks';
+
+    if (regs.length === 0) {
+      grid.innerHTML = '<div class="empty-dash-state" style="grid-column: 1 / -1;">' +
+        '<div class="empty-radar-icon">📡</div>' +
+        '<h4 style="font-family: var(--font-display); font-size: 20px; text-transform: uppercase; margin-bottom: 8px;">No Active Arena Registrations</h4>' +
+        '<p style="color: var(--gray-400); font-size: 13px; max-width: 460px; margin: 0 auto 20px; line-height: 1.5;">Your squad has not been deployed to any symposium tracks yet. Rotate the Omnitrix dial and lock in your competition arena.</p>' +
+        '<button class="hud-primary-cta" onclick="closeDashboardModal(); smoothTo(\'#arenas\');" style="margin: 0 auto; display: inline-flex;">Explore Arenas & Register Squad →</button>' +
+      '</div>';
+      return;
+    }
+
+    var html = '';
+    regs.forEach(function(reg) {
+      html += '<article class="registered-track-card">' +
+        '<div class="registered-card-banner">' +
+          '<img src="' + reg.img + '" alt="' + reg.trackTitle + '">' +
+          '<div class="registered-card-badge">🟢 Confirmed</div>' +
+        '</div>' +
+        '<div class="registered-card-body">' +
+          '<div class="reg-pass-id">' + reg.passId + '</div>' +
+          '<h3 class="reg-track-name">' + reg.trackTitle + '</h3>' +
+          '<div class="reg-team-info"><strong>Squad:</strong> ' + reg.teamName + '<br><span style="color: var(--gray-400); font-size: 11px;">Operatives: ' + reg.members.join(', ') + '</span></div>' +
+          '<div class="reg-meta-pills">' +
+            '<span class="reg-meta-pill">📍 ' + reg.venue + '</span>' +
+            '<span class="reg-meta-pill">⏱️ ' + reg.time + '</span>' +
+            '<span class="reg-meta-pill" style="color: var(--omnitrix-green);">🏆 ' + reg.prize + '</span>' +
+          '</div>' +
+          '<div class="reg-card-actions">' +
+            '<button class="reg-view-pass-btn" onclick="viewMissionPass(\'' + reg.passId + '\')">Mission Pass 🎫</button>' +
+            '<button class="reg-cancel-btn" onclick="cancelRegistration(\'' + reg.passId + '\')">Cancel</button>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+    });
+
+    grid.innerHTML = html;
+  }
+
+  window.cancelRegistration = function(passId) {
+    var user = getCurrentUser();
+    if (!user) return;
+    if (!confirm('Are you sure you want to withdraw your squad registration for pass ' + passId + '?')) return;
+
+    var regs = getUserRegistrations(user.email);
+    var updated = regs.filter(function(r) { return r.passId !== passId; });
+    saveUserRegistrations(user.email, updated);
+    renderDashboardEvents(user);
+    triggerOmnitrixSound();
+  };
+
+  window.viewMissionPass = function(passId) {
+    var user = getCurrentUser();
+    if (!user) return;
+    var regs = getUserRegistrations(user.email);
+    var reg = regs.find(function(r) { return r.passId === passId; });
+    if (!reg) return;
+
+    alert('🎫 AIRO 6.0 DIGITAL MISSION PASS\n' +
+      '────────────────────────────\n' +
+      'Track: ' + reg.trackTitle + '\n' +
+      'Pass ID: ' + reg.passId + '\n' +
+      'Squad: ' + reg.teamName + '\n' +
+      'Lead: ' + user.name + ' (' + user.college + ')\n' +
+      'Venue: ' + reg.venue + '\n' +
+      'Schedule: ' + reg.time + '\n' +
+      'Status: ACTIVE VERIFIED OPERATIVE\n' +
+      '────────────────────────────\n' +
+      'Show this digital pass at the entrance on September 26, 2026.');
+  };
+
+  /* ─── 10. PODIUM SCROLL THEME SWITCHER ─── */
+  var themeSections = [
+    { el: document.getElementById('hero-pin-wrapper'), theme: 'theme-hero', nav: 'light' },
+    { el: document.getElementById('arenas'), theme: 'theme-arenas', nav: 'dark' },
+    { el: document.getElementById('about'), theme: 'theme-about', nav: 'light' },
+    { el: document.getElementById('register'), theme: 'theme-register', nav: 'light' },
+    { el: document.querySelector('footer'), theme: 'theme-footer', nav: 'light' }
+  ];
+
+  themeSections.forEach(function(sec) {
+    if (!sec.el) return;
+    ScrollTrigger.create({
+      trigger: sec.el,
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onEnter: function() { applyTheme(sec.theme, sec.nav); },
+      onEnterBack: function() { applyTheme(sec.theme, sec.nav); }
+    });
+  });
+
+  function applyTheme(themeClass, navStyle) {
+    document.body.classList.remove('theme-hero', 'theme-arenas', 'theme-about', 'theme-register', 'theme-footer');
+    document.body.classList.add(themeClass);
+
+    var header = document.getElementById('header');
+    if (header) {
+      if (navStyle === 'dark') {
+        header.classList.add('dark-nav');
+      } else {
+        header.classList.remove('dark-nav');
+      }
+    }
+  }
+
+  // Check and update auth on page load
+  updateNavAuthStatus();
+
+})();
+</script>
+
+<!-- DOSSIER MODAL -->
+<div id="dossier-modal" onclick="if(event.target===this) closeDossier()">
+  <div class="dossier-box">
+    <div class="dossier-hero">
+      <img id="dossier-hero-img" src="alien-upgrade.jpg" alt="Arena Preview">
+      <button class="dossier-close-btn" onclick="closeDossier()">✕</button>
+    </div>
+    <div class="dossier-body">
+      <div id="dossier-tag" class="arena-track-label">Hardware & Tech Stack Synthesis</div>
+      <h2 id="dossier-title" class="dossier-title">Tech Auction</h2>
+      <p id="dossier-desc" style="color: var(--gray-300); font-size: 14px; line-height: 1.6; margin-bottom: 20px;"></p>
+      
+      <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;">
+        <span id="dossier-team" style="color: var(--omnitrix-green); border: 1px solid rgba(0,255,85,0.3); padding: 4px 10px; border-radius: 3px;"></span>
+        <span id="dossier-prize" style="color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 3px;"></span>
+      </div>
+
+      <div class="dossier-rounds-grid">
+        <div class="round-card">
+          <div class="round-badge">Stage 01</div>
+          <div id="dossier-r1-title" class="round-title">Round 1</div>
+          <div id="dossier-r1-desc" class="round-desc"></div>
+        </div>
+        <div class="round-card">
+          <div class="round-badge">Stage 02</div>
+          <div id="dossier-r2-title" class="round-title">Round 2</div>
+          <div id="dossier-r2-desc" class="round-desc"></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+        <button onclick="closeDossier()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--white); padding: 10px 20px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer;">Close</button>
+        <button onclick="closeDossier(); initTrackRegistrationFromCurrent();" style="background: var(--omnitrix-green); color: var(--black); border: none; padding: 10px 24px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">Register For This Track →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTHENTICATION MODAL (LOGIN / SIGNUP) -->
+<div id="auth-modal" class="modal-overlay" onclick="if(event.target===this) closeAuthModal()">
+  <div class="auth-card-box">
+    <button class="modal-close-x" onclick="closeAuthModal()">✕</button>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <div class="dash-avatar-badge" style="margin: 0 auto 12px; width: 44px; height: 44px; font-size: 18px;">⚡</div>
+      <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 900; text-transform: uppercase; margin-bottom: 4px;">Cadet Access Portal</h3>
+      <p style="font-family: var(--font-mono); font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em;">Plumbers Terminal // AIRO 6.0</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab-btn active" id="tab-login-btn" onclick="setAuthTab('login')">Log In</button>
+      <button class="auth-tab-btn" id="tab-signup-btn" onclick="setAuthTab('signup')">New Cadet Profile</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="auth-login-form" onsubmit="handleLoginSubmit(event)">
+      <div class="auth-form-group">
+        <label class="auth-form-label">Cadet Email</label>
+        <input class="auth-input" type="email" id="login-email" placeholder="ben@plumbers.org" required>
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-form-label">Access Passcode</label>
+        <input class="auth-input" type="password" id="login-password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">Authorize Cadet Access →</button>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="auth-signup-form" style="display: none;" onsubmit="handleSignupSubmit(event)">
+      <div class="auth-form-group">
+        <label class="auth-form-label">Full Name</label>
+        <input class="auth-input" type="text" id="signup-name" placeholder="Ben Tennyson" required>
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-form-label">Institution / College</label>
+        <input class="auth-input" type="text" id="signup-college" placeholder="Galvan Institute of Tech" required>
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-form-label">Cadet Email</label>
+        <input class="auth-input" type="email" id="signup-email" placeholder="ben@plumbers.org" required>
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-form-label">Contact Phone</label>
+        <input class="auth-input" type="tel" id="signup-phone" placeholder="+91 98765 43210" required>
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-form-label">Create Passcode</label>
+        <input class="auth-input" type="password" id="signup-password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">Initialize Cadet Profile →</button>
+    </form>
+
+    <div id="auth-msg" class="auth-msg-box"></div>
+  </div>
+</div>
+
+<!-- TRACK REGISTRATION MODAL -->
+<div id="track-reg-modal" class="modal-overlay" onclick="if(event.target===this) closeTrackRegModal()">
+  <div class="auth-card-box" style="max-width: 600px;">
+    <button class="modal-close-x" onclick="closeTrackRegModal()">✕</button>
+    <div style="margin-bottom: 20px; border-bottom: 1px solid rgba(0,255,85,0.2); padding-bottom: 16px;">
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--omnitrix-green); text-transform: uppercase; letter-spacing: 0.1em;" id="reg-modal-dna-tag">DNA CLUSTER // REGISTRATION</div>
+      <h3 style="font-family: var(--font-display); font-size: 26px; font-weight: 900; text-transform: uppercase; margin-top: 4px;" id="reg-modal-track-title">Tech Auction</h3>
+    </div>
+
+    <form id="track-registration-form" onsubmit="handleTrackRegSubmit(event)">
+      <input type="hidden" id="reg-track-id" value="tech-auction">
+
+      <div class="auth-form-group">
+        <label class="auth-form-label">Squad / Team Name</label>
+        <input class="auth-input" type="text" id="reg-team-name" placeholder="Team Mechamorph" required>
+      </div>
+
+      <div class="auth-form-group">
+        <label class="auth-form-label">Squad Leader (You)</label>
+        <input class="auth-input" type="text" id="reg-leader-name" readonly style="opacity: 0.8; cursor: not-allowed;">
+      </div>
+
+      <div class="auth-form-group">
+        <label class="auth-form-label">Squad Operative 2 (Optional)</label>
+        <input class="auth-input" type="text" id="reg-member-2" placeholder="Operative 2 Name">
+      </div>
+
+      <div class="auth-form-group">
+        <label class="auth-form-label">Squad Operative 3 (Optional)</label>
+        <input class="auth-input" type="text" id="reg-member-3" placeholder="Operative 3 Name">
+      </div>
+
+      <div class="auth-form-group">
+        <label class="auth-form-label">Primary Contact Number</label>
+        <input class="auth-input" type="tel" id="reg-contact-phone" placeholder="+91 98765 43210" required>
+      </div>
+
+      <button type="submit" class="auth-submit-btn">Lock In Arena Registration 🟢</button>
+    </form>
+    <div id="reg-msg" class="auth-msg-box"></div>
+  </div>
+</div>
+
+<!-- CADET COMMAND DASHBOARD MODAL -->
+<div id="dashboard-modal" class="modal-overlay" onclick="if(event.target===this) closeDashboardModal()">
+  <div class="dashboard-box">
+    <button class="modal-close-x" onclick="closeDashboardModal()" style="top: 24px; right: 24px;">✕</button>
+    
+    <!-- Profile Header -->
+    <div class="dashboard-header">
+      <div class="dash-cadet-profile">
+        <div class="dash-avatar-badge">👤</div>
+        <div>
+          <h2 class="dash-cadet-name" id="dash-name">Cadet Operative</h2>
+          <div class="dash-cadet-meta" id="dash-meta">Galvan Institute · ben@plumbers.org</div>
+        </div>
+      </div>
+      <div class="dash-header-actions">
+        <button class="hud-primary-cta" onclick="closeDashboardModal(); smoothTo('#arenas');" style="padding: 8px 16px; font-size: 11px;">+ Add Track</button>
+        <button class="dash-logout-btn" onclick="handleLogout()">Log Out</button>
+      </div>
+    </div>
+
+    <!-- Body / Registered Events -->
+    <div class="dashboard-body">
+      <div class="dashboard-section-title">
+        <span>Registered Arena Missions</span>
+        <span id="dash-event-count" style="color: var(--white); background: rgba(0,255,85,0.1); border: 1px solid rgba(0,255,85,0.3); padding: 2px 8px; border-radius: 3px;">0 / 06 Tracks</span>
+      </div>
+
+      <!-- Events Grid Container -->
+      <div id="dash-registered-grid" class="registered-arenas-grid">
+        <!-- Dynamically rendered registered track cards -->
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
