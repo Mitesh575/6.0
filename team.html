@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE ARCHITECTS & TEAM — AIRO 6.0 | Sri Sairam Engineering College</title>
+  <meta name="description" content="Meet the institutional leadership, faculty convenors, arena leads, and organizing committees powering AIRO 6.0.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --black: #000000;
+      --dark-bg: #030508;
+      --zentry-lavender: #DFDFF2;
+      --zentry-light-bg: #EAEAF6;
+      --white: #FFFFFF;
+      --card-dark: #07090E;
+      --card-hover: #0D101A;
+      --border-dark: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(0, 240, 255, 0.4);
+      --accent-cyan: #00F0FF;
+      --accent-gold: #FFD700;
+      --accent-purple: #A855F7;
+      --accent-red: #FF4444;
+      --accent-green: #4ADE80;
+      --accent-pink: #EC4899;
+      --font-ink-trap: 'Anton', 'Inter', -apple-system, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --ease-zentry: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Zentry Subtle Matrix Grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1200px;
+      height: 700px;
+      background: radial-gradient(ellipse, rgba(0, 240, 255, 0.06) 0%, rgba(168, 85, 247, 0.03) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       FIXED NAVBAR (MATCHING HOME)
+       ═══════════════════════════════════════════ */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: clamp(18px, 2.5vh, 28px);
+      padding-bottom: clamp(18px, 2.5vh, 28px);
+      pointer-events: auto;
+      color: #FFFFFF;
+    }
+
+    .nav__left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav__logo {
+      font-family: var(--font-ink-trap);
+      font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .btn-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.5vw, 36px);
+    }
+
+    .nav__link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #FFFFFF;
+      opacity: 0.8;
+      text-decoration: none;
+      transition: opacity 0.25s ease, color 0.25s ease;
+    }
+
+    .nav__link:hover,
+    .nav__link.active {
+      opacity: 1;
+      color: var(--accent-cyan);
+    }
+
+    .nav__arrow-icon {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 0.85em;
+      transition: transform 0.25s ease;
+    }
+
+    .nav__link:hover .nav__arrow-icon {
+      transform: translate(2px, -2px);
+    }
+
+    @media (max-width: 768px) {
+      .nav__right {
+        display: none;
+      }
+    }
+      letter-spacing: 0.05em;
+      transition: transform 0.2s var(--ease-zentry), background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: #FFFFFF;
+      transform: scale(1.05);
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Giant Vertical Watermark */
+    .bg-watermark {
+      position: fixed;
+      top: 15%;
+      right: -3%;
+      font-family: var(--font-ink-trap);
+      font-size: clamp(14rem, 26vw, 28rem);
+      color: rgba(255, 255, 255, 0.015);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      letter-spacing: -0.04em;
+      pointer-events: none;
+      z-index: 0;
+      line-height: 0.8;
+      user-select: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO SECTION (ZENTRY INK-TRAP TITLE)
+       ═══════════════════════════════════════════ */
+    .team-hero {
+      padding-top: 160px;
+      padding-bottom: 70px;
+      text-align: center;
+      position: relative;
+    }
+
+    .zentry-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 240, 255, 0.06);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .zentry-tag__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .team-title {
+      font-family: var(--font-ink-trap);
+      font-size: clamp(3.2rem, 8.5vw, 7.2rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--zentry-lavender) 65%, rgba(255, 255, 255, 0.4) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .team-subtitle {
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      color: rgba(223, 223, 242, 0.75);
+      max-width: 780px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    /* Overview Stats Bento Strip */
+    .team-stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 980px;
+      margin: 0 auto 60px;
+    }
+
+    @media (max-width: 768px) {
+      .team-stats-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .stat-pill {
+      background: rgba(13, 16, 26, 0.6);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 18px 22px;
+      backdrop-filter: blur(12px);
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s var(--ease-zentry);
+    }
+
+    .stat-pill:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .stat-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), transparent);
+      opacity: 0.6;
+    }
+
+    .stat-pill__label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: rgba(223, 223, 242, 0.65);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .stat-pill__val {
+      font-family: var(--font-ink-trap);
+      font-size: 2rem;
+      color: #FFFFFF;
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════
+       SECTION HEADERS
+       ═══════════════════════════════════════════ */
+    .team-section {
+      margin-bottom: 96px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 18px;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-family: var(--font-ink-trap);
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-title span {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: rgba(223, 223, 242, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* ═══════════════════════════════════════════
+       GRIDS
+       ═══════════════════════════════════════════ */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════
+       ZENTRY BENTO CARDS
+       ═══════════════════════════════════════════ */
+    .zentry-card {
+      background: rgba(10, 13, 22, 0.75);
+      border: 1px solid var(--border-dark);
+      border-radius: 24px;
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: transform 0.35s var(--ease-zentry), border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+
+    .zentry-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-hover);
+      background: var(--card-hover);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.1);
+    }
+
+    .zentry-card__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .zentry-card__role {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .zentry-card__role--gold {
+      color: var(--accent-gold);
+      background: rgba(255, 215, 0, 0.08);
+      border-color: rgba(255, 215, 0, 0.25);
+    }
+
+    .zentry-card__role--purple {
+      color: var(--accent-purple);
+      background: rgba(168, 85, 247, 0.08);
+      border-color: rgba(168, 85, 247, 0.25);
+    }
+
+    .zentry-card__code {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.35);
+      position: relative;
+      z-index: 2;
+    }
+
+    .zentry-card__name {
+      font-family: var(--font-ink-trap);
+      font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .zentry-card__title {
+      font-size: 0.9rem;
+      color: var(--zentry-lavender);
+      font-weight: 500;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .zentry-card__bio {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-top: 12px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 2;
+    }
+
+    .zentry-card__tag-pill {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(223, 223, 242, 0.75);
+      position: relative;
+      z-index: 2;
+    }
+
+    .zentry-card__tag-pill span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+    }
+
+    /* ═══════════════════════════════════════════
+       TRANSFORMERS ARENA LEAD CARDS (WITH CINEMATIC BG)
+       ═══════════════════════════════════════════ */
+    .arena-lead-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .arena-lead-card__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background-size: cover;
+      background-position: center 20%;
+      filter: brightness(0.4) contrast(1.1);
+      transition: transform 0.6s var(--ease-zentry), filter 0.4s ease;
+      opacity: 0.55;
+    }
+
+    .arena-lead-card:hover .arena-lead-card__bg {
+      transform: scale(1.08);
+      filter: brightness(0.65) contrast(1.15);
+      opacity: 0.85;
+    }
+
+    .arena-lead-card__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(3, 5, 10, 0.4) 0%,
+        rgba(3, 5, 10, 0.75) 50%,
+        rgba(3, 5, 10, 0.96) 100%
+      );
+    }
+
+    .card-theme-prime .arena-lead-card__bg { background-image: url('assets/characters/bg-optimus.jpg'); }
+    .card-theme-bee .arena-lead-card__bg { background-image: url('assets/characters/bg-bumblebee.jpg'); }
+    .card-theme-mega .arena-lead-card__bg { background-image: url('assets/characters/bg-megatron.jpg'); }
+    .card-theme-sound .arena-lead-card__bg { background-image: url('assets/characters/bg-starscream.jpg'); }
+    .card-theme-ratch .arena-lead-card__bg { background-image: url('assets/characters/bg-heavy-mecha.jpg'); }
+    .card-theme-shock .arena-lead-card__bg { background-image: url('assets/characters/bg-soundwave.jpg'); }
+
+    .card-theme-prime:hover { border-color: rgba(59, 126, 240, 0.7); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(59, 126, 240, 0.3); }
+    .card-theme-bee:hover { border-color: rgba(255, 215, 0, 0.7); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.25); }
+    .card-theme-mega:hover { border-color: rgba(168, 85, 247, 0.7); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.3); }
+    .card-theme-sound:hover { border-color: rgba(255, 68, 68, 0.7); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 68, 68, 0.3); }
+    .card-theme-ratch:hover { border-color: rgba(74, 222, 128, 0.7); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(74, 222, 128, 0.25); }
+    .card-theme-shock:hover { border-color: rgba(59, 130, 246, 0.7); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(59, 130, 246, 0.3); }
+
+    /* ═══════════════════════════════════════════
+       INTERACTIVE STATEMENT
+       ═══════════════════════════════════════════ */
+    .team-statement-box {
+      background: linear-gradient(135deg, rgba(13, 16, 26, 0.8) 0%, rgba(20, 24, 38, 0.7) 100%);
+      border: 1px solid var(--border-dark);
+      border-radius: 32px;
+      padding: clamp(48px, 8vw, 80px) clamp(24px, 5vw, 60px);
+      margin: 40px 0 96px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .statement-title {
+      font-family: var(--font-ink-trap);
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      color: #FFFFFF;
+    }
+
+    .statement-desc {
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      color: rgba(223, 223, 242, 0.75);
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ═══════════════════════════════════════════
+       MASSIVE ZENTRY CTA VAULT
+       ═══════════════════════════════════════════ */
+    .zentry-cta-vault {
+      background: linear-gradient(135deg, rgba(13, 16, 26, 0.95) 0%, rgba(20, 24, 38, 0.85) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 32px;
+      padding: 72px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 80px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .zentry-cta-vault::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(0, 240, 255, 0.08) 0%, rgba(168, 85, 247, 0.04) 40%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-family: var(--font-ink-trap);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      text-transform: uppercase;
+      line-height: 0.92;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .cta-desc {
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      color: rgba(223, 223, 242, 0.7);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      position: relative;
+    }
+
+    .btn-cta-glory {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--zentry-lavender);
+      color: var(--black);
+      padding: 16px 36px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: transform 0.25s var(--ease-zentry), background-color 0.2s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .btn-cta-glory:hover {
+      background: #FFFFFF;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(223, 223, 242, 0.6);
+    }
+
+    /* Footer */
+    .zentry-footer {
+      border-top: 1px solid var(--border-dark);
+      padding: 36px 0;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-watermark">COMMAND</div>
+
+<!-- ═══ FIXED NAVBAR ═══ -->
+<div class="nav-wrapper">
+  <div class="container">
+    <header class="nav" id="navbar">
+      <div class="nav__left">
+        <a href="index.html" class="nav__logo">AIRO 6.0</a>
+        <button class="btn-pill" onclick="window.location.href='register.html'" style="background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;">
+          <span>Register ↗</span>
+        </button>
+        <button class="btn-pill" onclick="window.location.href='index.html#arenas'">
+          <span>Arenas ▾</span>
+        </button>
+      </div>
+      <div class="nav__right">
+        <a href="index.html#arenas" class="nav__link">Arenas <span class="nav__arrow-icon">↗</span></a>
+        <a href="index.html#schedule" class="nav__link">Schedule <span class="nav__arrow-icon">↗</span></a>
+        <a href="index.html#about-section" class="nav__link">About <span class="nav__arrow-icon">↗</span></a>
+        <a href="team.html" class="nav__link active">Team <span class="nav__arrow-icon">↗</span></a>
+        <a href="portal.html" class="nav__link">Portal <span class="nav__arrow-icon">↗</span></a>
+        <a href="register.html" class="nav__link" style="color: var(--accent-cyan);">Register <span class="nav__arrow-icon">↗</span></a>
+      </div>
+    </header>
+  </div>
+</div>
+
+<main class="container">
+  
+  <!-- Hero Section -->
+  <header class="team-hero">
+    <div class="zentry-tag">
+      <span class="zentry-tag__dot"></span>
+      <span>Command Nexus // Leadership Matrix</span>
+    </div>
+    <h1 class="team-title">THE ARCHITECTS<br>OF AIRO 6.0</h1>
+    <p class="team-subtitle">
+      The visionaries, research faculty, arena leads, and technical core orchestrating the 6th edition of the National AI & Data Science Symposium at Sri Sairam Engineering College.
+    </p>
+
+    <!-- Overview Stats Bento Strip -->
+    <div class="team-stats-strip">
+      <div class="stat-pill">
+        <div class="stat-pill__label">Leadership Chairs</div>
+        <div class="stat-pill__val">03</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill__label">Arena Leads</div>
+        <div class="stat-pill__val">06</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill__label">Execution Squads</div>
+        <div class="stat-pill__val">04</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill__label">Symposium Date</div>
+        <div class="stat-pill__val">SEP 26</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section 1: Institutional Leadership -->
+  <section class="team-section">
+    <div class="section-header">
+      <h2 class="section-title"><span>01</span> Institutional Leadership</h2>
+      <div class="section-tag">Patrons & Convenors</div>
+    </div>
+    <div class="grid-3">
+      
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role zentry-card__role--gold">Chief Patron</span>
+            <span class="zentry-card__code">// PAT-01</span>
+          </div>
+          <h3 class="zentry-card__name">Dr. Sai Prakash Leo Muthu</h3>
+          <p class="zentry-card__title">Chairman & CEO · Sairam Institutions</p>
+          <p class="zentry-card__bio">
+            Providing strategic vision and institutional infrastructure to foster groundbreaking student innovation, incubation, and research excellence across all campuses.
+          </p>
+        </div>
+        <div class="zentry-card__tag-pill">
+          <span></span> Institutional Steering
+        </div>
+      </div>
+
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role zentry-card__role--purple">Patron</span>
+            <span class="zentry-card__code">// PAT-02</span>
+          </div>
+          <h3 class="zentry-card__name">Dr. J. Raja</h3>
+          <p class="zentry-card__title">Principal · Sri Sairam Engineering College</p>
+          <p class="zentry-card__bio">
+            Leading academic and research advancement, empowering student initiatives, and championing national-tier technical symposium standards.
+          </p>
+        </div>
+        <div class="zentry-card__tag-pill">
+          <span></span> Academic Direction
+        </div>
+      </div>
+
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role">Convenor</span>
+            <span class="zentry-card__code">// CNV-01</span>
+          </div>
+          <h3 class="zentry-card__name">Dr. Swagata Sarkar</h3>
+          <p class="zentry-card__title">Head of Department · AI & Data Science</p>
+          <p class="zentry-card__bio">
+            Curating the core technical framework of AIRO 6.0 to deliver rigorous, industry-aligned competition arenas that push applied AI boundaries.
+          </p>
+        </div>
+        <div class="zentry-card__tag-pill">
+          <span></span> Department Head & Convener
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 2: Student Arena Leads (With Transformers Character Art) -->
+  <section class="team-section">
+    <div class="section-header">
+      <h2 class="section-title"><span>02</span> Arena Lead Coordinators</h2>
+      <div class="section-tag">Track Commanders</div>
+    </div>
+    <div class="grid-3">
+      
+      <!-- Tech Auction (Optimus Prime) -->
+      <a href="events/tech-auction.html" style="text-decoration: none; color: inherit;">
+        <div class="zentry-card arena-lead-card card-theme-prime">
+          <div class="arena-lead-card__bg"></div>
+          <div>
+            <div class="zentry-card__top">
+              <span class="zentry-card__role" style="color: #3B7EF0; border-color: rgba(59,126,240,0.35); background: rgba(59,126,240,0.1);">Optimus Protocol</span>
+              <span class="zentry-card__code">[ 01 ]</span>
+            </div>
+            <h3 class="zentry-card__name">Tejas</h3>
+            <p class="zentry-card__title">Lead Coordinator · Tech Auction</p>
+            <p class="zentry-card__bio">
+              Architecting the virtual bidding floor mechanics, compute budget constraints, and mystery problem allocation engine.
+            </p>
+          </div>
+          <div class="zentry-card__tag-pill">
+            <span style="background: #3B7EF0;"></span> 60–90 Mins · Team: 3–4 · 1st: ₹1,500
+          </div>
+        </div>
+      </a>
+
+      <!-- Code Combat (Bumblebee) -->
+      <a href="events/code-combat.html" style="text-decoration: none; color: inherit;">
+        <div class="zentry-card arena-lead-card card-theme-bee">
+          <div class="arena-lead-card__bg"></div>
+          <div>
+            <div class="zentry-card__top">
+              <span class="zentry-card__role zentry-card__role--gold">Bumblebee Protocol</span>
+              <span class="zentry-card__code">[ 02 ]</span>
+            </div>
+            <h3 class="zentry-card__name">Hemanth</h3>
+            <p class="zentry-card__title">Lead Coordinator · Code Combat</p>
+            <p class="zentry-card__bio">
+              Curating the 3-tier competitive coding track: Debug Round, DSA Algorithmic Duel, and Company Challenge.
+            </p>
+          </div>
+          <div class="zentry-card__tag-pill">
+            <span style="background: #FFD700;"></span> 2 Hours · Team: 2 · 1st: ₹1,500
+          </div>
+        </div>
+      </a>
+
+      <!-- Agentic Paradox (Megatron) -->
+      <a href="events/agentic-paradox.html" style="text-decoration: none; color: inherit;">
+        <div class="zentry-card arena-lead-card card-theme-mega">
+          <div class="arena-lead-card__bg"></div>
+          <div>
+            <div class="zentry-card__top">
+              <span class="zentry-card__role zentry-card__role--purple">Megatron Protocol</span>
+              <span class="zentry-card__code">[ 03 ]</span>
+            </div>
+            <h3 class="zentry-card__name">Dharshini</h3>
+            <p class="zentry-card__title">Lead Coordinator · Agentic Paradox</p>
+            <p class="zentry-card__bio">
+              Orchestrating the autonomous multi-agent simulation sandbox and unseen dynamic challenge framework.
+            </p>
+          </div>
+          <div class="zentry-card__tag-pill">
+            <span style="background: #A855F7;"></span> 1.5–2 Hours · Team: 3 · 1st: ₹1,500
+          </div>
+        </div>
+      </a>
+
+      <!-- Tech Crime Scene (Starscream / Jet Mecha) -->
+      <a href="events/tech-crime-scene.html" style="text-decoration: none; color: inherit;">
+        <div class="zentry-card arena-lead-card card-theme-sound">
+          <div class="arena-lead-card__bg"></div>
+          <div>
+            <div class="zentry-card__top">
+              <span class="zentry-card__role" style="color: #FF4444; border-color: rgba(255,68,68,0.35); background: rgba(255,68,68,0.1);">Starscream Protocol</span>
+              <span class="zentry-card__code">[ 04 ]</span>
+            </div>
+            <h3 class="zentry-card__name">Dilli</h3>
+            <p class="zentry-card__title">Lead Coordinator · Tech Crime Scene</p>
+            <p class="zentry-card__bio">
+              Structuring simulated cyber forensic investigations, network PCAP artifacts, and attack vector attribution.
+            </p>
+          </div>
+          <div class="zentry-card__tag-pill">
+            <span style="background: #FF4444;"></span> 60–90 Mins · Team: 2–3 · 1st: ₹1,500
+          </div>
+        </div>
+      </a>
+
+      <!-- Workshop (Heavy Mecha / Ratchet) -->
+      <a href="events/workshop.html" style="text-decoration: none; color: inherit;">
+        <div class="zentry-card arena-lead-card card-theme-ratch">
+          <div class="arena-lead-card__bg"></div>
+          <div>
+            <div class="zentry-card__top">
+              <span class="zentry-card__role" style="color: #4ADE80; border-color: rgba(74,222,128,0.35); background: rgba(74,222,128,0.1);">Ratchet Protocol</span>
+              <span class="zentry-card__code">[ 05 ]</span>
+            </div>
+            <h3 class="zentry-card__name">Senior Tech Leads</h3>
+            <p class="zentry-card__title">Mentors · Hands-on Workshop</p>
+            <p class="zentry-card__bio">
+              Directing live technical labs covering applied generative AI, LLM orchestration, and modern cloud deployment.
+            </p>
+          </div>
+          <div class="zentry-card__tag-pill">
+            <span style="background: #4ADE80;"></span> 2 Hours · Individual · Fee: ₹300
+          </div>
+        </div>
+      </a>
+
+      <!-- Paper Presentation (Soundwave) -->
+      <a href="events/paper-presentation.html" style="text-decoration: none; color: inherit;">
+        <div class="zentry-card arena-lead-card card-theme-shock">
+          <div class="arena-lead-card__bg"></div>
+          <div>
+            <div class="zentry-card__top">
+              <span class="zentry-card__role" style="color: #3B82F6; border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.1);">Soundwave Protocol</span>
+              <span class="zentry-card__code">[ 06 ]</span>
+            </div>
+            <h3 class="zentry-card__name">Gopika, Jayashree, Manish</h3>
+            <p class="zentry-card__title">Leads · Paper Presentation</p>
+            <p class="zentry-card__bio">
+              Managing research submissions, peer review tracks, IEEE compliance, and formal jury defense sessions.
+            </p>
+          </div>
+          <div class="zentry-card__tag-pill">
+            <span style="background: #3B82F6;"></span> 45–60 Mins · Team: 2–3 · 1st: ₹1,500
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Interactive Statement Banner -->
+  <section class="team-statement-box">
+    <h2 class="statement-title">POWERED BY COLLABORATIVE RIGOR</h2>
+    <p class="statement-desc">
+      Orchestrated end-to-end by the faculty, students, and research labs of the Department of Artificial Intelligence & Data Science at Sri Sairam Engineering College (Autonomous), Chennai.
+    </p>
+  </section>
+
+  <!-- Section 3: Functional Execution Squads -->
+  <section class="team-section">
+    <div class="section-header">
+      <h2 class="section-title"><span>03</span> Execution Squads</h2>
+      <div class="section-tag">Operations & Infrastructure</div>
+    </div>
+    <div class="grid-4">
+      
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role">Technical Core</span>
+            <span class="zentry-card__code">// SQ-01</span>
+          </div>
+          <h3 class="zentry-card__name" style="font-size: 1.45rem;">Infrastructure & Labs</h3>
+          <p class="zentry-card__title">Dept. of AI & Data Science</p>
+          <p class="zentry-card__bio">
+            Managing evaluation servers, LAN configurations, automated judge scoreboards, and network isolation.
+          </p>
+        </div>
+      </div>
+
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role zentry-card__role--purple">Creative Core</span>
+            <span class="zentry-card__code">// SQ-02</span>
+          </div>
+          <h3 class="zentry-card__name" style="font-size: 1.45rem;">Design & Motion Studio</h3>
+          <p class="zentry-card__title">AIRO Creative Unit</p>
+          <p class="zentry-card__bio">
+            Designing 3D character visuals, stage kinematics, video teasers, and web experiences.
+          </p>
+        </div>
+      </div>
+
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role zentry-card__role--gold">Operations</span>
+            <span class="zentry-card__code">// SQ-03</span>
+          </div>
+          <h3 class="zentry-card__name" style="font-size: 1.45rem;">Logistics & Hospitality</h3>
+          <p class="zentry-card__title">Sairam Student Council</p>
+          <p class="zentry-card__bio">
+            Managing participant check-ins, campus guidance, refreshments, kit distribution, and certificates.
+          </p>
+        </div>
+      </div>
+
+      <div class="zentry-card">
+        <div>
+          <div class="zentry-card__top">
+            <span class="zentry-card__role">Outreach</span>
+            <span class="zentry-card__code">// SQ-04</span>
+          </div>
+          <h3 class="zentry-card__name" style="font-size: 1.45rem;">Industry Relations & PR</h3>
+          <p class="zentry-card__title">Industry Outreach Desk</p>
+          <p class="zentry-card__bio">
+            Connecting corporate sponsors, jury chairs, keynote speakers, and national university networks.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Zentry CTA Vault -->
+  <section class="zentry-cta-vault">
+    <div class="zentry-tag" style="margin-bottom: 16px;">
+      <span class="zentry-tag__dot"></span>
+      <span>Join the Arena</span>
+    </div>
+    <h3 class="cta-title">Connect With The Architects</h3>
+    <p class="cta-desc">
+      Have questions regarding arena guidelines, registration procedures, or sponsorships? Reach out directly to the AIRO 6.0 command desk.
+    </p>
+    <a href="mailto:hod.aids@sairam.edu.in?subject=AIRO%206.0%20Organizing%20Query" class="btn-cta-glory">
+      <span>Contact Organizing Team</span>
+      <span style="font-size: 1.2rem;">↗</span>
+    </a>
+  </section>
+
+</main>
+
+<footer class="zentry-footer">
+  <div class="container">
+    <p>© 2026 AIRO 6.0 // DEPARTMENT OF ARTIFICIAL INTELLIGENCE & DATA SCIENCE · SRI SAIRAM ENGINEERING COLLEGE</p>
+  </div>
+</footer>
+
+</body>
+</html>

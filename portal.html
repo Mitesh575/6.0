@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Delegate Portal & Dashboard — AIRO 6.0 | Sri Sairam Engineering College</title>
+  <meta name="description" content="AIRO 6.0 Delegate Command Portal. Access your digital symposium badge, manage registered arenas, view venue allocations, food tokens, and download event passes.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- QR Code Library for Digital Badge & Passes -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <style>
+    /* ═══════════════════════════════════════════
+       DESIGN SYSTEM & TOKENS
+       ═══════════════════════════════════════════ */
+    :root {
+      --black: #03050A;
+      --bg-dark: #070A12;
+      --surface-card: #0D121F;
+      --surface-elevated: #141C30;
+      --border-dark: rgba(255, 255, 255, 0.1);
+      --border-glow: rgba(0, 240, 255, 0.3);
+      --zentry-lavender: #DFDFF2;
+      --lavender-dim: rgba(223, 223, 242, 0.65);
+      --accent-cyan: #00F0FF;
+      --accent-gold: #FFD700;
+      --accent-purple: #A855F7;
+      --accent-crimson: #FF3344;
+      --accent-green: #22C55E;
+      --font-title: 'Anton', 'Impact', sans-serif;
+      --font-syne: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --ease-zentry: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--black);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(0, 240, 255, 0.1) 0%, transparent 80%),
+        radial-gradient(ellipse 40% 30% at 85% 60%, rgba(168, 85, 247, 0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 15% 85%, rgba(255, 51, 68, 0.06) 0%, transparent 70%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ═══════════════════════════════════════════
+       FIXED NAVBAR (MATCHING ALL PAGES)
+       ═══════════════════════════════════════════ */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: clamp(18px, 2.5vh, 28px);
+      padding-bottom: clamp(18px, 2.5vh, 28px);
+      pointer-events: auto;
+      color: #FFFFFF;
+    }
+
+    .nav__left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav__logo {
+      font-family: var(--font-title);
+      font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .btn-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.5vw, 36px);
+    }
+
+    .nav__link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #FFFFFF;
+      opacity: 0.8;
+      text-decoration: none;
+      transition: opacity 0.25s ease, color 0.25s ease;
+    }
+
+    .nav__link:hover,
+    .nav__link.active {
+      opacity: 1;
+      color: var(--accent-cyan);
+    }
+
+    .nav__arrow-icon {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 0.85em;
+      transition: transform 0.25s ease;
+    }
+
+    .nav__link:hover .nav__arrow-icon {
+      transform: translate(2px, -2px);
+    }
+
+    /* ═══════════════════════════════════════════
+       PORTAL SHELL & HERO
+       ═══════════════════════════════════════════ */
+    .portal-shell {
+      padding-top: clamp(110px, 15vh, 140px);
+      padding-bottom: 90px;
+      min-height: 100vh;
+    }
+
+    .portal-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+
+    .portal-tag__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+      animation: pulse-dot 1.8s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .portal-title {
+      font-family: var(--font-title);
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .portal-desc {
+      font-size: 1.05rem;
+      color: var(--lavender-dim);
+      max-width: 650px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════
+       AUTH CONTAINER (LOGIN & SIGNUP)
+       ═══════════════════════════════════════════ */
+    .auth-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 28px;
+      padding: clamp(28px, 5vw, 48px);
+      max-width: 580px;
+      margin: 0 auto;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 240, 255, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-crimson));
+    }
+
+    .auth-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-dark);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 10px 16px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: var(--lavender-dim);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-tab.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: #FFFFFF;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.03);
+    }
+
+    .form-select option {
+      background: var(--surface-card);
+      color: #FFFFFF;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--zentry-lavender);
+      color: var(--black);
+      border: none;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: #FFFFFF;
+      box-shadow: 0 0 25px rgba(223, 223, 242, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .btn-demo-login {
+      width: 100%;
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px dashed rgba(0, 240, 255, 0.4);
+      color: var(--accent-cyan);
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-demo-login:hover {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--accent-cyan);
+    }
+
+    /* ═══════════════════════════════════════════
+       DASHBOARD VIEW (LOGGED IN)
+       ═══════════════════════════════════════════ */
+    .dashboard-view {
+      display: none;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Holographic Digital Delegate Badge */
+    .delegate-badge-card {
+      background: linear-gradient(145deg, rgba(16, 24, 44, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 24px;
+      padding: 28px 24px;
+      position: sticky;
+      top: 100px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .delegate-badge-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at top right, rgba(0, 240, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .badge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .badge-logo {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      color: #FFFFFF;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-id {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .badge-qr-wrap {
+      background: #FFFFFF;
+      padding: 12px;
+      border-radius: 16px;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .badge-qr-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .badge-name {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+
+    .badge-college {
+      font-size: 0.85rem;
+      color: var(--lavender-dim);
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .badge-meta-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .badge-meta-label {
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+    }
+
+    .badge-meta-val {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .btn-badge-action {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-dark);
+      color: #FFFFFF;
+      border-radius: 10px;
+      padding: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-badge-action:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Dashboard Main Sections */
+    .dash-section {
+      margin-bottom: 40px;
+    }
+
+    .dash-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 14px;
+      margin-bottom: 24px;
+    }
+
+    .dash-section-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dash-section-title span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* Registered Arenas Matrix Cards */
+    .registered-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .reg-arena-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .reg-arena-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 240, 255, 0.4);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .reg-arena-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .badge-confirmed {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #4ADE80;
+    }
+
+    .reg-arena-card__title {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+    }
+
+    .reg-arena-card__meta-list {
+      list-style: none;
+      margin-bottom: 18px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--lavender-dim);
+    }
+
+    .reg-arena-card__meta-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+
+    .reg-arena-card__meta-list li strong {
+      color: #FFFFFF;
+    }
+
+    .reg-arena-card__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-arena-link {
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-unenroll {
+      background: transparent;
+      border: none;
+      color: rgba(255, 51, 68, 0.7);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+
+    .btn-unenroll:hover {
+      color: var(--accent-crimson);
+      text-decoration: underline;
+    }
+
+    /* All Arenas Register Matrix */
+    .available-arenas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .arena-action-card {
+      background: rgba(13, 18, 31, 0.6);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .arena-action-card:hover {
+      background: var(--surface-card);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .arena-action-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .arena-action-desc {
+      font-size: 0.8rem;
+      color: var(--lavender-dim);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .btn-enroll-toggle {
+      width: 100%;
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--accent-cyan);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-enroll-toggle:hover {
+      background: var(--accent-cyan);
+      color: var(--black);
+    }
+
+    .btn-enroll-toggle.enrolled {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #4ADE80;
+    }
+
+    /* Live Day Timeline */
+    .schedule-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .schedule-item-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .schedule-time {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .schedule-event-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .schedule-venue {
+      font-size: 0.72rem;
+      color: var(--lavender-dim);
+      font-family: var(--font-mono);
+    }
+
+    /* Quick Perks / Food Token */
+    .perks-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .perk-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .perk-icon {
+      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-dark);
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .perk-info h4 {
+      font-family: var(--font-syne);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .perk-info p {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--lavender-dim);
+    }
+
+    /* Empty state */
+    .empty-state {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed var(--border-dark);
+      border-radius: 20px;
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--lavender-dim);
+    }
+
+    .empty-state p {
+      margin-bottom: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .delegate-badge-card {
+        position: static;
+        max-width: 440px;
+        margin: 0 auto 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav__right {
+        display: none;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .perks-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ FIXED NAVBAR ═══ -->
+  <div class="nav-wrapper">
+    <div class="container">
+      <header class="nav" id="navbar">
+        <div class="nav__left">
+          <a href="index.html" class="nav__logo">AIRO 6.0</a>
+          <button class="btn-pill" onclick="window.location.href='index.html#arenas'">
+            <span>Arenas ▾</span>
+          </button>
+          <button class="btn-pill" onclick="window.open('mailto:hod.aids@sairam.edu.in','_blank')">
+            <span>Brochure</span>
+          </button>
+        </div>
+        <div class="nav__right">
+          <a href="index.html#arenas" class="nav__link">Arenas <span class="nav__arrow-icon">↗</span></a>
+          <a href="index.html#schedule" class="nav__link">Schedule <span class="nav__arrow-icon">↗</span></a>
+          <a href="index.html#about-section" class="nav__link">About <span class="nav__arrow-icon">↗</span></a>
+          <a href="team.html" class="nav__link">Team <span class="nav__arrow-icon">↗</span></a>
+          <a href="portal.html" class="nav__link active">Portal <span class="nav__arrow-icon">↗</span></a>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <main class="portal-shell">
+    <div class="container">
+
+      <!-- ═══════════════════════════════════════════
+           VIEW 1: AUTHENTICATION (LOGIN / SIGNUP)
+           ═══════════════════════════════════════════ -->
+      <div id="authView">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <div class="portal-tag">
+            <span class="portal-tag__dot"></span>
+            <span>Delegate Access Nexus // AIRO 6.0</span>
+          </div>
+          <h1 class="portal-title">DELEGATE COMMAND PORTAL</h1>
+          <p class="portal-desc" style="margin: 0 auto 32px;">
+            Access your personalized symposium command center. View registered arenas, claim your digital holographic event badge, track lab venues, and manage squad rosters.
+          </p>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+            <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Register Profile</button>
+          </div>
+
+          <!-- LOGIN FORM -->
+          <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label class="form-label" for="loginEmail">Email / Registration Number</label>
+              <input type="text" id="loginEmail" class="form-input" placeholder="e.g. alex.rivera@college.edu or 412521104001" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="loginPassword">Access Passkey / Password</label>
+              <input type="password" id="loginPassword" class="form-input" placeholder="••••••••••••" required>
+            </div>
+            <button type="submit" class="btn-submit">
+              <span>Enter Command Matrix</span>
+              <span>↗</span>
+            </button>
+          </form>
+
+          <!-- SIGNUP FORM -->
+          <form id="signupForm" style="display: none;" onsubmit="handleSignup(event)">
+            <div class="form-group">
+              <label class="form-label" for="signupName">Full Delegate Name</label>
+              <input type="text" id="signupName" class="form-input" placeholder="e.g. Alex Rivera" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="signupEmail">College Email ID</label>
+                <input type="email" id="signupEmail" class="form-input" placeholder="alex@sairam.edu.in" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="signupPhone">WhatsApp Number</label>
+                <input type="tel" id="signupPhone" class="form-input" placeholder="+91 98765 43210" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="signupCollege">College / Institution Name</label>
+              <input type="text" id="signupCollege" class="form-input" placeholder="Sri Sairam Engineering College (Autonomous)" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="signupDept">Department</label>
+                <select id="signupDept" class="form-select" required>
+                  <option value="Artificial Intelligence & Data Science">AI & Data Science (AI&DS)</option>
+                  <option value="Computer Science & Engineering">Computer Science (CSE)</option>
+                  <option value="Information Technology">Information Technology (IT)</option>
+                  <option value="AI & Machine Learning">AI & Machine Learning (AIML)</option>
+                  <option value="Cyber Security & IoT">Cyber Security & IoT</option>
+                  <option value="Electronics & Communication">Electronics & Comm (ECE)</option>
+                  <option value="Other Engineering Track">Other Engineering Track</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="signupYear">Academic Year</label>
+                <select id="signupYear" class="form-select" required>
+                  <option value="1st Year (2026 Batch)">1st Year</option>
+                  <option value="2nd Year (2025 Batch)">2nd Year</option>
+                  <option value="3rd Year (2024 Batch)" selected>3rd Year</option>
+                  <option value="4th Year (2023 Batch)">4th Year</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="signupPass">Create Passkey</label>
+              <input type="password" id="signupPass" class="form-input" placeholder="At least 6 characters" minlength="6" required>
+            </div>
+            <button type="submit" class="btn-submit">
+              <span>Create Delegate Pass</span>
+              <span>↗</span>
+            </button>
+          </form>
+
+          <!-- 1-CLICK INSTANT DEMO LOGIN -->
+          <button type="button" class="btn-demo-login" onclick="handleDemoLogin()">
+            <span>⚡ Instant Demo Access (Pre-Registered Delegate)</span>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════
+           VIEW 2: DELEGATE COMMAND DASHBOARD
+           ═══════════════════════════════════════════ -->
+      <div id="dashboardView" class="dashboard-view">
+        
+        <!-- Top Status Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px;">
+          <div>
+            <div class="portal-tag" style="margin-bottom: 8px;">
+              <span class="portal-tag__dot"></span>
+              <span>Live Command Status: Verified Delegate</span>
+            </div>
+            <h2 class="portal-title" style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); margin-bottom: 0;" id="dashGreeting">WELCOME, DELEGATE</h2>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn-pill" onclick="window.print()">
+              <span>🖨️ Print Pass</span>
+            </button>
+            <button class="btn-pill" onclick="handleLogout()" style="background: rgba(255, 51, 68, 0.12); border-color: rgba(255, 51, 68, 0.3); color: #FF6677;">
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          
+          <!-- LEFT COLUMN: DIGITAL HOLOGRAPHIC BADGE -->
+          <aside>
+            <div class="delegate-badge-card" id="digitalBadge">
+              <div class="badge-header">
+                <div class="badge-logo">AIRO 6.0</div>
+                <div class="badge-id" id="badgeId">AIRO-26-4891</div>
+              </div>
+
+              <div class="badge-qr-wrap">
+                <canvas id="qrCanvas"></canvas>
+              </div>
+
+              <h3 class="badge-name" id="badgeName">ALEX RIVERA</h3>
+              <p class="badge-college" id="badgeCollege">Sri Sairam Engineering College</p>
+
+              <div class="badge-meta-row">
+                <span class="badge-meta-label">Track</span>
+                <span class="badge-meta-val" id="badgeDept">AI & Data Science</span>
+              </div>
+              <div class="badge-meta-row">
+                <span class="badge-meta-label">Standing</span>
+                <span class="badge-meta-val" id="badgeYear">3rd Year</span>
+              </div>
+              <div class="badge-meta-row">
+                <span class="badge-meta-label">Event Date</span>
+                <span class="badge-meta-val" style="color: var(--accent-cyan);">SEP 26, 2026</span>
+              </div>
+              <div class="badge-meta-row">
+                <span class="badge-meta-label">Pass Status</span>
+                <span class="badge-meta-val" style="color: #4ADE80;">ALL-ACCESS PASS</span>
+              </div>
+
+              <button class="btn-badge-action" onclick="alert('Digital ID Badge synced to Apple Wallet / Google Wallet ready for gate scanning.')">
+                <span>📱 Save to Mobile Wallet</span>
+              </button>
+            </div>
+          </aside>
+
+
+          <!-- RIGHT COLUMN: REGISTERED ARENAS & EVENT MATRIX -->
+          <main>
+            
+            <!-- SECTION 1: MY REGISTERED ARENAS -->
+            <section class="dash-section">
+              <div class="dash-section-header">
+                <h3 class="dash-section-title">
+                  <span>ACTIVE</span> My Registered Arenas (<span id="regCount">0</span>)
+                </h3>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--lavender-dim);">SEP 26, 2026</span>
+              </div>
+
+              <div id="registeredArenasContainer" class="registered-cards-grid">
+                <!-- Injected via JavaScript -->
+              </div>
+            </section>
+
+            <!-- SECTION 2: DAY SCHEDULE MATRIX -->
+            <section class="dash-section">
+              <div class="dash-section-header">
+                <h3 class="dash-section-title">
+                  <span>TIMELINE</span> Personalized Event Schedule
+                </h3>
+              </div>
+
+              <div class="schedule-strip">
+                <div class="schedule-item-card">
+                  <div class="schedule-time">09:00 — 09:45 AM</div>
+                  <div class="schedule-event-name">Grand Inauguration</div>
+                  <div class="schedule-venue">Sigma Auditorium</div>
+                </div>
+                <div class="schedule-item-card" style="border-color: rgba(0, 240, 255, 0.3);">
+                  <div class="schedule-time" style="color: var(--accent-cyan);">10:00 — 12:30 PM</div>
+                  <div class="schedule-event-name">Morning Combat Trials</div>
+                  <div class="schedule-venue">Assigned Department Labs</div>
+                </div>
+                <div class="schedule-item-card">
+                  <div class="schedule-time">12:30 — 01:30 PM</div>
+                  <div class="schedule-event-name">Buffet Lunch & Networking</div>
+                  <div class="schedule-venue">Campus Dining Hall</div>
+                </div>
+                <div class="schedule-item-card" style="border-color: rgba(168, 85, 247, 0.3);">
+                  <div class="schedule-time" style="color: var(--accent-purple);">01:30 — 03:15 PM</div>
+                  <div class="schedule-event-name">Afternoon Finals & Defense</div>
+                  <div class="schedule-venue">Specialized Arena Rooms</div>
+                </div>
+                <div class="schedule-item-card" style="border-color: rgba(255, 215, 0, 0.3);">
+                  <div class="schedule-time" style="color: var(--accent-gold);">03:30 — 04:30 PM</div>
+                  <div class="schedule-event-name">Valedictory & Awards</div>
+                  <div class="schedule-venue">Sigma Auditorium</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- SECTION 3: ARENAS DIRECTORY -->
+            <section class="dash-section">
+              <div class="dash-section-header">
+                <h3 class="dash-section-title">
+                  <span>DIRECTORY</span> Explore All 6 Symposium Arenas
+                </h3>
+                <a href="register.html" class="btn-pill" style="color: var(--accent-cyan); border-color: rgba(0, 240, 255, 0.3);">
+                  <span>+ Register More Arenas ↗</span>
+                </a>
+              </div>
+
+              <div class="available-arenas-grid" id="availableArenasContainer">
+                <!-- Injected via JavaScript -->
+              </div>
+            </section>
+
+            <!-- SECTION 4: FOOD & DELEGATE KIT TOKENS -->
+            <section class="dash-section">
+              <div class="dash-section-header">
+                <h3 class="dash-section-title">
+                  <span>PERKS</span> Delegate Amenities & Food Tokens
+                </h3>
+              </div>
+
+              <div class="perks-strip">
+                <div class="perk-card">
+                  <div class="perk-icon">🍱</div>
+                  <div class="perk-info">
+                    <h4>Symposium Lunch Token</h4>
+                    <p>Status: <strong style="color: #4ADE80;">ACTIVE · TOKEN #AIRO-L842</strong></p>
+                    <p style="margin-top: 4px; font-size: 0.7rem;">Present QR code at Dining Hall Counter</p>
+                  </div>
+                </div>
+                <div class="perk-card">
+                  <div class="perk-icon">🎒</div>
+                  <div class="perk-info">
+                    <h4>Official Delegate Kit & Badge</h4>
+                    <p>Status: <strong style="color: #4ADE80;">COLLECT AT REGISTRATION DESK</strong></p>
+                    <p style="margin-top: 4px; font-size: 0.7rem;">Includes Lanyard, AI Notebook & Pen</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </main>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       PORTAL JAVASCRIPT & STATE MANAGEMENT
+       ═══════════════════════════════════════════ -->
+  <script>
+    // Master Arena Database
+    const ARENA_CATALOG = [
+      {
+        id: "tech-auction",
+        name: "TECH AUCTION",
+        character: "OPTIMUS PRIME PROTOCOL",
+        theme: "Strategy & Rapid Architecture",
+        venue: "AI & DS Computing Lab 01",
+        time: "10:00 AM — 11:30 AM",
+        purse: "₹10,000 Virtual Credits",
+        squadSize: "Squad of 2–4",
+        url: "events/tech-auction.html",
+        color: "#60A5FA"
+      },
+      {
+        id: "code-combat",
+        name: "CODE COMBAT",
+        character: "BUMBLEBEE PROTOCOL",
+        theme: "3-Round Competitive Coding",
+        venue: "Central Systems Lab 02",
+        time: "10:00 AM — 11:15 AM",
+        purse: "3 Rounds (Debugging, DSA, Company)",
+        squadSize: "Squad of 1–2",
+        url: "events/code-combat.html",
+        color: "#FACC15"
+      },
+      {
+        id: "agentic-paradox",
+        name: "AGENTIC PARADOX",
+        character: "MEGATRON PROTOCOL",
+        theme: "Autonomous AI Agent Build Challenge",
+        venue: "Data Engineering Lab 03",
+        time: "01:30 PM — 03:00 PM",
+        purse: "5 Themed Tracks",
+        squadSize: "Squad of 2–3",
+        url: "events/agentic-paradox.html",
+        color: "#C084FC"
+      },
+      {
+        id: "tech-crime-scene",
+        name: "TECH CRIME SCENE",
+        character: "SOUNDWAVE PROTOCOL",
+        theme: "Cyber Forensics & Incident Response",
+        venue: "Cyber Security Forensics Lab 04",
+        time: "10:00 AM — 11:30 AM",
+        purse: "Forensic Investigation Unit",
+        squadSize: "Squad of 2–3 (Coord: Dilli)",
+        url: "events/tech-crime-scene.html",
+        color: "#F87171"
+      },
+      {
+        id: "workshop",
+        name: "WORKSHOP",
+        character: "RATCHET PROTOCOL",
+        theme: "Applied AI & GenAI Masterclass",
+        venue: "Seminar Hall 01",
+        time: "01:30 PM — 03:30 PM",
+        purse: "Hands-on Deployment",
+        squadSize: "Individual Delegate (₹300)",
+        url: "events/workshop.html",
+        color: "#4ADE80"
+      },
+      {
+        id: "paper-presentation",
+        name: "PAPER PRESENTATION",
+        character: "SHOCKWAVE PROTOCOL",
+        theme: "Scientific AI Research Nexus",
+        venue: "Conference Hall 02",
+        time: "01:30 PM — 03:00 PM",
+        purse: "Research Defense Track",
+        squadSize: "Team of 2–3",
+        url: "events/paper-presentation.html",
+        color: "#F472B6"
+      }
+    ];
+
+    // Default Demo User
+    const DEMO_USER = {
+      name: "Alex Rivera",
+      email: "alex.rivera@sairam.edu.in",
+      phone: "+91 98401 23456",
+      college: "Sri Sairam Engineering College (Autonomous)",
+      dept: "Artificial Intelligence & Data Science",
+      year: "3rd Year (Batch 2026)",
+      id: "AIRO-26-8942",
+      registeredArenas: ["tech-auction", "code-combat", "agentic-paradox"]
+    };
+
+    // State helper
+    function getCurrentUser() {
+      const saved = localStorage.getItem("airo_current_user");
+      return saved ? JSON.parse(saved) : null;
+    }
+
+    function saveCurrentUser(user) {
+      localStorage.setItem("airo_current_user", JSON.stringify(user));
+    }
+
+    // Tab Switcher
+    function switchAuthTab(tab) {
+      const tabLogin = document.getElementById("tabLogin");
+      const tabSignup = document.getElementById("tabSignup");
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+
+      if (tab === "login") {
+        tabLogin.classList.add("active");
+        tabSignup.classList.remove("active");
+        loginForm.style.display = "block";
+        signupForm.style.display = "none";
+      } else {
+        tabSignup.classList.add("active");
+        tabLogin.classList.remove("active");
+        signupForm.style.display = "block";
+        loginForm.style.display = "none";
+      }
+    }
+
+    // Login Handler
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      
+      let user = getCurrentUser();
+      if (!user || user.email.toLowerCase() !== email.toLowerCase()) {
+        // Create user session based on input
+        user = {
+          name: email.split("@")[0].replace(".", " ").toUpperCase(),
+          email: email,
+          phone: "+91 98765 00000",
+          college: "Sri Sairam Engineering College",
+          dept: "AI & Data Science",
+          year: "3rd Year",
+          id: "AIRO-26-" + Math.floor(1000 + Math.random() * 9000),
+          registeredArenas: ["tech-auction", "code-combat"]
+        };
+      }
+      saveCurrentUser(user);
+      renderDashboard();
+    }
+
+    // Signup Handler
+    function handleSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const phone = document.getElementById("signupPhone").value.trim();
+      const college = document.getElementById("signupCollege").value.trim();
+      const dept = document.getElementById("signupDept").value;
+      const year = document.getElementById("signupYear").value;
+
+      const newUser = {
+        name: name,
+        email: email,
+        phone: phone,
+        college: college,
+        dept: dept,
+        year: year,
+        id: "AIRO-26-" + Math.floor(1000 + Math.random() * 9000),
+        registeredArenas: ["tech-auction"]
+      };
+
+      saveCurrentUser(newUser);
+      renderDashboard();
+    }
+
+    // Demo Login Handler
+    function handleDemoLogin() {
+      saveCurrentUser(DEMO_USER);
+      renderDashboard();
+    }
+
+    // Logout Handler
+    function handleLogout() {
+      localStorage.removeItem("airo_current_user");
+      document.getElementById("authView").style.display = "block";
+      document.getElementById("dashboardView").style.display = "none";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Enroll / Unenroll Toggle
+    function toggleArenaEnroll(arenaId) {
+      const user = getCurrentUser();
+      if (!user) return;
+
+      const index = user.registeredArenas.indexOf(arenaId);
+      if (index > -1) {
+        // Unenroll
+        user.registeredArenas.splice(index, 1);
+      } else {
+        // Enroll
+        user.registeredArenas.push(arenaId);
+      }
+      saveCurrentUser(user);
+      renderDashboard();
+    }
+
+    // Render Dashboard
+    function renderDashboard() {
+      const user = getCurrentUser();
+      if (!user) {
+        document.getElementById("authView").style.display = "block";
+        document.getElementById("dashboardView").style.display = "none";
+        return;
+      }
+
+      document.getElementById("authView").style.display = "none";
+      document.getElementById("dashboardView").style.display = "block";
+
+      // Populate Badge Info
+      document.getElementById("dashGreeting").textContent = `WELCOME, ${user.name.toUpperCase()}`;
+      document.getElementById("badgeName").textContent = user.name.toUpperCase();
+      document.getElementById("badgeCollege").textContent = user.college;
+      document.getElementById("badgeDept").textContent = user.dept;
+      document.getElementById("badgeYear").textContent = user.year;
+      document.getElementById("badgeId").textContent = user.id;
+
+      // Render Dynamic QR Code
+      const qrData = `AIRO6.0|DELEGATE:${user.id}|NAME:${user.name}|COLLEGE:${user.college}|STATUS:ALL_ACCESS|DATE:2026-09-26`;
+      const qrCanvas = document.getElementById("qrCanvas");
+      if (window.QRCode) {
+        QRCode.toCanvas(qrCanvas, qrData, {
+          width: 136,
+          margin: 1,
+          color: { dark: '#03050A', light: '#FFFFFF' }
+        });
+      }
+
+      // Populate Registered Arenas
+      const regContainer = document.getElementById("registeredArenasContainer");
+      const regCount = document.getElementById("regCount");
+      regCount.textContent = user.registeredArenas.length;
+
+      if (user.registeredArenas.length === 0) {
+        regContainer.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <p>You haven't enrolled in any technical arenas yet.</p>
+            <button class="btn-pill" onclick="document.getElementById('availableArenasContainer').scrollIntoView({behavior:'smooth'})">
+              <span>Browse & Register Arenas ▾</span>
+            </button>
+          </div>
+        `;
+      } else {
+        regContainer.innerHTML = user.registeredArenas.map(arenaId => {
+          const arena = ARENA_CATALOG.find(a => a.id === arenaId);
+          if (!arena) return "";
+          return `
+            <div class="reg-arena-card">
+              <span class="reg-arena-card__badge badge-confirmed">
+                <span>●</span> SEAT ALLOCATED
+              </span>
+              <h4 class="reg-arena-card__title" style="color: ${arena.color};">${arena.name}</h4>
+              <p style="font-size: 0.75rem; color: var(--lavender-dim); font-family: var(--font-mono); margin-bottom: 12px;">${arena.character}</p>
+              
+              <ul class="reg-arena-card__meta-list">
+                <li><span>📍</span> <span>Venue:</span> <strong>${arena.venue}</strong></li>
+                <li><span>⏱️</span> <span>Reporting:</span> <strong>${arena.time}</strong></li>
+                <li><span>👥</span> <span>Format:</span> <strong>${arena.squadSize}</strong></li>
+                <li><span>🎯</span> <span>Theme:</span> <strong>${arena.theme}</strong></li>
+              </ul>
+
+              <div class="reg-arena-card__footer">
+                <a href="${arena.url}" class="btn-arena-link" target="_blank">
+                  <span>Arena Guidelines</span>
+                  <span>↗</span>
+                </a>
+                <button class="btn-unenroll" onclick="toggleArenaEnroll('${arena.id}')">Withdraw</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Populate Available Arenas Directory
+      const availContainer = document.getElementById("availableArenasContainer");
+      availContainer.innerHTML = ARENA_CATALOG.map(arena => {
+        const isEnrolled = user.registeredArenas.includes(arena.id);
+        return `
+          <div class="arena-action-card">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 0.68rem; color: ${arena.color}; text-transform: uppercase; margin-bottom: 4px;">${arena.character}</div>
+              <h4 class="arena-action-title">${arena.name}</h4>
+              <p class="arena-action-desc">${arena.theme} · ${arena.squadSize}</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              ${isEnrolled 
+                ? `<span class="btn-enroll-toggle enrolled" style="text-align: center; display: block;">✓ Confirmed in Roster</span>` 
+                : `<a href="register.html?event=${arena.id}" class="btn-enroll-toggle" style="text-align: center; text-decoration: none; display: block;">+ Register for Arena</a>`
+              }
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = getCurrentUser();
+      if (user) {
+        renderDashboard();
+      } else {
+        document.getElementById("authView").style.display = "block";
+        document.getElementById("dashboardView").style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>

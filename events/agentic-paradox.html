@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGENTIC PARADOX — AIRO 6.0 | Sri Sairam Engineering College</title>
+<meta name="description" content="Agentic Paradox at AIRO 6.0: Teams develop an AI agent based on a selected theme and adapt it to an unseen challenge during the final round.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #000000;
+  --dark-bg: #06040A;
+  --card-bg: rgba(16, 12, 24, 0.75);
+  --card-hover: rgba(26, 18, 38, 0.9);
+  --mega-silver: #A8B0C0;
+  --mega-silver-light: #C8D0E0;
+  --mega-purple: #7B2FBE;
+  --mega-purple-light: #A855F7;
+  --mega-purple-glow: rgba(168, 85, 247, 0.4);
+  --lavender: #DFDFF2;
+  --lavender-dim: rgba(223, 223, 242, 0.65);
+  --border: rgba(123, 47, 190, 0.22);
+  --border-hover: rgba(168, 85, 247, 0.5);
+  --font-title: 'Anton', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --ease-zentry: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background-color: var(--dark-bg);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Zentry Scanlines & Megatron Aura */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(123, 47, 190, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(123, 47, 190, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(123, 47, 190, 0.14) 0%, rgba(168, 85, 247, 0.05) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   FIXED NAVBAR (MATCHING HOME)
+   ═══════════════════════════════════════════ */
+.nav-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: clamp(18px, 2.5vh, 28px);
+  padding-bottom: clamp(18px, 2.5vh, 28px);
+  pointer-events: auto;
+  color: #FFFFFF;
+}
+
+.nav__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav__logo {
+  font-family: var(--font-title);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.btn-pill:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.5vw, 36px);
+}
+
+.nav__link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+  opacity: 0.8;
+  text-decoration: none;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.nav__link:hover,
+.nav__link.active {
+  opacity: 1;
+  color: var(--mega-purple-light);
+}
+
+.nav__arrow-icon {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.85em;
+  transition: transform 0.25s ease;
+}
+
+.nav__link:hover .nav__arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 768px) {
+  .nav__right {
+    display: none;
+  }
+}
+
+/* Watermark */
+.bg-watermark {
+  position: fixed;
+  top: 12%;
+  right: -5%;
+  font-family: var(--font-title);
+  font-size: clamp(14rem, 28vw, 30rem);
+  color: rgba(123, 47, 190, 0.03);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 0.8;
+}
+
+/* Hero */
+.hero-event {
+  padding-top: 150px;
+  padding-bottom: 60px;
+  position: relative;
+}
+.zentry-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(123, 47, 190, 0.1);
+  border: 1px solid rgba(123, 47, 190, 0.3);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  color: var(--mega-purple-light);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.zentry-tag__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mega-purple-light);
+  box-shadow: 0 0 8px var(--mega-purple-light);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.meta-protocol {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--mega-silver);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 14px;
+}
+.event-title-wrap {
+  margin-bottom: 24px;
+  max-width: 100%;
+}
+.event-title-img {
+  height: clamp(44px, 6.5vw, 84px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 28px rgba(168, 85, 247, 0.5)) drop-shadow(0 8px 24px rgba(0, 0, 0, 0.8));
+  transition: transform 0.3s var(--ease-zentry);
+}
+.event-title-img:hover {
+  transform: scale(1.02);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.event-lead {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: var(--lavender-dim);
+  max-width: 780px;
+  margin-bottom: 32px;
+}
+.character-quote {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--mega-silver-light);
+  border-left: 3px solid var(--mega-purple);
+  padding-left: 16px;
+  margin-bottom: 48px;
+  font-style: italic;
+  max-width: 640px;
+  background: rgba(123, 47, 190, 0.05);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 0 12px 12px 0;
+}
+
+/* Quick Facts Bento */
+.quick-facts {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 70px;
+}
+@media (max-width: 960px) {
+  .quick-facts { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .quick-facts { grid-template-columns: repeat(2, 1fr); }
+}
+.fact-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 18px;
+  backdrop-filter: blur(16px);
+  transition: transform 0.3s var(--ease-zentry), border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.fact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--mega-purple), var(--mega-purple-light));
+}
+.fact-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+}
+.fact-card__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--lavender-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: 0.1em;
+}
+.fact-card__val {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  color: #FFFFFF;
+}
+
+/* Details Section */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 60px;
+}
+@media (max-width: 768px) {
+  .details-grid { grid-template-columns: 1fr; }
+}
+.section-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 36px;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+.section-box__title {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-box__title span {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--mega-purple-light);
+  background: rgba(123, 47, 190, 0.1);
+  border: 1px solid rgba(123, 47, 190, 0.3);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.timeline-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.timeline-item {
+  position: relative;
+  padding-left: 28px;
+  border-left: 2px solid rgba(123, 47, 190, 0.3);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--mega-purple);
+  box-shadow: 0 0 10px var(--mega-purple-glow);
+}
+.timeline-item h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #FFFFFF;
+}
+.timeline-item p {
+  font-size: 0.9rem;
+  color: var(--lavender-dim);
+}
+.rules-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.rules-list li {
+  font-size: 0.92rem;
+  color: var(--lavender-dim);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.rules-list li::before {
+  content: '▸';
+  color: var(--mega-purple-light);
+  font-size: 1.1rem;
+}
+
+/* Prize Podium Vault */
+.prize-vault-section {
+  margin-bottom: 70px;
+}
+.prize-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .prize-grid { grid-template-columns: 1fr; }
+}
+.prize-podium-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s var(--ease-zentry), border-color 0.3s ease;
+}
+.prize-podium-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--mega-purple-light);
+}
+.prize-podium-card--gold {
+  border-color: rgba(255, 215, 0, 0.4);
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.08) 0%, rgba(16, 12, 24, 0.75) 100%);
+}
+.prize-rank {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--lavender-dim);
+  margin-bottom: 8px;
+}
+.prize-amount {
+  font-family: var(--font-title);
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  color: #FFFFFF;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.prize-podium-card--gold .prize-amount { color: #FFD700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+
+/* Zentry CTA Vault */
+.zentry-cta-vault {
+  background: linear-gradient(135deg, rgba(16, 12, 24, 0.9) 0%, rgba(28, 20, 42, 0.8) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 32px;
+  padding: 64px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 80px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+.zentry-cta-vault::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.1) 0%, rgba(123, 47, 190, 0.04) 40%, transparent 70%);
+  pointer-events: none;
+}
+.cta-title {
+  font-family: var(--font-title);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin-bottom: 18px;
+  position: relative;
+}
+.cta-desc {
+  font-size: 1.05rem;
+  color: var(--lavender-dim);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+.btn-cta-glory {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--mega-purple-light);
+  color: #FFFFFF;
+  padding: 16px 36px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: transform 0.25s var(--ease-zentry), background-color 0.2s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+.btn-cta-glory:hover {
+  background: #FFFFFF;
+  color: var(--black);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+}
+
+.zentry-footer {
+  border-top: 1px solid var(--border);
+  padding: 36px 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-watermark">MEGATRON</div>
+
+<!-- ═══ FIXED NAVBAR ═══ -->
+<div class="nav-wrapper">
+  <div class="container">
+    <header class="nav" id="navbar">
+        <div class="nav__left">
+          <a href="../index.html" class="nav__logo">AIRO 6.0</a>
+          <button class="btn-pill" onclick="window.location.href='../register.html?event=agentic-paradox'" style="background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;">
+            <span>Register ↗</span>
+          </button>
+          <button class="btn-pill" onclick="window.location.href='../index.html#arenas'">
+            <span>Arenas ▾</span>
+          </button>
+        </div>
+        <div class="nav__right">
+          <a href="../index.html#arenas" class="nav__link active">Arenas <span class="nav__arrow-icon">↗</span></a>
+          <a href="../index.html#schedule" class="nav__link">Schedule <span class="nav__arrow-icon">↗</span></a>
+          <a href="../index.html#about-section" class="nav__link">About <span class="nav__arrow-icon">↗</span></a>
+          <a href="../team.html" class="nav__link">Team <span class="nav__arrow-icon">↗</span></a>
+          <a href="../portal.html" class="nav__link">Portal <span class="nav__arrow-icon">↗</span></a>
+          <a href="../register.html?event=agentic-paradox" class="nav__link" style="color: var(--accent-cyan);">Register <span class="nav__arrow-icon">↗</span></a>
+        </div>
+    </header>
+  </div>
+</div>
+
+<main class="container">
+  
+  <header class="hero-event">
+    <div class="zentry-tag">
+      <span class="zentry-tag__dot"></span>
+      <span>Megatron Protocol // Autonomy Realm</span>
+    </div>
+    <p class="meta-protocol">Autonomous Multi-Agent Systems</p>
+    <div class="event-title-wrap">
+      <img src="assets/title-agentic-paradox.png" alt="AGENTIC PARADOX" class="event-title-img">
+      <h1 class="sr-only">AGENTIC PARADOX</h1>
+    </div>
+    <p class="event-lead">
+      Agentic Paradox is an AI Agent Building Challenge where teams select a theme during registration and receive a problem statement based on their chosen theme on the event day. Teams get 1 hour 30 minutes to analyse the problem and build a working AI agent using n8n, Flowise, Dify, Python, or any preferred AI/automation tool.
+    </p>
+    <div class="character-quote">
+      "Choose Your Theme. Face the Challenge. Build Your Agent." — <strong>The Age of Intelligent Agents.</strong>
+    </div>
+
+    <!-- Quick Facts Bento -->
+    <div class="quick-facts">
+      <div class="fact-card">
+        <div class="fact-card__label">Build Time</div>
+        <div class="fact-card__val">90 Mins</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card__label">Squad Size</div>
+        <div class="fact-card__val">2–3 Members</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card__label">Eligibility</div>
+        <div class="fact-card__val" style="font-size: 0.88rem; line-height: 1.2;">1st, 2nd & 3rd Yr</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card__label">Capacity</div>
+        <div class="fact-card__val" style="color: #A855F7;">16 Teams Max</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card__label">Total Arena Purse</div>
+        <div class="fact-card__val" style="color: #FFD700;">₹3,250</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-card__label">Date</div>
+        <div class="fact-card__val">SEP 26</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Prize Vault -->
+  <section class="prize-vault-section">
+    <div class="section-box" style="margin-bottom: 24px; padding: 24px 32px;">
+      <h2 class="section-box__title" style="margin-bottom: 18px;"><span>VAULT</span> Prize Distribution</h2>
+      <div class="prize-grid">
+        <div class="prize-podium-card prize-podium-card--gold">
+          <div class="prize-rank">🏆 1st Place Champion</div>
+          <div class="prize-amount">₹1,500</div>
+          <p style="font-size: 0.8rem; color: var(--lavender-dim); font-family: var(--font-mono);">Cash Award + Certificate of Excellence</p>
+        </div>
+        <div class="prize-podium-card">
+          <div class="prize-rank">🥈 2nd Place Runner-Up</div>
+          <div class="prize-amount">₹1,000</div>
+          <p style="font-size: 0.8rem; color: var(--lavender-dim); font-family: var(--font-mono);">Cash Award + Certificate of Merit</p>
+        </div>
+        <div class="prize-podium-card">
+          <div class="prize-rank">🥉 3rd Place Finalist</div>
+          <div class="prize-amount">₹750</div>
+          <p style="font-size: 0.8rem; color: var(--lavender-dim); font-family: var(--font-mono);">Cash Award + Certificate of Merit</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Details Grid -->
+  <div class="details-grid">
+    <section class="section-box">
+      <h2 class="section-box__title"><span>01</span> Choose Your Theme</h2>
+      <p style="color: var(--lavender-dim); font-size: 0.85rem; margin-bottom: 16px;">Select <strong>ONE</strong> theme during registration. Problem statements are revealed on event day:</p>
+      <ul class="timeline-list">
+        <li class="timeline-item">
+          <h4>01 — Customer Service & Support</h4>
+          <p>Automate customer queries, complaints handling, sentiment routing, and omnichannel support workflows.</p>
+        </li>
+        <li class="timeline-item">
+          <h4>02 — Education & Student Services</h4>
+          <p>Build intelligent agents for academic assistance, personalized tutoring, and campus student service automation.</p>
+        </li>
+        <li class="timeline-item">
+          <h4>03 — Business & Sales Automation</h4>
+          <p>Automate customer enquiries, CRM lead qualification, competitive intelligence, and business pipeline operations.</p>
+        </li>
+        <li class="timeline-item">
+          <h4>04 — HR & Recruitment</h4>
+          <p>Create agents for candidate screening, interview coordination, onboarding workflows, and internal employee tasks.</p>
+        </li>
+        <li class="timeline-item">
+          <h4>05 — IT Help Desk & Technical Support</h4>
+          <p>Automate system troubleshooting, incident ticket triage, server alerts resolution, and technical support escalation.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section-box">
+      <h2 class="section-box__title"><span>02</span> Tools, Rules & Judging</h2>
+      <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px;">
+        <h4 style="font-family: var(--font-mono); font-size: 0.8rem; color: #D8B4FE; text-transform: uppercase; margin-bottom: 6px;">Permitted Tools & Frameworks</h4>
+        <p style="font-size: 0.85rem; color: #FFFFFF; margin: 0;">n8n, Flowise, Dify, Python, LangChain, CrewAI, AutoGen, or any preferred AI automation framework.</p>
+      </div>
+      <ul class="rules-list">
+        <li>Squad Size: Exactly 2 to 3 members per registered team.</li>
+        <li>Build Time: 1 Hour 30 Minutes. Live Demo: 3–5 Minutes per team.</li>
+        <li>Pre-built solutions for the given problem are strictly prohibited.</li>
+        <li>Teams must demonstrate a functional, executing agent that can think, decide, and act.</li>
+        <li><strong>Judging Pillars:</strong> Problem Solving • Agentic Behaviour • Functionality • Automation • Innovation • Presentation & Demo.</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Zentry CTA Vault -->
+  <section class="zentry-cta-vault">
+    <div class="zentry-tag" style="margin-bottom: 16px;">
+      <span class="zentry-tag__dot"></span>
+      <span>Megatron Command</span>
+    </div>
+    <h3 class="cta-title">Architect The Unseen</h3>
+    <p class="cta-desc">
+      Assemble your 3-member squad and engineer adaptive autonomous agents at AIRO 6.0 on September 26, 2026.
+    </p>
+    <a href="../register.html?event=agentic-paradox" class="btn-cta-glory">
+      <span>Register Squad for Agentic Paradox</span>
+      <span style="font-size: 1.2rem;">↗</span>
+    </a>
+  </section>
+
+</main>
+
+<footer class="zentry-footer">
+  <div class="container">
+    <p>© 2026 AIRO 6.0 // AGENTIC PARADOX · DEPARTMENT OF AI & DATA SCIENCE · SRI SAIRAM ENGINEERING COLLEGE</p>
+  </div>
+</footer>
+
+</body>
+</html>
