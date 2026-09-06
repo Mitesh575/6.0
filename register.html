@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
 
   <!-- QR Code Library for Instant Pass Generation -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- Canvas Confetti for Celebration -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -946,13 +946,18 @@
 
       // Generate Modal QR Code
       const qrData = `AIRO6.0|DELEGATE:${delegateId}|NAME:${name}|COLLEGE:${college}|ARENAS:${userProfile.registeredArenas.join(",")}`;
-      const qrCanvas = document.getElementById("modalQrCanvas");
-      if (window.QRCode) {
-        QRCode.toCanvas(qrCanvas, qrData, {
-          width: 120,
-          margin: 1,
-          color: { dark: '#03050A', light: '#FFFFFF' }
-        });
+      const qrContainer = document.getElementById("modalQrCanvas");
+      if (qrContainer) {
+        qrContainer.innerHTML = '';
+        if (window.QRCode) {
+          new QRCode(qrContainer, {
+            text: qrData,
+            width: 120,
+            height: 120,
+            colorDark: '#03050A',
+            colorLight: '#FFFFFF'
+          });
+        }
       }
 
       document.getElementById("modalDelegateId").textContent = delegateId;
