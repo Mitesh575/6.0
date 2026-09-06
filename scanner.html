@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Organizer Check-In Desk & QR Scanner — AIRO 6.0 | Sri Sairam Engineering College</title>
+  <meta name="description" content="AIRO 6.0 Official Organizer Check-In Desk and Live QR Scanner for delegate verification, arena assignments, and attendance marking on September 26, 2026.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- HTML5 QR Code Scanner Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* ═══════════════════════════════════════════
+       DESIGN SYSTEM & CYBERPUNK TOKENS
+       ═══════════════════════════════════════════ */
+    :root {
+      --black: #03050A;
+      --bg-dark: #070A12;
+      --surface-card: #0D121F;
+      --surface-elevated: #141C30;
+      --border-dark: rgba(255, 255, 255, 0.1);
+      --border-glow: rgba(0, 240, 255, 0.35);
+
+      --accent-cyan: #00F0FF;
+      --accent-green: #4ADE80;
+      --accent-yellow: #FACC15;
+      --accent-red: #F87171;
+      --accent-purple: #C084FC;
+      --lavender-dim: #A1A1BA;
+
+      --font-title: 'Anton', 'Syne', sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --ease-zentry: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* Ambient matrix background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER NAVIGATION
+       ═══════════════════════════════════════════ */
+    .desk-header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-dark);
+      background: rgba(7, 10, 18, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .desk-logo {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-desk {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-glow);
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--lavender-dim);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-dark);
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav-link:hover {
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ═══════════════════════════════════════════
+       DESK STATS COUNTERS BAR
+       ═══════════════════════════════════════════ */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .stat-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 240, 255, 0.3);
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--lavender-dim);
+    }
+
+    .stat-value {
+      font-family: var(--font-title);
+      font-size: 2.2rem;
+      line-height: 1;
+      color: #FFFFFF;
+    }
+
+    .stat-sub {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ═══════════════════════════════════════════
+       MAIN SCANNER WORKSPACE (2 COLUMNS)
+       ═══════════════════════════════════════════ */
+    .scanner-workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .scanner-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--surface-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .panel-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Camera Scanner Frame */
+    #reader {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px dashed rgba(0, 240, 255, 0.4);
+      background: #000000;
+      min-height: 280px;
+    }
+
+    #reader video {
+      border-radius: 12px;
+    }
+
+    .scanner-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-scanner {
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+      border: 1px solid var(--border-dark);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-scanner:hover {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    /* Manual Search Bar */
+    .manual-search-box {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .search-input-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .search-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-dark);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .btn-search {
+      background: var(--accent-cyan);
+      color: var(--black);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-search:hover {
+      background: #FFFFFF;
+    }
+
+    /* ═══════════════════════════════════════════
+       DELEGATE VERIFICATION CARD (RIGHT COLUMN)
+       ═══════════════════════════════════════════ */
+    .verification-card {
+      background: linear-gradient(135deg, rgba(20, 28, 48, 0.7) 0%, rgba(9, 14, 25, 0.95) 100%);
+      border: 1.5px solid var(--border-dark);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 440px;
+    }
+
+    .verification-card.ready {
+      border-color: rgba(0, 240, 255, 0.5);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.15);
+    }
+
+    .verification-card.checked-in {
+      border-color: rgba(74, 222, 128, 0.6);
+      box-shadow: 0 0 35px rgba(74, 222, 128, 0.15);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      width: fit-content;
+    }
+
+    .status-badge.pending {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-glow);
+    }
+
+    .status-badge.success {
+      background: rgba(74, 222, 128, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(74, 222, 128, 0.35);
+    }
+
+    .status-badge.already {
+      background: rgba(248, 113, 113, 0.15);
+      color: var(--accent-red);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+    }
+
+    .delegate-main-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .delegate-name {
+      font-family: var(--font-title);
+      font-size: 2rem;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      color: #FFFFFF;
+    }
+
+    .delegate-college {
+      color: var(--lavender-dim);
+      font-size: 0.9rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 18px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .info-item .k {
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+    }
+
+    .info-item .v {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    /* Allocated Arenas & Venue Table */
+    .arena-allocations {
+      margin-bottom: 20px;
+    }
+
+    .allocations-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-cyan);
+      margin-bottom: 8px;
+    }
+
+    .allocation-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+    }
+
+    .venue-pill {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--accent-cyan);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+    }
+
+    /* Action Buttons */
+    .btn-confirm-checkin {
+      width: 100%;
+      background: linear-gradient(135deg, #00F0FF 0%, #0099FF 100%);
+      color: #03050A;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-confirm-checkin:hover:not(:disabled) {
+      background: #FFFFFF;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .btn-confirm-checkin:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Empty state placeholder */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--lavender-dim);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    /* ═══════════════════════════════════════════
+       RECENT CHECK-IN ACTIVITY FEED
+       ═══════════════════════════════════════════ */
+    .activity-section {
+      margin-top: 10px;
+      margin-bottom: 40px;
+    }
+
+    .activity-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    .activity-table th {
+      text-align: left;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--lavender-dim);
+      border-bottom: 1px solid var(--border-dark);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .activity-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .activity-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .btn-export-csv {
+      background: rgba(74, 222, 128, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(74, 222, 128, 0.35);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-export-csv:hover {
+      background: var(--accent-green);
+      color: #03050A;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="desk-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="desk-logo">
+          AIRO 6.0
+          <span class="badge-desk">DESK CHECK-IN SCANNER</span>
+        </a>
+        <div class="header-actions">
+          <button class="btn-export-csv" onclick="exportAttendanceCSV()">
+            📥 Export Attendance CSV
+          </button>
+          <a href="portal.html" class="btn-nav-link">Delegate Portal ↗</a>
+          <a href="register.html" class="btn-nav-link">Register Walk-in ↗</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="flex: 1;">
+
+    <!-- Top Live Stats Counters -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <span class="stat-label">Total Registered</span>
+        <span class="stat-value" id="statTotalReg">0</span>
+        <span class="stat-sub">Across all 6 Arenas</span>
+      </div>
+      <div class="stat-card" style="border-color: rgba(74, 222, 128, 0.3);">
+        <span class="stat-label" style="color: var(--accent-green);">Checked In Today</span>
+        <span class="stat-value" style="color: var(--accent-green);" id="statCheckedIn">0</span>
+        <span class="stat-sub">Kits & Badges Issued</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Pending Check-In</span>
+        <span class="stat-value" id="statPending">0</span>
+        <span class="stat-sub">Expected at Sairam Campus</span>
+      </div>
+    </div>
+
+    <!-- Scanner & Verification Workspace -->
+    <div class="scanner-workspace">
+
+      <!-- Left Column: Camera Scanner & Search -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">📷 Live Camera QR Scanner</span>
+          <span class="venue-pill" id="scannerStatusBadge">CAMERA IDLE</span>
+        </div>
+
+        <!-- Camera Scanner View -->
+        <div id="reader"></div>
+
+        <div class="scanner-controls">
+          <button type="button" class="btn-scanner" id="btnStartScan" onclick="startCameraScanner()">▶ Start Camera</button>
+          <button type="button" class="btn-scanner" id="btnStopScan" onclick="stopCameraScanner()" style="display: none;">⏹ Stop Camera</button>
+          <button type="button" class="btn-scanner" onclick="switchCamera()">🔄 Switch Camera</button>
+        </div>
+
+        <!-- Manual Lookup Bar -->
+        <div class="manual-search-box">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--lavender-dim); text-transform: uppercase;">
+            Manual Delegate Lookup (ID / Phone / Name)
+          </div>
+          <form class="search-input-group" onsubmit="handleManualSearch(event)">
+            <input type="text" id="manualSearchInput" class="search-input" placeholder="e.g. AIRO-26-8942 or 9876543210">
+            <button type="submit" class="btn-search">Lookup</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Column: Scanned Delegate Verification Card -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">🛡️ Delegate Verification Details</span>
+          <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--lavender-dim);" id="scannedTimestamp">—</span>
+        </div>
+
+        <!-- Verification Card Contents -->
+        <div id="verificationCardPlaceholder" class="empty-state">
+          <div class="empty-state-icon">📱</div>
+          <h3 style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 6px;">Ready to Scan QR Codes</h3>
+          <p style="font-size: 0.82rem;">Point camera at attendee's Digital Pass QR Code or use manual search bar to verify delegate details.</p>
+        </div>
+
+        <div id="activeVerificationCard" style="display: none;" class="verification-card ready">
+          <div>
+            <div id="statusBadgeContainer">
+              <span class="status-badge pending" id="statusBadgeText">READY FOR CHECK-IN</span>
+            </div>
+
+            <div class="delegate-main-info">
+              <h2 class="delegate-name" id="cardName">Alex Rivera</h2>
+              <div class="delegate-college" id="cardCollege">Sri Sairam Engineering College</div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="k">Delegate ID</span>
+                <span class="v" style="color: var(--accent-cyan);" id="cardId">AIRO-26-8942</span>
+              </div>
+              <div class="info-item">
+                <span class="k">Register No</span>
+                <span class="v" id="cardRegNo">412521104001</span>
+              </div>
+              <div class="info-item">
+                <span class="k">Dept & Year</span>
+                <span class="v" id="cardDept">AI&DS (3rd Year)</span>
+              </div>
+              <div class="info-item">
+                <span class="k">Payment Status</span>
+                <span class="v" id="cardPayment" style="color: #4ADE80;">✓ FREE PASS</span>
+              </div>
+            </div>
+
+            <!-- Arena Allocations & Room Numbers -->
+            <div class="arena-allocations">
+              <div class="allocations-title">Allocated Arenas & Campus Venues:</div>
+              <div id="cardAllocationsList"></div>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div style="margin-top: 20px;">
+            <button type="button" class="btn-confirm-checkin" id="btnConfirmCheckIn" onclick="confirmCurrentDelegateCheckIn()">
+              <span>✓ Confirm Check-In & Issue Kit</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Recent Check-In Activity Table -->
+    <div class="panel activity-section">
+      <div class="panel-header">
+        <span class="panel-title">📋 Live On-Campus Check-In Log</span>
+        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--lavender-dim);" id="activityCount">0 Check-ins</span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Pass ID</th>
+              <th>Delegate Name</th>
+              <th>College</th>
+              <th>Arenas</th>
+              <th>Fee Status</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="activityTableBody">
+            <tr>
+              <td colspan="7" style="text-align:center; color: var(--lavender-dim); padding: 24px;">
+                No delegates checked in yet. Start scanning above.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       SCANNER & DESK LOGIC SCRIPT
+       ═══════════════════════════════════════════ -->
+  <script>
+    let html5QrCode = null;
+    let isScanning = false;
+    let currentFacingMode = "environment"; // Back camera by default
+    let currentDelegate = null;
+
+    const venueMap = {
+      'tech-auction': { name: 'Tech Auction', venue: 'Sigma Seminar Hall (3rd Floor)', time: '01:30 PM' },
+      'code-combat': { name: 'Code Combat', venue: 'Computing Lab 02 (2nd Floor)', time: '10:00 AM' },
+      'agentic-paradox': { name: 'Agentic Paradox', venue: 'AI Innovation Hub (Ground Floor)', time: '11:00 AM' },
+      'tech-crime-scene': { name: 'Tech Crime Scene', venue: 'Forensics Lab 01 (1st Floor)', time: '02:00 PM' },
+      'workshop': { name: 'Workshop', venue: 'Auditorium Main Hall', time: '09:30 AM' },
+      'paper-presentation': { name: 'Paper Presentation', venue: 'Conference Hall B (4th Floor)', time: '10:30 AM' }
+    };
+
+    // Load registrations from localStorage
+    function getRegistrations() {
+      let list = [];
+      try {
+        list = JSON.parse(localStorage.getItem("airo_registrations") || "[]");
+      } catch(e) {
+        list = [];
+      }
+      
+      // Also ensure current user in session is indexed
+      try {
+        const single = JSON.parse(localStorage.getItem("airo_current_user") || "null");
+        if (single && single.id && !list.some(r => r.id === single.id)) {
+          list.push(single);
+          localStorage.setItem("airo_registrations", JSON.stringify(list));
+        }
+      } catch(e){}
+
+      return list;
+    }
+
+    // Save registrations back to localStorage
+    function saveRegistrations(list) {
+      localStorage.setItem("airo_registrations", JSON.stringify(list));
+      updateStats();
+    }
+
+    // Update Top Counters
+    function updateStats() {
+      const list = getRegistrations();
+      const checkedIn = list.filter(r => r.checkInStatus === 'CHECKED_IN').length;
+      const total = list.length;
+      const pending = Math.max(0, total - checkedIn);
+
+      document.getElementById("statTotalReg").textContent = total;
+      document.getElementById("statCheckedIn").textContent = checkedIn;
+      document.getElementById("statPending").textContent = pending;
+
+      renderActivityLog(list);
+    }
+
+    // Start Camera QR Scanner
+    function startCameraScanner() {
+      if (isScanning) return;
+
+      const qrRegion = document.getElementById("reader");
+      if (!html5QrCode) {
+        html5QrCode = new Html5Qrcode("reader");
+      }
+
+      const config = { fps: 10, qrbox: { width: 220, height: 220 } };
+
+      html5QrCode.start(
+        { facingMode: currentFacingMode },
+        config,
+        (decodedText) => {
+          handleScannedQrText(decodedText);
+        },
+        (errorMessage) => {
+          // Frame parse error ignored for clean logs
+        }
+      ).then(() => {
+        isScanning = true;
+        document.getElementById("btnStartScan").style.display = "none";
+        document.getElementById("btnStopScan").style.display = "inline-block";
+        document.getElementById("scannerStatusBadge").textContent = "SCANNING ACTIVE";
+        document.getElementById("scannerStatusBadge").style.color = "#4ADE80";
+        document.getElementById("scannerStatusBadge").style.borderColor = "rgba(74,222,128,0.4)";
+      }).catch(err => {
+        console.error("Camera start error:", err);
+        alert("Camera permission denied or camera not found. Please use the Manual Lookup bar.");
+      });
+    }
+
+    // Stop Camera QR Scanner
+    function stopCameraScanner() {
+      if (!isScanning || !html5QrCode) return;
+
+      html5QrCode.stop().then(() => {
+        isScanning = false;
+        document.getElementById("btnStartScan").style.display = "inline-block";
+        document.getElementById("btnStopScan").style.display = "none";
+        document.getElementById("scannerStatusBadge").textContent = "CAMERA IDLE";
+        document.getElementById("scannerStatusBadge").style.color = "var(--accent-cyan)";
+      }).catch(err => console.error("Camera stop error:", err));
+    }
+
+    // Switch Camera
+    function switchCamera() {
+      currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
+      if (isScanning) {
+        stopCameraScanner();
+        setTimeout(startCameraScanner, 400);
+      }
+    }
+
+    // Parse Scanned QR Code
+    function handleScannedQrText(text) {
+      console.log("Scanned QR:", text);
+
+      // Flash audio/vibration feedback
+      if (navigator.vibrate) navigator.vibrate(80);
+
+      // Example formats: AIRO6.0|DELEGATE:AIRO-26-8942|NAME:Mitesh|... or direct ID "AIRO-26-8942"
+      let delegateId = "";
+      if (text.includes("DELEGATE:")) {
+        const parts = text.split("|");
+        for (let p of parts) {
+          if (p.startsWith("DELEGATE:")) {
+            delegateId = p.replace("DELEGATE:", "").trim();
+          }
+        }
+      } else if (text.startsWith("AIRO-26-")) {
+        delegateId = text.trim();
+      } else {
+        // Fallback search text
+        delegateId = text.trim();
+      }
+
+      lookupDelegate(delegateId);
+    }
+
+    // Manual Search Handler
+    function handleManualSearch(e) {
+      e.preventDefault();
+      const q = document.getElementById("manualSearchInput").value.trim();
+      if (!q) return;
+      lookupDelegate(q);
+    }
+
+    // Lookup Delegate Record
+    function lookupDelegate(query) {
+      const list = getRegistrations();
+      const queryLower = query.toLowerCase();
+
+      let record = list.find(r => 
+        (r.id && r.id.toLowerCase() === queryLower) ||
+        (r.phone && r.phone.replace(/[^0-9]/g, '') === query.replace(/[^0-9]/g, '')) ||
+        (r.email && r.email.toLowerCase() === queryLower) ||
+        (r.name && r.name.toLowerCase().includes(queryLower)) ||
+        (r.regNumber && r.regNumber.toLowerCase() === queryLower)
+      );
+
+      // If not found in storage, create simulated record from QR data if string has payload
+      if (!record && query.includes("AIRO6.0|")) {
+        const parts = query.split("|");
+        let name = "Registered Attendee", id = "AIRO-26-" + Math.floor(1000 + Math.random()*9000), college = "Engineering College", arenas = [];
+        for (let p of parts) {
+          if (p.startsWith("NAME:")) name = p.replace("NAME:", "");
+          if (p.startsWith("DELEGATE:")) id = p.replace("DELEGATE:", "");
+          if (p.startsWith("COLLEGE:")) college = p.replace("COLLEGE:", "");
+          if (p.startsWith("ARENAS:")) arenas = p.replace("ARENAS:", "").split(",");
+        }
+        record = {
+          id, name, college, dept: 'AI&DS', year: '3rd Year',
+          registeredArenas: arenas,
+          totalFee: 0, paymentStatus: 'FREE', checkInStatus: 'PENDING'
+        };
+        list.push(record);
+        saveRegistrations(list);
+      }
+
+      if (!record) {
+        alert(`❌ No registered delegate found matching '${query}'.`);
+        return;
+      }
+
+      displayDelegateCard(record);
+    }
+
+    // Display Scanned Delegate Card
+    function displayDelegateCard(delegate) {
+      currentDelegate = delegate;
+
+      document.getElementById("verificationCardPlaceholder").style.display = "none";
+      const card = document.getElementById("activeVerificationCard");
+      card.style.display = "flex";
+
+      document.getElementById("scannedTimestamp").textContent = `Scanned at ${new Date().toLocaleTimeString()}`;
+      document.getElementById("cardName").textContent = delegate.name || "Unknown Delegate";
+      document.getElementById("cardCollege").textContent = delegate.college || "Sri Sairam Engineering College";
+      document.getElementById("cardId").textContent = delegate.id || "N/A";
+      document.getElementById("cardRegNo").textContent = delegate.regNumber || "—";
+      document.getElementById("cardDept").textContent = `${delegate.dept || 'Engineering'} (${delegate.year || '3rd Year'})`;
+
+      // Payment Status
+      const isPaid = delegate.totalFee > 0 || delegate.paymentStatus === "PAID";
+      document.getElementById("cardPayment").innerHTML = isPaid 
+        ? `<span style="color:#FACC15;">✓ PAID ₹${delegate.totalFee || 300} (UTR: ${delegate.utr || 'VERIFIED'})</span>`
+        : `<span style="color:#4ADE80;">✓ FREE PASS (₹0)</span>`;
+
+      // Check-In Status Badge
+      const isAlreadyCheckedIn = delegate.checkInStatus === "CHECKED_IN";
+      const badgeContainer = document.getElementById("statusBadgeContainer");
+      const btnConfirm = document.getElementById("btnConfirmCheckIn");
+
+      if (isAlreadyCheckedIn) {
+        card.className = "verification-card checked-in";
+        badgeContainer.innerHTML = `<span class="status-badge already">⚠️ ALREADY CHECKED IN (${delegate.checkInTime || 'Earlier'})</span>`;
+        btnConfirm.disabled = true;
+        btnConfirm.innerHTML = `<span>✓ Already Checked In</span>`;
+      } else {
+        card.className = "verification-card ready";
+        badgeContainer.innerHTML = `<span class="status-badge pending">✓ READY FOR CHECK-IN</span>`;
+        btnConfirm.disabled = false;
+        btnConfirm.innerHTML = `<span>✓ Confirm Check-In & Issue Kit</span>`;
+      }
+
+      // Allocations List
+      const allocationsList = document.getElementById("cardAllocationsList");
+      allocationsList.innerHTML = (delegate.registeredArenas || ['tech-auction']).map(arenaId => {
+        const info = venueMap[arenaId] || { name: arenaId.replace('-', ' ').toUpperCase(), venue: 'Main Campus', time: '10:00 AM' };
+        return `
+          <div class="allocation-row">
+            <div>
+              <strong>${info.name}</strong>
+              <div style="font-size:0.7rem; color:var(--lavender-dim); font-family:var(--font-mono);">${info.time}</div>
+            </div>
+            <span class="venue-pill">${info.venue}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Confirm Check-In Action
+    function confirmCurrentDelegateCheckIn() {
+      if (!currentDelegate) return;
+
+      const list = getRegistrations();
+      const target = list.find(r => r.id === currentDelegate.id);
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      if (target) {
+        target.checkInStatus = "CHECKED_IN";
+        target.checkInTime = timeStr;
+      } else {
+        currentDelegate.checkInStatus = "CHECKED_IN";
+        currentDelegate.checkInTime = timeStr;
+        list.push(currentDelegate);
+      }
+
+      // Sync active user session if matching
+      try {
+        const active = JSON.parse(localStorage.getItem("airo_current_user") || "{}");
+        if (active && active.id === currentDelegate.id) {
+          active.checkInStatus = "CHECKED_IN";
+          active.checkInTime = timeStr;
+          localStorage.setItem("airo_current_user", JSON.stringify(active));
+        }
+      } catch(e){}
+
+      saveRegistrations(list);
+      displayDelegateCard(target || currentDelegate);
+
+      // Trigger Confetti
+      if (window.confetti) {
+        confetti({
+          particleCount: 60,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#00F0FF', '#4ADE80', '#FFFFFF']
+        });
+      }
+    }
+
+    // Render Recent Check-In Activity Table
+    function renderActivityLog(list) {
+      const checkedInList = list.filter(r => r.checkInStatus === 'CHECKED_IN');
+      const tableBody = document.getElementById("activityTableBody");
+      document.getElementById("activityCount").textContent = `${checkedInList.length} Check-ins`;
+
+      if (checkedInList.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; color: var(--lavender-dim); padding: 24px;">
+              No delegates checked in yet. Start scanning above.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = checkedInList.slice().reverse().map(r => `
+        <tr>
+          <td style="color:var(--accent-cyan);">${r.checkInTime || 'Just Now'}</td>
+          <td><strong style="color:#FFFFFF;">${r.id}</strong></td>
+          <td>${r.name}</td>
+          <td style="color:var(--lavender-dim);">${r.college}</td>
+          <td>${(r.registeredArenas || []).map(a => a.replace('-', ' ')).join(', ')}</td>
+          <td>${r.totalFee > 0 ? `Paid (₹${r.totalFee})` : 'Free Pass'}</td>
+          <td><span style="color:#4ADE80; font-weight:700;">✓ CHECKED IN</span></td>
+        </tr>
+      `).join('');
+    }
+
+    // Export Attendance to CSV
+    function exportAttendanceCSV() {
+      const list = getRegistrations();
+      if (list.length === 0) {
+        alert("No registrations available to export.");
+        return;
+      }
+
+      let csv = "Delegate_ID,Name,College,Email,Phone,Roll_No,Department,Year,Arenas,Fee,Payment_Status,UTR,CheckIn_Status,CheckIn_Time\n";
+
+      list.forEach(r => {
+        csv += `"${r.id || ''}","${r.name || ''}","${r.college || ''}","${r.email || ''}","${r.phone || ''}","${r.regNumber || ''}","${r.dept || ''}","${r.year || ''}","${(r.registeredArenas || []).join('; ')}","${r.totalFee || 0}","${r.paymentStatus || 'FREE'}","${r.utr || ''}","${r.checkInStatus || 'PENDING'}","${r.checkInTime || ''}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `AIRO-6.0-Attendance-${new Date().toISOString().slice(0,10)}.csv`;
+      link.click();
+    }
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      updateStats();
+
+      // Auto start scanner if camera available
+      setTimeout(() => {
+        startCameraScanner();
+      }, 500);
+    });
+  </script>
+</body>
+
+</html>

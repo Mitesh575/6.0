@@ -16,6 +16,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- Canvas Confetti for Celebration -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- html2canvas for Pass Card Image Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     /* ═══════════════════════════════════════════
@@ -480,14 +482,14 @@
     .bg-reg-workshop { background-image: url('assets/characters/bg-heavy-mecha.jpg'); }
     .bg-reg-soundwave { background-image: url('assets/characters/bg-soundwave.jpg'); }
 
-    /* Team Member Dynamic Input Box */
+    /* Team Member Dynamic Input Box & Payment Card */
     .team-details-box {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border-dark);
       border-radius: 16px;
       padding: 24px;
       margin-top: 20px;
-      margin-bottom: 36px;
+      margin-bottom: 30px;
     }
 
     .team-details-header {
@@ -498,6 +500,78 @@
       color: var(--accent-cyan);
       letter-spacing: 0.1em;
       margin-bottom: 16px;
+    }
+
+    /* Live Fee Calculation Bar */
+    .fee-summary-bar {
+      background: rgba(13, 18, 31, 0.95);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .fee-breakdown {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .fee-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-dark);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--lavender-dim);
+    }
+
+    .fee-total {
+      font-family: var(--font-ink-trap);
+      font-size: 1.8rem;
+      color: var(--accent-cyan);
+      letter-spacing: 0.02em;
+    }
+
+    /* UPI Payment Section */
+    .payment-box {
+      background: linear-gradient(135deg, rgba(20, 28, 48, 0.8) 0%, rgba(13, 18, 31, 0.95) 100%);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    .upi-qr-wrapper {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 16px 0 20px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .upi-qr-image {
+      width: 130px;
+      height: 130px;
+      background: #FFFFFF;
+      padding: 8px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* Submit Button */
@@ -534,7 +608,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(3, 5, 10, 0.9);
+      background: rgba(3, 5, 10, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 200;
@@ -542,19 +616,22 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      overflow-y: auto;
     }
 
     .modal-content {
       background: var(--surface-card);
       border: 1px solid rgba(0, 240, 255, 0.4);
-      border-radius: 28px;
-      padding: clamp(28px, 5vw, 44px);
-      max-width: 580px;
+      border-radius: 24px;
+      padding: clamp(24px, 4vw, 36px);
+      max-width: 520px;
       width: 100%;
       text-align: center;
       position: relative;
       box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 240, 255, 0.15);
       animation: modal-pop 0.35s var(--ease-zentry);
+      max-height: 92vh;
+      overflow-y: auto;
     }
 
     @keyframes modal-pop {
@@ -562,45 +639,150 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    .modal-badge-qr {
+    /* Digital Pass Printable Badge */
+    .digital-pass-card {
+      background: linear-gradient(135deg, #090E1B 0%, #121A30 100%);
+      border: 2px solid rgba(0, 240, 255, 0.5);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: left;
+      position: relative;
+      margin: 18px 0;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 240, 255, 0.05);
+      overflow: hidden;
+    }
+
+    .digital-pass-card::before {
+      content: 'AIRO 6.0';
+      position: absolute;
+      right: -20px;
+      bottom: -15px;
+      font-family: var(--font-ink-trap);
+      font-size: 4.5rem;
+      color: rgba(255, 255, 255, 0.03);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .pass-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .pass-body {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .pass-qr-box {
       background: #FFFFFF;
-      padding: 12px;
-      border-radius: 16px;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 20px;
+      padding: 8px;
+      border-radius: 12px;
+      width: 110px;
+      height: 110px;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     }
 
-    .modal-badge-qr canvas {
-      width: 100% !important;
-      height: 100% !important;
+    .pass-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--lavender-dim);
+    }
+
+    .pass-name {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .pass-arenas-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .pass-arena-pill {
+      font-size: 0.62rem;
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-weight: 700;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-download-pass {
+      flex: 1;
+      background: linear-gradient(135deg, #00F0FF 0%, #0099FF 100%);
+      color: #03050A;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-download-pass:hover {
+      background: #FFFFFF;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+      transform: translateY(-2px);
     }
 
     .btn-dashboard-go {
-      background: var(--accent-cyan);
-      color: var(--black);
-      border: none;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      border: 1px solid var(--border-dark);
       border-radius: 12px;
-      padding: 16px 28px;
+      padding: 14px 20px;
       font-family: var(--font-mono);
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 24px;
+      justify-content: center;
+      gap: 8px;
       transition: all 0.2s ease;
     }
 
     .btn-dashboard-go:hover {
-      background: #FFFFFF;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
       box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
       transform: translateY(-2px);
     }
@@ -841,10 +1023,32 @@
 
           </div>
 
+          <!-- ═══════════════════════════════════════════
+               SECTION 3: REAL-TIME FEE SUMMARY
+               ═══════════════════════════════════════════ -->
+          <div class="fee-summary-bar">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
+                REGISTRATION FEE SUMMARY
+              </div>
+              <div class="fee-breakdown" id="feeBreakdown">
+                <span class="fee-chip">4 Free Arenas</span>
+                <span class="fee-chip" id="chipWorkshop" style="display:none; color: #4ADE80; border-color: rgba(74,222,128,0.3);">Workshop: ₹300</span>
+                <span class="fee-chip" id="chipPaper" style="display:none; color: #F472B6; border-color: rgba(244,114,182,0.3);">Paper Presentation: ₹250</span>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--lavender-dim); text-transform: uppercase;">Total Payable</div>
+              <div class="fee-total" id="feeTotalDisplay">₹0 <span style="font-size: 0.8rem; font-family: var(--font-mono); color: #4ADE80;">(FREE PASS)</span></div>
+            </div>
+          </div>
+
 
           <!-- ═══════════════════════════════════════════
-               SECTION 3: CONDITIONAL SQUAD / THEME DETAILS
+               SECTION 4: CONDITIONAL DETAILS (THEME / ABSTRACT / SQUAD)
                ═══════════════════════════════════════════ -->
+          
+          <!-- Agentic Paradox Theme Selection -->
           <div id="agenticThemeBox" class="team-details-box" style="display: none; border-color: rgba(168, 85, 247, 0.4);">
             <div class="team-details-header" style="color: #D8B4FE;">🤖 Agentic Paradox — Choose Your Registration Theme</div>
             <div class="form-group">
@@ -859,6 +1063,33 @@
             </div>
           </div>
 
+          <!-- Paper Presentation Submission Details -->
+          <div id="paperDetailsBox" class="team-details-box" style="display: none; border-color: rgba(244, 114, 182, 0.4);">
+            <div class="team-details-header" style="color: #F472B6;">📄 Paper Presentation — Research Submission Details</div>
+            <div class="form-grid" style="margin-bottom: 0;">
+              <div class="form-group full-width">
+                <label class="form-label" for="paperTitle">Paper / Presentation Title *</label>
+                <input type="text" id="paperTitle" class="form-input" placeholder="e.g. Autonomous Multi-Agent Swarms in Distributed Edge Forensics">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="paperTrack">Research Domain Track *</label>
+                <select id="paperTrack" class="form-select">
+                  <option value="Generative AI & Large Language Models">Generative AI & Large Language Models</option>
+                  <option value="Computer Vision & Multimodal Deep Learning">Computer Vision & Multimodal Deep Learning</option>
+                  <option value="Cyber Security, Forensics & Blockchain">Cyber Security, Forensics & Blockchain</option>
+                  <option value="Big Data Analytics & Cloud Systems">Big Data Analytics & Cloud Systems</option>
+                  <option value="IoT, Edge AI & Robotics">IoT, Edge AI & Robotics</option>
+                  <option value="Other Emerging Computing Technologies">Other Emerging Computing Technologies</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="paperDriveLink">Abstract / Paper PDF Google Drive Link * <span class="optional">(View Access)</span></label>
+                <input type="url" id="paperDriveLink" class="form-input" placeholder="https://drive.google.com/file/d/...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Squad Members for Team Events -->
           <div id="teamMembersBox" class="team-details-box" style="display: none;">
             <div class="team-details-header">👥 Squad Member Details (For Team Events)</div>
             <div class="form-grid" style="margin-bottom: 0;">
@@ -882,9 +1113,48 @@
           </div>
 
 
+          <!-- ═══════════════════════════════════════════
+               SECTION 5: CONDITIONAL UPI PAYMENT GATEWAY
+               ═══════════════════════════════════════════ -->
+          <div id="paymentBox" class="payment-box" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <div class="team-details-header" style="color: #FACC15; margin-bottom: 0;">
+                💳 Official Symposium UPI Payment Gateway
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; background: rgba(250, 204, 21, 0.15); color: #FACC15; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(250,204,21,0.3);">
+                PAYMENT REQUIRED: <strong id="paymentAmountText">₹300</strong>
+              </span>
+            </div>
+
+            <p style="font-size: 0.82rem; color: rgba(255,255,255,0.75); margin-top: 8px;">
+              You have selected paid events (Workshop / Paper Presentation). Scan the official department QR code below using any UPI App (GPay / PhonePe / Paytm) and enter the 12-digit UTR reference number.
+            </p>
+
+            <div class="upi-qr-wrapper">
+              <div class="upi-qr-image" id="upiQrCodeContainer">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=airo.symposium@oksbi&pn=AIRO%206.0%20Symposium&cu=INR" alt="UPI QR Code" style="width:100%; height:100%; border-radius: 8px;">
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6;">
+                <div>UPI ID: <strong style="color: var(--accent-cyan);">airo.symposium@oksbi</strong></div>
+                <div>Account: <strong>Sri Sairam Engineering College — AI&DS Dept</strong></div>
+                <div>Bank: <strong>State Bank of India (SBI)</strong></div>
+                <div style="margin-top: 6px; color: #4ADE80;">✓ Instant Verification Available on Symposium Day</div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="regUtr">12-Digit UPI Transaction Reference (UTR) Number *</label>
+              <input type="text" id="regUtr" class="form-input" placeholder="e.g. 425619873412" maxlength="20">
+              <span style="font-family: var(--font-mono); font-size: 0.68rem; color: rgba(255,255,255,0.45); margin-top: 4px;">
+                Found in your payment app receipt under 'UPI Ref No' or 'UTR'.
+              </span>
+            </div>
+          </div>
+
+
           <!-- SUBMIT BUTTON -->
-          <button type="submit" class="btn-register-submit">
-            <span>Complete Registration & Generate Badge</span>
+          <button type="submit" class="btn-register-submit" id="submitBtn">
+            <span id="submitBtnText">Confirm Free Registration (₹0)</span>
             <span>↗</span>
           </button>
 
@@ -896,33 +1166,51 @@
 
 
   <!-- ═══════════════════════════════════════════
-       SUCCESS CONFIRMATION MODAL
+       SUCCESS CONFIRMATION MODAL // DIGITAL PASS
        ═══════════════════════════════════════════ -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-content">
       <div class="reg-tag" style="margin-bottom: 12px;">
         <span class="reg-tag__dot" style="background: #4ADE80; box-shadow: 0 0 10px #4ADE80;"></span>
-        <span style="color: #4ADE80;">ENROLLMENT CONFIRMED</span>
+        <span style="color: #4ADE80;">OFFICIAL ENROLLMENT CONFIRMED</span>
       </div>
 
-      <h2 class="reg-title" style="font-size: 2.2rem; margin-bottom: 8px;">YOU'RE REGISTERED!</h2>
-      <p style="font-size: 0.95rem; color: var(--lavender-dim); margin-bottom: 20px;">
-        Your delegate profile and arena seat allocations are successfully recorded for AIRO 6.0.
+      <h2 class="reg-title" style="font-size: 1.8rem; margin-bottom: 4px;">YOU'RE REGISTERED!</h2>
+      <p style="font-size: 0.85rem; color: var(--lavender-dim); margin-bottom: 12px;">
+        Show this official Digital Pass with QR Code at the registration desk on September 26 at Sri Sairam Campus.
       </p>
 
-      <div class="modal-badge-qr">
-        <canvas id="modalQrCanvas"></canvas>
+      <!-- Printable Digital Pass Badge Card -->
+      <div class="digital-pass-card" id="digitalPassCard">
+        <div class="pass-header">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); font-weight: 800; letter-spacing: 0.1em;">
+            AIRO 6.0 // DELEGATE PASS
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #4ADE80; font-weight: 700;" id="passPaymentStatusBadge">
+            ✓ FREE PASS
+          </div>
+        </div>
+
+        <div class="pass-body">
+          <div class="pass-qr-box" id="modalQrCanvas"></div>
+          <div class="pass-details">
+            <div class="pass-name" id="passDelegateName">Mitesh R</div>
+            <div id="passCollegeName" style="color: rgba(255,255,255,0.7); font-size: 0.72rem;">Sri Sairam Engineering College</div>
+            <div style="margin-top: 4px;">PASS ID: <strong style="color: var(--accent-cyan);" id="modalDelegateId">AIRO-26-8942</strong></div>
+            <div>DATE: <strong>SEP 26, 2026 · 08:30 AM</strong></div>
+            <div class="pass-arenas-list" id="passArenasBadges"></div>
+          </div>
+        </div>
       </div>
 
-      <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-dark); border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 0.8rem;">
-        <div>DELEGATE ID: <strong style="color: var(--accent-cyan);" id="modalDelegateId">AIRO-26-8942</strong></div>
-        <div style="margin-top: 4px; color: var(--lavender-dim);" id="modalSummary">3 Arenas Allocated · All-Access Pass</div>
+      <div class="modal-actions">
+        <button type="button" class="btn-download-pass" onclick="downloadPass()">
+          <span>📥 Download Pass (PNG)</span>
+        </button>
+        <a href="portal.html" class="btn-dashboard-go">
+          <span>Go to Portal ↗</span>
+        </a>
       </div>
-
-      <a href="portal.html" class="btn-dashboard-go">
-        <span>Go to Delegate Dashboard</span>
-        <span>↗</span>
-      </a>
     </div>
   </div>
 
@@ -932,30 +1220,77 @@
        ═══════════════════════════════════════════ -->
   <script>
     const selectedArenas = new Set();
+    const arenaFees = {
+      'tech-auction': 0,
+      'code-combat': 0,
+      'agentic-paradox': 0,
+      'tech-crime-scene': 0,
+      'workshop': 300,
+      'paper-presentation': 250
+    };
 
     // Toggle Arena Selection
     function toggleArena(arenaId) {
       const card = document.getElementById(`card-${arenaId}`);
       if (selectedArenas.has(arenaId)) {
         selectedArenas.delete(arenaId);
-        card.classList.remove('selected');
+        if (card) card.classList.remove('selected');
       } else {
         selectedArenas.add(arenaId);
-        card.classList.add('selected');
+        if (card) card.classList.add('selected');
       }
       updateConditionalSections();
+      recalculateFee();
     }
 
-    // Show/Hide Theme or Squad Fields
+    // Recalculate Live Fee
+    function recalculateFee() {
+      let totalFee = 0;
+      let hasWorkshop = selectedArenas.has('workshop');
+      let hasPaper = selectedArenas.has('paper-presentation');
+
+      selectedArenas.forEach(id => {
+        totalFee += (arenaFees[id] || 0);
+      });
+
+      // Update Breakdown Chips
+      const chipWorkshop = document.getElementById('chipWorkshop');
+      const chipPaper = document.getElementById('chipPaper');
+      if (chipWorkshop) chipWorkshop.style.display = hasWorkshop ? 'inline-block' : 'none';
+      if (chipPaper) chipPaper.style.display = hasPaper ? 'inline-block' : 'none';
+
+      // Update Total Display
+      const totalDisplay = document.getElementById('feeTotalDisplay');
+      const paymentBox = document.getElementById('paymentBox');
+      const paymentAmountText = document.getElementById('paymentAmountText');
+      const submitBtnText = document.getElementById('submitBtnText');
+
+      if (totalFee === 0) {
+        if (totalDisplay) totalDisplay.innerHTML = '₹0 <span style="font-size: 0.8rem; font-family: var(--font-mono); color: #4ADE80;">(FREE PASS)</span>';
+        if (paymentBox) paymentBox.style.display = 'none';
+        if (submitBtnText) submitBtnText.textContent = 'Confirm Free Registration (₹0)';
+      } else {
+        if (totalDisplay) totalDisplay.innerHTML = `₹${totalFee} <span style="font-size: 0.8rem; font-family: var(--font-mono); color: #FACC15;">(PAYABLE)</span>`;
+        if (paymentBox) paymentBox.style.display = 'block';
+        if (paymentAmountText) paymentAmountText.textContent = `₹${totalFee}`;
+        if (submitBtnText) submitBtnText.textContent = `Pay ₹${totalFee} & Confirm Registration`;
+      }
+    }
+
+    // Show/Hide Theme, Abstract, or Squad Fields
     function updateConditionalSections() {
       const themeBox = document.getElementById("agenticThemeBox");
+      const paperBox = document.getElementById("paperDetailsBox");
       const teamBox = document.getElementById("teamMembersBox");
 
       // Agentic Paradox theme box
-      if (selectedArenas.has("agentic-paradox")) {
-        themeBox.style.display = "block";
-      } else {
-        themeBox.style.display = "none";
+      if (themeBox) {
+        themeBox.style.display = selectedArenas.has("agentic-paradox") ? "block" : "none";
+      }
+
+      // Paper Presentation research box
+      if (paperBox) {
+        paperBox.style.display = selectedArenas.has("paper-presentation") ? "block" : "none";
       }
 
       // Team members box if any team event is selected
@@ -965,10 +1300,8 @@
                            selectedArenas.has("tech-crime-scene") || 
                            selectedArenas.has("paper-presentation");
 
-      if (hasTeamEvent) {
-        teamBox.style.display = "block";
-      } else {
-        teamBox.style.display = "none";
+      if (teamBox) {
+        teamBox.style.display = hasTeamEvent ? "block" : "none";
       }
     }
 
@@ -978,7 +1311,6 @@
       const eventParam = params.get("event") || params.get("arena");
       if (eventParam && document.getElementById(`card-${eventParam}`)) {
         toggleArena(eventParam);
-        // Scroll smoothly to arena selection
         setTimeout(() => {
           document.getElementById(`card-${eventParam}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 300);
@@ -997,6 +1329,18 @@
         return;
       }
 
+      let totalFee = 0;
+      selectedArenas.forEach(id => {
+        totalFee += (arenaFees[id] || 0);
+      });
+
+      const utrInput = document.getElementById("regUtr");
+      if (totalFee > 0 && (!utrInput || !utrInput.value.trim())) {
+        alert(`Please enter your 12-digit UPI UTR / Transaction Reference number for the ₹${totalFee} payment.`);
+        utrInput.focus();
+        return;
+      }
+
       const name = document.getElementById("regName").value.trim();
       const email = document.getElementById("regEmail").value.trim();
       const phone = document.getElementById("regPhone").value.trim();
@@ -1004,6 +1348,7 @@
       const college = document.getElementById("regCollege").value.trim();
       const dept = document.getElementById("regDept").value;
       const year = document.getElementById("regYear").value;
+      const utr = totalFee > 0 ? utrInput.value.trim() : "FREE-PASS";
 
       const delegateId = "AIRO-26-" + Math.floor(1000 + Math.random() * 9000);
 
@@ -1018,42 +1363,92 @@
         year: year,
         id: delegateId,
         registeredArenas: Array.from(selectedArenas),
+        totalFee: totalFee,
+        utr: utr,
+        paymentStatus: totalFee > 0 ? "PAID" : "FREE",
+        checkInStatus: "PENDING",
         registrationDate: new Date().toISOString()
       };
 
+      // Store in current user session
       localStorage.setItem("airo_current_user", JSON.stringify(userProfile));
 
+      // Append to global registrations list for Desk Scanner cross-verification
+      let allRegistrations = [];
+      try {
+        allRegistrations = JSON.parse(localStorage.getItem("airo_registrations") || "[]");
+      } catch (err) {
+        allRegistrations = [];
+      }
+      allRegistrations = allRegistrations.filter(r => r.id !== delegateId && r.email !== email);
+      allRegistrations.push(userProfile);
+      localStorage.setItem("airo_registrations", JSON.stringify(allRegistrations));
+
+      // Populate Digital Pass Card Details
+      document.getElementById("modalDelegateId").textContent = delegateId;
+      document.getElementById("passDelegateName").textContent = name;
+      document.getElementById("passCollegeName").textContent = college;
+      document.getElementById("passPaymentStatusBadge").textContent = totalFee > 0 ? `✓ PAID (₹${totalFee})` : '✓ FREE PASS';
+
+      const passArenasContainer = document.getElementById("passArenasBadges");
+      if (passArenasContainer) {
+        passArenasContainer.innerHTML = Array.from(selectedArenas).map(arenaId => {
+          const formatted = arenaId.replace('-', ' ').toUpperCase();
+          return `<span class="pass-arena-pill">${formatted}</span>`;
+        }).join('');
+      }
+
       // Generate Modal QR Code
-      const qrData = `AIRO6.0|DELEGATE:${delegateId}|NAME:${name}|COLLEGE:${college}|ARENAS:${userProfile.registeredArenas.join(",")}`;
+      const qrData = `AIRO6.0|DELEGATE:${delegateId}|NAME:${name}|COLLEGE:${college}|ARENAS:${userProfile.registeredArenas.join(",")}|FEE:${totalFee}|UTR:${utr}`;
       const qrContainer = document.getElementById("modalQrCanvas");
       if (qrContainer) {
         qrContainer.innerHTML = '';
         if (window.QRCode) {
           new QRCode(qrContainer, {
             text: qrData,
-            width: 120,
-            height: 120,
+            width: 100,
+            height: 100,
             colorDark: '#03050A',
             colorLight: '#FFFFFF'
           });
         }
       }
 
-      document.getElementById("modalDelegateId").textContent = delegateId;
-      document.getElementById("modalSummary").textContent = `${selectedArenas.size} Arenas Confirmed · Pass Allocated`;
-
       // Trigger Confetti Celebration
       if (window.confetti) {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 90,
+          spread: 75,
           origin: { y: 0.6 },
-          colors: ['#00F0FF', '#DFDFF2', '#A855F7', '#FFD700']
+          colors: ['#00F0FF', '#DFDFF2', '#A855F7', '#FFD700', '#4ADE80']
         });
       }
 
       // Show Modal
       document.getElementById("successModal").style.display = "flex";
+    }
+
+    // Download Digital Pass as Image
+    function downloadPass() {
+      const passElement = document.getElementById("digitalPassCard");
+      if (!passElement) return;
+
+      if (window.html2canvas) {
+        html2canvas(passElement, {
+          backgroundColor: '#090E1B',
+          scale: 2
+        }).then(canvas => {
+          const link = document.createElement("a");
+          link.download = `AIRO-6.0-Pass-${document.getElementById("modalDelegateId").textContent || "Delegate"}.png`;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        }).catch(err => {
+          console.error("Pass download error:", err);
+          alert("Pass generated! You can also screenshot your digital pass on screen.");
+        });
+      } else {
+        alert("Pass generated! Please screenshot your pass ticket on screen.");
+      }
     }
   </script>
 </body>

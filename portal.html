@@ -14,7 +14,9 @@
 
 
 
-  <style>
+  <!-- QR Code & html2canvas Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     /* ═══════════════════════════════════════════
        DESIGN SYSTEM & TOKENS
        ═══════════════════════════════════════════ */
@@ -1003,7 +1005,7 @@
               </div>
 
               <div class="badge-qr-wrap">
-                <canvas id="qrCanvas"></canvas>
+                <div id="qrCanvas" style="display:flex; justify-content:center; align-items:center;"></div>
               </div>
 
               <h3 class="badge-name" id="badgeName">ALEX RIVERA</h3>
@@ -1022,12 +1024,12 @@
                 <span class="badge-meta-val" style="color: var(--accent-cyan);">SEP 26, 2026</span>
               </div>
               <div class="badge-meta-row">
-                <span class="badge-meta-label">Pass Status</span>
-                <span class="badge-meta-val" style="color: #4ADE80;">ALL-ACCESS PASS</span>
+                <span class="badge-meta-label">Check-In</span>
+                <span class="badge-meta-val" id="badgeCheckInStatus" style="color: var(--accent-yellow);">PENDING ON-SPOT</span>
               </div>
 
-              <button class="btn-badge-action" onclick="alert('Digital ID Badge synced to Apple Wallet / Google Wallet ready for gate scanning.')">
-                <span>📱 Save to Mobile Wallet</span>
+              <button class="btn-badge-action" onclick="downloadPortalPass()">
+                <span>📥 Download Pass (PNG)</span>
               </button>
             </div>
           </aside>
@@ -1042,7 +1044,7 @@
                 <h3 class="dash-section-title">
                   <span>ACTIVE</span> My Registered Arenas (<span id="regCount">0</span>)
                 </h3>
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--lavender-dim);">SEP 26, 2026</span>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--lavender-dim);" id="portalLiveStatusTag">● VERIFIED DELEGATE</span>
               </div>
 
               <div id="registeredArenasContainer" class="registered-cards-grid">
@@ -1116,7 +1118,7 @@
                   <div class="perk-icon">🍱</div>
                   <div class="perk-info">
                     <h4>Symposium Lunch Token</h4>
-                    <p>Status: <strong style="color: #4ADE80;">ACTIVE · TOKEN #AIRO-L842</strong></p>
+                    <p>Status: <strong style="color: #4ADE80;" id="lunchTokenStatus">ACTIVE · TOKEN #AIRO-L842</strong></p>
                     <p style="margin-top: 4px; font-size: 0.7rem;">Present QR code at Dining Hall Counter</p>
                   </div>
                 </div>
@@ -1124,8 +1126,32 @@
                   <div class="perk-icon">🎒</div>
                   <div class="perk-info">
                     <h4>Official Delegate Kit & Badge</h4>
-                    <p>Status: <strong style="color: #4ADE80;">COLLECT AT REGISTRATION DESK</strong></p>
+                    <p>Status: <strong style="color: #4ADE80;" id="kitTokenStatus">COLLECT AT REGISTRATION DESK</strong></p>
                     <p style="margin-top: 4px; font-size: 0.7rem;">Includes Lanyard, AI Notebook & Pen</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- SECTION 5: OFFICIAL E-CERTIFICATE -->
+            <section class="dash-section">
+              <div class="dash-section-header">
+                <h3 class="dash-section-title">
+                  <span>VERIFICATION</span> Official Participation E-Certificate
+                </h3>
+              </div>
+
+              <div class="perk-card" style="border-color: rgba(0, 240, 255, 0.3); background: rgba(0, 240, 255, 0.04);">
+                <div class="perk-icon">🎓</div>
+                <div class="perk-info" style="flex:1;">
+                  <h4>AIRO 6.0 National Level Certificate</h4>
+                  <p id="certStatusText" style="color: var(--lavender-dim);">
+                    Issued by Sri Sairam Engineering College & Department of AI & Data Science.
+                  </p>
+                  <div style="margin-top: 10px;" id="certActionContainer">
+                    <button class="btn-pill" id="btnDownloadCert" onclick="downloadCertificate()" style="background: rgba(0,240,255,0.15); color: var(--accent-cyan); border-color: rgba(0,240,255,0.4);">
+                      <span>🎓 Download Official E-Certificate</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1360,15 +1386,66 @@
       document.getElementById("badgeYear").textContent = user.year;
       document.getElementById("badgeId").textContent = user.id;
 
+      // Update Check-in Status Visuals
+      const isCheckedIn = user.checkInStatus === "CHECKED_IN";
+      const checkInBadge = document.getElementById("badgeCheckInStatus");
+      const liveStatusTag = document.getElementById("portalLiveStatusTag");
+      const kitStatus = document.getElementById("kitTokenStatus");
+      const lunchStatus = document.getElementById("lunchTokenStatus");
+      const certStatusText = document.getElementById("certStatusText");
+      const btnDownloadCert = document.getElementById("btnDownloadCert");
+
+      if (isCheckedIn) {
+        if (checkInBadge) {
+          checkInBadge.innerHTML = `<span style="color:#4ADE80; font-weight:700;">✓ CHECKED IN (${user.checkInTime || 'SEP 26'})</span>`;
+        }
+        if (liveStatusTag) {
+          liveStatusTag.innerHTML = `<span style="color:#4ADE80;">● VERIFIED ATTENDEE (ON-CAMPUS)</span>`;
+        }
+        if (kitStatus) {
+          kitStatus.innerHTML = `<span style="color:#4ADE80;">✓ ISSUED AT REGISTRATION DESK</span>`;
+        }
+        if (lunchStatus) {
+          lunchStatus.innerHTML = `<span style="color:#4ADE80;">✓ ACTIVE · TOKEN #${user.id.replace('AIRO-','TKN-')}</span>`;
+        }
+        if (certStatusText) {
+          certStatusText.innerHTML = `<span style="color:#4ADE80; font-weight:600;">✓ Attendance verified on Sept 26, 2026.</span> Your official E-Certificate is unlocked and ready for download!`;
+        }
+        if (btnDownloadCert) {
+          btnDownloadCert.style.background = "linear-gradient(135deg, rgba(0,240,255,0.25), rgba(168,85,247,0.25))";
+          btnDownloadCert.style.borderColor = "#00F0FF";
+          btnDownloadCert.style.color = "#00F0FF";
+        }
+      } else {
+        if (checkInBadge) {
+          checkInBadge.innerHTML = `<span style="color:var(--accent-yellow);">PENDING ON-SPOT</span>`;
+        }
+        if (liveStatusTag) {
+          liveStatusTag.innerHTML = `<span>● REGISTERED DELEGATE</span>`;
+        }
+        if (kitStatus) {
+          kitStatus.innerHTML = `COLLECT AT REGISTRATION DESK`;
+        }
+        if (certStatusText) {
+          certStatusText.innerHTML = `Issued by Sri Sairam Engineering College & Department of AI & Data Science. <em>(Requires on-campus QR scan check-in on symposium day to unlock certificate download).</em>`;
+        }
+      }
+
       // Render Dynamic QR Code
-      const qrData = `AIRO6.0|DELEGATE:${user.id}|NAME:${user.name}|COLLEGE:${user.college}|STATUS:ALL_ACCESS|DATE:2026-09-26`;
+      const qrData = `AIRO6.0|DELEGATE:${user.id}|NAME:${user.name}|PHONE:${user.phone || ''}|COLLEGE:${user.college}|EVENTS:${(user.registeredArenas || []).join(',')}|FEE:${user.feeAmount || 0}`;
       const qrCanvas = document.getElementById("qrCanvas");
-      if (window.QRCode) {
-        QRCode.toCanvas(qrCanvas, qrData, {
-          width: 136,
-          margin: 1,
-          color: { dark: '#03050A', light: '#FFFFFF' }
-        });
+      if (qrCanvas) {
+        qrCanvas.innerHTML = "";
+        if (typeof QRCode !== 'undefined') {
+          new QRCode(qrCanvas, {
+            text: qrData,
+            width: 140,
+            height: 140,
+            colorDark: "#03050A",
+            colorLight: "#FFFFFF",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        }
       }
 
       // Populate Registered Arenas
@@ -1438,6 +1515,86 @@
       }).join("");
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Download Pass PNG
+    function downloadPortalPass() {
+      const badge = document.getElementById("digitalBadge");
+      if (!badge || typeof html2canvas === 'undefined') {
+        window.print();
+        return;
+      }
+      const user = getCurrentUser();
+      html2canvas(badge, {
+        backgroundColor: '#070B14',
+        scale: 2
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `AIRO-6.0-Pass-${user ? user.id : 'Delegate'}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        console.error("Pass export error:", err);
+        window.print();
+      });
+    }
+
+    // Download Certificate
+    function downloadCertificate() {
+      const user = getCurrentUser();
+      if (!user) return;
+      if (user.checkInStatus !== 'CHECKED_IN') {
+        alert("⚠️ Attendance check-in is required before generating the certificate. Please present your pass QR at the registration desk on symposium day (Sept 26)!");
+        return;
+      }
+
+      // Create high-res certificate off-screen
+      const certEl = document.createElement('div');
+      certEl.style.cssText = `
+        position: fixed; left: -9999px; top: 0; width: 1000px; padding: 48px;
+        background: radial-gradient(circle at center, #0F172A 0%, #030712 100%);
+        border: 12px double #D4AF37; color: #FFFFFF; font-family: 'Space Grotesk', sans-serif;
+        text-align: center; box-sizing: border-box;
+      `;
+      certEl.innerHTML = `
+        <div style="border: 2px solid rgba(212,175,55,0.4); padding: 36px 24px; position: relative;">
+          <div style="font-size: 14px; letter-spacing: 4px; color: #D4AF37; text-transform: uppercase; margin-bottom: 8px;">Sri Sairam Engineering College · Autonomous</div>
+          <div style="font-size: 11px; letter-spacing: 2px; color: #94A3B8; text-transform: uppercase; margin-bottom: 24px;">Department of Artificial Intelligence & Data Science</div>
+          <div style="font-size: 32px; font-weight: 800; letter-spacing: 2px; color: #00F0FF; margin-bottom: 12px; text-transform: uppercase;">Certificate of Participation</div>
+          <p style="font-size: 15px; color: #CBD5E1; margin-bottom: 20px;">This is proudly presented to</p>
+          <div style="font-size: 28px; font-weight: 700; color: #FFFFFF; text-decoration: underline; text-decoration-color: #00F0FF; margin-bottom: 16px;">${user.name.toUpperCase()}</div>
+          <p style="font-size: 14px; color: #CBD5E1; max-width: 700px; margin: 0 auto 24px; line-height: 1.6;">
+            of <strong>${user.college}</strong> (${user.dept || 'Engineering'}, ${user.year || 'Student'}) for actively participating in <strong>AIRO 6.0: National Level Technical Symposium</strong> held on <strong>September 26, 2026</strong> at Sri Sairam Campus.
+          </p>
+          <div style="display: flex; justify-content: space-around; margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15);">
+            <div>
+              <div style="font-size: 14px; font-weight: bold; color: #E2E8F0;">Staff Coordinator</div>
+              <div style="font-size: 11px; color: #64748B;">Dept. of AI & DS</div>
+            </div>
+            <div>
+              <div style="font-size: 14px; font-weight: bold; color: #00F0FF;">AIRO 6.0 ID: ${user.id}</div>
+              <div style="font-size: 11px; color: #4ADE80;">VERIFIED ON-SPOT</div>
+            </div>
+            <div>
+              <div style="font-size: 14px; font-weight: bold; color: #E2E8F0;">Head of Department</div>
+              <div style="font-size: 11px; color: #64748B;">Dept. of AI & DS</div>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(certEl);
+
+      html2canvas(certEl, { scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `AIRO-6.0-Certificate-${user.name.replace(/\s+/g, '_')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        document.body.removeChild(certEl);
+      }).catch(err => {
+        console.error("Certificate error:", err);
+        document.body.removeChild(certEl);
+        alert("Error generating certificate. Please try again.");
+      });
     }
 
     // Initialize on page load
