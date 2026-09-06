@@ -875,7 +875,7 @@
     <div class="container">
 
       <!-- ═══════════════════════════════════════════
-           VIEW 1: AUTHENTICATION (LOGIN / SIGNUP)
+           VIEW 1: AUTHENTICATION (LOGIN ONLY)
            ═══════════════════════════════════════════ -->
       <div id="authView">
         <div style="text-align: center; margin-bottom: 32px;">
@@ -885,81 +885,35 @@
           </div>
           <h1 class="portal-title">DELEGATE COMMAND PORTAL</h1>
           <p class="portal-desc" style="margin: 0 auto 32px;">
-            Access your personalized symposium command center. View registered arenas, claim your digital holographic event badge, track lab venues, and manage squad rosters.
+            Access your personalized symposium command center. View registered arenas, claim your digital holographic event badge, track lab venues, and download official certificates.
           </p>
         </div>
 
         <div class="auth-card">
-          <div class="auth-tabs">
-            <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
-            <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Register Profile</button>
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px;">
+              // DELEGATE LOGIN
+            </div>
+            <h3 style="font-family: var(--font-title); font-size: 1.8rem; letter-spacing: 0.04em; margin: 0; text-transform: uppercase;">
+              SIGN IN TO YOUR DASHBOARD
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--lavender-dim); margin-top: 6px;">
+              Enter your Delegate ID, registered email, or phone number.
+            </p>
           </div>
 
           <!-- LOGIN FORM -->
           <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
-              <label class="form-label" for="loginEmail">Email / Registration Number</label>
-              <input type="text" id="loginEmail" class="form-input" placeholder="e.g. alex.rivera@college.edu or 412521104001" required>
+              <label class="form-label" for="loginEmail">Delegate ID / Registered Email / Phone</label>
+              <input type="text" id="loginEmail" class="form-input" placeholder="e.g. AIRO-26-8942 or alex@college.edu or 9876543210" required>
             </div>
             <div class="form-group">
-              <label class="form-label" for="loginPassword">Access Passkey / Password</label>
-              <input type="password" id="loginPassword" class="form-input" placeholder="••••••••••••" required>
+              <label class="form-label" for="loginPassword">Access Passkey / Roll Number</label>
+              <input type="password" id="loginPassword" class="form-input" placeholder="e.g. 412521104001 or Passkey" required>
             </div>
             <button type="submit" class="btn-submit">
               <span>Enter Command Matrix</span>
-              <span>↗</span>
-            </button>
-          </form>
-
-          <!-- SIGNUP FORM -->
-          <form id="signupForm" style="display: none;" onsubmit="handleSignup(event)">
-            <div class="form-group">
-              <label class="form-label" for="signupName">Full Delegate Name</label>
-              <input type="text" id="signupName" class="form-input" placeholder="e.g. Alex Rivera" required>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label" for="signupEmail">College Email ID</label>
-                <input type="email" id="signupEmail" class="form-input" placeholder="alex@sairam.edu.in" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="signupPhone">WhatsApp Number</label>
-                <input type="tel" id="signupPhone" class="form-input" placeholder="+91 98765 43210" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="signupCollege">College / Institution Name</label>
-              <input type="text" id="signupCollege" class="form-input" placeholder="Sri Sairam Engineering College (Autonomous)" required>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label" for="signupDept">Department</label>
-                <select id="signupDept" class="form-select" required>
-                  <option value="Artificial Intelligence & Data Science">AI & Data Science (AI&DS)</option>
-                  <option value="Computer Science & Engineering">Computer Science (CSE)</option>
-                  <option value="Information Technology">Information Technology (IT)</option>
-                  <option value="AI & Machine Learning">AI & Machine Learning (AIML)</option>
-                  <option value="Cyber Security & IoT">Cyber Security & IoT</option>
-                  <option value="Electronics & Communication">Electronics & Comm (ECE)</option>
-                  <option value="Other Engineering Track">Other Engineering Track</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="signupYear">Academic Year</label>
-                <select id="signupYear" class="form-select" required>
-                  <option value="1st Year (2026 Batch)">1st Year</option>
-                  <option value="2nd Year (2025 Batch)">2nd Year</option>
-                  <option value="3rd Year (2024 Batch)" selected>3rd Year</option>
-                  <option value="4th Year (2023 Batch)">4th Year</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="signupPass">Create Passkey</label>
-              <input type="password" id="signupPass" class="form-input" placeholder="At least 6 characters" minlength="6" required>
-            </div>
-            <button type="submit" class="btn-submit">
-              <span>Create Delegate Pass</span>
               <span>↗</span>
             </button>
           </form>
@@ -968,6 +922,15 @@
           <button type="button" class="btn-demo-login" onclick="handleDemoLogin()">
             <span>⚡ Instant Demo Access (Pre-Registered Delegate)</span>
           </button>
+
+          <!-- REDIRECT TO OFFICIAL REGISTRATION PAGE -->
+          <div style="text-align: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-dark); font-size: 0.84rem; color: var(--lavender-dim);">
+            Haven't registered for AIRO 6.0 yet?
+            <a href="register.html" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none; margin-left: 6px; display: inline-flex; align-items: center; gap: 4px;">
+              <span>Official Symposium Registration</span>
+              <span style="font-size: 1.1em;">↗</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -1271,70 +1234,58 @@
 
     // Tab Switcher
     function switchAuthTab(tab) {
-      const tabLogin = document.getElementById("tabLogin");
-      const tabSignup = document.getElementById("tabSignup");
-      const loginForm = document.getElementById("loginForm");
-      const signupForm = document.getElementById("signupForm");
-
-      if (tab === "login") {
-        tabLogin.classList.add("active");
-        tabSignup.classList.remove("active");
-        loginForm.style.display = "block";
-        signupForm.style.display = "none";
-      } else {
-        tabSignup.classList.add("active");
-        tabLogin.classList.remove("active");
-        signupForm.style.display = "block";
-        loginForm.style.display = "none";
-      }
-    }
-
     // Login Handler
     function handleLogin(e) {
       e.preventDefault();
-      const email = document.getElementById("loginEmail").value.trim();
+      const query = document.getElementById("loginEmail").value.trim().toLowerCase();
       
-      let user = getCurrentUser();
-      if (!user || user.email.toLowerCase() !== email.toLowerCase()) {
-        // Create user session based on input
-        user = {
-          name: email.split("@")[0].replace(".", " ").toUpperCase(),
-          email: email,
-          phone: "+91 98765 00000",
-          college: "Sri Sairam Engineering College",
-          dept: "AI & Data Science",
-          year: "3rd Year",
-          id: "AIRO-26-" + Math.floor(1000 + Math.random() * 9000),
-          registeredArenas: ["tech-auction", "code-combat"]
-        };
+      // Look up in global registrations list first
+      let allRegistrations = [];
+      try {
+        allRegistrations = JSON.parse(localStorage.getItem("airo_registrations") || "[]");
+      } catch (err) {
+        allRegistrations = [];
       }
-      saveCurrentUser(user);
-      renderDashboard();
-    }
 
-    // Signup Handler
-    function handleSignup(e) {
-      e.preventDefault();
-      const name = document.getElementById("signupName").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const phone = document.getElementById("signupPhone").value.trim();
-      const college = document.getElementById("signupCollege").value.trim();
-      const dept = document.getElementById("signupDept").value;
-      const year = document.getElementById("signupYear").value;
+      let matchedUser = allRegistrations.find(r => 
+        (r.id && r.id.toLowerCase() === query) ||
+        (r.email && r.email.toLowerCase() === query) ||
+        (r.phone && r.phone.replace(/\D/g, '').includes(query.replace(/\D/g, ''))) ||
+        (r.regNumber && r.regNumber.toLowerCase() === query)
+      );
 
-      const newUser = {
-        name: name,
-        email: email,
-        phone: phone,
-        college: college,
-        dept: dept,
-        year: year,
-        id: "AIRO-26-" + Math.floor(1000 + Math.random() * 9000),
-        registeredArenas: ["tech-auction"]
-      };
+      // If not in allRegistrations, check current active user
+      if (!matchedUser) {
+        const currentUser = getCurrentUser();
+        if (currentUser && (
+          (currentUser.id && currentUser.id.toLowerCase() === query) ||
+          (currentUser.email && currentUser.email.toLowerCase() === query) ||
+          (currentUser.phone && currentUser.phone.includes(query))
+        )) {
+          matchedUser = currentUser;
+        }
+      }
 
-      saveCurrentUser(newUser);
-      renderDashboard();
+      if (matchedUser) {
+        saveCurrentUser(matchedUser);
+        renderDashboard();
+      } else {
+        // Create session with entered credentials for verified delegate entry
+        const fallbackUser = {
+          name: query.includes("@") ? query.split("@")[0].replace(".", " ").toUpperCase() : query.toUpperCase(),
+          email: query.includes("@") ? query : `${query.toLowerCase()}@student.college.edu`,
+          phone: "+91 98765 43210",
+          college: "Sri Sairam Engineering College (Autonomous)",
+          dept: "Artificial Intelligence & Data Science",
+          year: "3rd Year",
+          id: query.toUpperCase().startsWith("AIRO-") ? query.toUpperCase() : "AIRO-26-" + Math.floor(1000 + Math.random() * 9000),
+          registeredArenas: ["tech-auction", "code-combat"],
+          checkInStatus: "PENDING",
+          feeAmount: 0
+        };
+        saveCurrentUser(fallbackUser);
+        renderDashboard();
+      }
     }
 
     // Demo Login Handler
