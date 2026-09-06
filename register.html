@@ -1089,25 +1089,66 @@
             </div>
           </div>
 
-          <!-- Squad Members for Team Events -->
+          <!-- Squad Members for Team Events (Dynamically Scaled) -->
           <div id="teamMembersBox" class="team-details-box" style="display: none;">
-            <div class="team-details-header">👥 Squad Member Details (For Team Events)</div>
-            <div class="form-grid" style="margin-bottom: 0;">
-              <div class="form-group">
-                <label class="form-label" for="member2Name">Teammate 2 Name <span class="optional">(Optional / If applicable)</span></label>
-                <input type="text" id="member2Name" class="form-input" placeholder="e.g. Maya Chen">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+              <div class="team-details-header" style="margin-bottom: 0;">👥 Squad & Co-Author Details</div>
+              <span id="squadLimitBadge" style="font-family: var(--font-mono); font-size: 0.72rem; background: rgba(0, 240, 255, 0.12); color: var(--accent-cyan); padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(0, 240, 255, 0.3);">
+                Squad Limit: 2–4 Members
+              </span>
+            </div>
+            <p id="squadHelpText" style="font-size: 0.8rem; color: var(--lavender-dim); margin-bottom: 16px; line-height: 1.5;">
+              Primary delegate (entered in Section 01) is registered as <strong>Team Lead / Main Author</strong>. Enter your teammates below according to selected event limits:
+            </p>
+
+            <!-- TEAMMATE 2 SLOT (Max >= 2) -->
+            <div id="teammateSlot2" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+              <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">
+                // Teammate 02 <span id="teammate2RequiredTag" style="color: var(--accent-yellow); font-size: 0.68rem; font-weight: normal;">(Required for 2+ Person Events)</span>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="member2Email">Teammate 2 Email</label>
-                <input type="email" id="member2Email" class="form-input" placeholder="maya.chen@college.edu">
+              <div class="form-grid" style="margin-bottom: 0;">
+                <div class="form-group">
+                  <label class="form-label" for="member2Name">Full Name *</label>
+                  <input type="text" id="member2Name" class="form-input" placeholder="e.g. Maya Chen">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="member2Email">Email / Phone</label>
+                  <input type="text" id="member2Email" class="form-input" placeholder="maya.chen@college.edu or 9876543210">
+                </div>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="member3Name">Teammate 3 Name <span class="optional">(Optional / If applicable)</span></label>
-                <input type="text" id="member3Name" class="form-input" placeholder="e.g. David Kim">
+            </div>
+
+            <!-- TEAMMATE 3 SLOT (Max >= 3) -->
+            <div id="teammateSlot3" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: none;">
+              <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-purple); font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">
+                // Teammate 03 <span class="optional">(Optional / If Squad Size is 3)</span>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="member3Email">Teammate 3 Email</label>
-                <input type="email" id="member3Email" class="form-input" placeholder="david.kim@college.edu">
+              <div class="form-grid" style="margin-bottom: 0;">
+                <div class="form-group">
+                  <label class="form-label" for="member3Name">Full Name</label>
+                  <input type="text" id="member3Name" class="form-input" placeholder="e.g. David Kim">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="member3Email">Email / Phone</label>
+                  <input type="text" id="member3Email" class="form-input" placeholder="david.kim@college.edu or 9876543210">
+                </div>
+              </div>
+            </div>
+
+            <!-- TEAMMATE 4 SLOT (Max >= 4) -->
+            <div id="teammateSlot4" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; margin-bottom: 0; display: none;">
+              <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #60A5FA; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">
+                // Teammate 04 <span class="optional">(Optional / If Squad Size is 4)</span>
+              </div>
+              <div class="form-grid" style="margin-bottom: 0;">
+                <div class="form-group">
+                  <label class="form-label" for="member4Name">Full Name</label>
+                  <input type="text" id="member4Name" class="form-input" placeholder="e.g. Sarah Connor">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="member4Email">Email / Phone</label>
+                  <input type="text" id="member4Email" class="form-input" placeholder="sarah.connor@college.edu or 9876543210">
+                </div>
               </div>
             </div>
           </div>
@@ -1277,11 +1318,27 @@
       }
     }
 
-    // Show/Hide Theme, Abstract, or Squad Fields
+    // Event Specific Team Limits Configuration
+    const EVENT_TEAM_CONFIG = {
+      'tech-auction': { name: 'Tech Auction', min: 2, max: 4, teammates: 3, label: 'Squad of 2–4' },
+      'code-combat': { name: 'Code Combat', min: 1, max: 2, teammates: 1, label: 'Solo or Duo (1–2)' },
+      'agentic-paradox': { name: 'Agentic Paradox', min: 2, max: 3, teammates: 2, label: 'Squad of 2–3' },
+      'tech-crime-scene': { name: 'Tech Crime Scene', min: 2, max: 3, teammates: 2, label: 'Squad of 2–3' },
+      'workshop': { name: 'Hands-on Workshop', min: 1, max: 1, teammates: 0, label: 'Individual (Solo)' },
+      'paper-presentation': { name: 'Paper Presentation', min: 2, max: 4, teammates: 3, label: 'Team of 2–4' }
+    };
+
+    // Show/Hide Theme, Abstract, or Squad Fields Dynamically Based on Selected Events
     function updateConditionalSections() {
       const themeBox = document.getElementById("agenticThemeBox");
       const paperBox = document.getElementById("paperDetailsBox");
       const teamBox = document.getElementById("teamMembersBox");
+      const slot2 = document.getElementById("teammateSlot2");
+      const slot3 = document.getElementById("teammateSlot3");
+      const slot4 = document.getElementById("teammateSlot4");
+      const limitBadge = document.getElementById("squadLimitBadge");
+      const helpText = document.getElementById("squadHelpText");
+      const reqTag2 = document.getElementById("teammate2RequiredTag");
 
       // Agentic Paradox theme box
       if (themeBox) {
@@ -1293,15 +1350,56 @@
         paperBox.style.display = selectedArenas.has("paper-presentation") ? "block" : "none";
       }
 
-      // Team members box if any team event is selected
-      const hasTeamEvent = selectedArenas.has("tech-auction") || 
-                           selectedArenas.has("code-combat") || 
-                           selectedArenas.has("agentic-paradox") || 
-                           selectedArenas.has("tech-crime-scene") || 
-                           selectedArenas.has("paper-presentation");
+      if (!teamBox) return;
 
-      if (teamBox) {
-        teamBox.style.display = hasTeamEvent ? "block" : "none";
+      if (selectedArenas.size === 0) {
+        teamBox.style.display = "none";
+        return;
+      }
+
+      // Calculate max allowed teammates and min required teammates
+      let maxTeammates = 0;
+      let minRequired = 1;
+      const selectedDetails = [];
+
+      selectedArenas.forEach(id => {
+        const cfg = EVENT_TEAM_CONFIG[id];
+        if (cfg) {
+          if (cfg.teammates > maxTeammates) maxTeammates = cfg.teammates;
+          if (cfg.min > minRequired) minRequired = cfg.min;
+          selectedDetails.push(`${cfg.name} (${cfg.label})`);
+        }
+      });
+
+      if (maxTeammates === 0) {
+        // Only Solo events (Workshop)
+        teamBox.style.display = "none";
+      } else {
+        teamBox.style.display = "block";
+
+        // Dynamic Slot Visibility
+        if (slot2) slot2.style.display = maxTeammates >= 1 ? "block" : "none";
+        if (slot3) slot3.style.display = maxTeammates >= 2 ? "block" : "none";
+        if (slot4) slot4.style.display = maxTeammates >= 3 ? "block" : "none";
+
+        // Update Badge & Guidance
+        if (limitBadge) {
+          if (selectedArenas.size === 1) {
+            const onlyEvent = selectedArenas.values().next().value;
+            limitBadge.textContent = `${EVENT_TEAM_CONFIG[onlyEvent].name}: Max ${EVENT_TEAM_CONFIG[onlyEvent].max} Members`;
+          } else {
+            limitBadge.textContent = `Max Squad Capacity: Up to ${maxTeammates + 1} Members`;
+          }
+        }
+
+        if (helpText) {
+          helpText.innerHTML = `Primary delegate is <strong>Team Lead / Author 1</strong>. Current selections: <em>${selectedDetails.join(" · ")}</em>. Additional teammate slots below have been customized according to these arena rules.`;
+        }
+
+        if (reqTag2) {
+          reqTag2.textContent = minRequired >= 2 ? "(Required for 2+ Member Arenas)" : "(Optional for Solo / Duo)";
+          reqTag2.style.color = minRequired >= 2 ? "var(--accent-yellow)" : "var(--lavender-dim)";
+        }
       }
     }
 
@@ -1315,7 +1413,7 @@
           document.getElementById(`card-${eventParam}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 300);
       } else {
-        // Default select Tech Auction and Code Combat
+        // Default select Tech Auction
         toggleArena("tech-auction");
       }
     });
@@ -1350,6 +1448,20 @@
       const year = document.getElementById("regYear").value;
       const utr = totalFee > 0 ? utrInput.value.trim() : "FREE-PASS";
 
+      // Collect Teammates
+      const squad = [];
+      const m2Name = document.getElementById("member2Name")?.value.trim();
+      const m2Email = document.getElementById("member2Email")?.value.trim();
+      if (m2Name) squad.push({ name: m2Name, contact: m2Email });
+
+      const m3Name = document.getElementById("member3Name")?.value.trim();
+      const m3Email = document.getElementById("member3Email")?.value.trim();
+      if (m3Name) squad.push({ name: m3Name, contact: m3Email });
+
+      const m4Name = document.getElementById("member4Name")?.value.trim();
+      const m4Email = document.getElementById("member4Email")?.value.trim();
+      if (m4Name) squad.push({ name: m4Name, contact: m4Email });
+
       const delegateId = "AIRO-26-" + Math.floor(1000 + Math.random() * 9000);
 
       // Save user to LocalStorage
@@ -1363,7 +1475,9 @@
         year: year,
         id: delegateId,
         registeredArenas: Array.from(selectedArenas),
+        squadMembers: squad,
         totalFee: totalFee,
+        feeAmount: totalFee,
         utr: utr,
         paymentStatus: totalFee > 0 ? "PAID" : "FREE",
         checkInStatus: "PENDING",
