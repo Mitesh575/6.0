@@ -324,45 +324,90 @@
     }
 
     /* ═══════════════════════════════════════════
-       ARENA SELECTION CARDS (INTERACTIVE MULTI-SELECT)
+       ARENA SELECTION CARDS (TRANSFORMER BENTO MULTI-SELECT)
        ═══════════════════════════════════════════ */
     .arena-selection-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
       margin-bottom: 36px;
     }
 
     .arena-checkbox-card {
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--surface-card);
       border: 1px solid var(--border-dark);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 24px;
       cursor: pointer;
       position: relative;
-      transition: all 0.25s var(--ease-zentry);
+      overflow: hidden;
+      min-height: 250px;
+      transition: all 0.35s var(--ease-zentry);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .arena-card__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-size: cover;
+      background-position: center 20%;
+      filter: brightness(0.68) contrast(1.12);
+      transition: transform 0.6s var(--ease-zentry), filter 0.35s ease;
+    }
+
+    .arena-checkbox-card:hover .arena-card__bg {
+      transform: scale(1.06);
+      filter: brightness(0.85) contrast(1.18);
+    }
+
+    .arena-card__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(3, 5, 10, 0.25) 0%,
+        rgba(3, 5, 10, 0.65) 45%,
+        rgba(3, 5, 10, 0.94) 85%,
+        rgba(3, 5, 10, 0.98) 100%
+      );
+      transition: opacity 0.35s ease;
     }
 
     .arena-checkbox-card:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
     }
 
     .arena-checkbox-card.selected {
-      background: rgba(0, 240, 255, 0.06);
+      background: rgba(0, 240, 255, 0.08);
       border-color: var(--accent-cyan);
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.35), 0 12px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    .arena-checkbox-card.selected .arena-card__bg {
+      filter: brightness(0.88) contrast(1.18);
+    }
+
+    .arena-card__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
     }
 
     .arena-card-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
     .arena-card-tag {
@@ -371,17 +416,24 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid;
+      backdrop-filter: blur(8px);
     }
 
     .custom-check {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 1.5px solid var(--border-dark);
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      background: rgba(3, 5, 10, 0.6);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 800;
       color: transparent;
       transition: all 0.2s ease;
     }
@@ -390,34 +442,43 @@
       background: var(--accent-cyan);
       border-color: var(--accent-cyan);
       color: var(--black);
+      box-shadow: 0 0 12px var(--accent-cyan);
     }
 
-    .arena-card-title {
-      font-family: var(--font-title);
-      font-size: 1.35rem;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      margin-bottom: 4px;
-      color: #FFFFFF;
+    .arena-title-img {
+      max-height: 40px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.9));
     }
 
     .arena-card-desc {
-      font-size: 0.8rem;
-      color: var(--lavender-dim);
-      line-height: 1.4;
-      margin-bottom: 12px;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.45;
+      margin-bottom: 14px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     }
 
     .arena-card-meta {
       font-family: var(--font-mono);
       font-size: 0.72rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.7);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
+
+    .bg-reg-optimus { background-image: url('assets/characters/bg-optimus.jpg'); }
+    .bg-reg-bumblebee { background-image: url('assets/characters/bg-bumblebee.jpg'); }
+    .bg-reg-megatron { background-image: url('assets/characters/bg-megatron.jpg'); }
+    .bg-reg-starscream { background-image: url('assets/characters/bg-starscream.jpg'); }
+    .bg-reg-workshop { background-image: url('assets/characters/bg-heavy-mecha.jpg'); }
+    .bg-reg-soundwave { background-image: url('assets/characters/bg-soundwave.jpg'); }
 
     /* Team Member Dynamic Input Box */
     .team-details-box {
@@ -672,91 +733,109 @@
 
             <!-- Arena 1: Tech Auction -->
             <div class="arena-checkbox-card" id="card-tech-auction" onclick="toggleArena('tech-auction')">
-              <div>
-                <div class="arena-card-top">
-                  <span class="arena-card-tag" style="color: #60A5FA;">Optimus Prime</span>
-                  <div class="custom-check" id="check-tech-auction">✓</div>
+              <div class="arena-card__bg bg-reg-optimus"></div>
+              <div class="arena-card__content">
+                <div>
+                  <div class="arena-card-top">
+                    <span class="arena-card-tag" style="color: #60A5FA; border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.15);">Optimus Prime</span>
+                    <div class="custom-check" id="check-tech-auction">✓</div>
+                  </div>
+                  <img src="events/assets/title-tech-auction.png" alt="TECH AUCTION" class="arena-title-img">
+                  <p class="arena-card-desc">Bidding trial with ₹10,000 virtual credits to acquire tools and build surprise problem solutions.</p>
                 </div>
-                <h3 class="arena-card-title">TECH AUCTION</h3>
-                <p class="arena-card-desc">Bidding trial with ₹10,000 virtual credits to acquire tools and build surprise problem solutions.</p>
-              </div>
-              <div class="arena-card-meta">
-                <span>👥 Squad: 2–4</span> · <span>⏱️ 60–90 Mins</span>
+                <div class="arena-card-meta">
+                  <span>👥 Squad: 2–4</span> · <span>⏱️ 60–90 Mins</span> · <span>1st: ₹1,500</span>
+                </div>
               </div>
             </div>
 
             <!-- Arena 2: Code Combat -->
             <div class="arena-checkbox-card" id="card-code-combat" onclick="toggleArena('code-combat')">
-              <div>
-                <div class="arena-card-top">
-                  <span class="arena-card-tag" style="color: #FACC15;">Bumblebee</span>
-                  <div class="custom-check" id="check-code-combat">✓</div>
+              <div class="arena-card__bg bg-reg-bumblebee"></div>
+              <div class="arena-card__content">
+                <div>
+                  <div class="arena-card-top">
+                    <span class="arena-card-tag" style="color: #FACC15; border-color: rgba(250,204,21,0.4); background: rgba(250,204,21,0.15);">Bumblebee</span>
+                    <div class="custom-check" id="check-code-combat">✓</div>
+                  </div>
+                  <img src="events/assets/title-code-combat.png" alt="CODE COMBAT" class="arena-title-img">
+                  <p class="arena-card-desc">3-round coding challenge: Debugging (4), DSA (2), and Company-Specific Interview (1).</p>
                 </div>
-                <h3 class="arena-card-title">CODE COMBAT</h3>
-                <p class="arena-card-desc">3-round coding challenge: Debugging (4), DSA (2), and Company-Specific Interview (1).</p>
-              </div>
-              <div class="arena-card-meta">
-                <span>👥 Squad: 1–2</span> · <span>⏱️ 75 Mins</span>
+                <div class="arena-card-meta">
+                  <span>👥 Squad: 1–2</span> · <span>⏱️ 75 Mins</span> · <span>1st: ₹1,500</span>
+                </div>
               </div>
             </div>
 
             <!-- Arena 3: Agentic Paradox -->
             <div class="arena-checkbox-card" id="card-agentic-paradox" onclick="toggleArena('agentic-paradox')">
-              <div>
-                <div class="arena-card-top">
-                  <span class="arena-card-tag" style="color: #C084FC;">Megatron</span>
-                  <div class="custom-check" id="check-agentic-paradox">✓</div>
+              <div class="arena-card__bg bg-reg-megatron"></div>
+              <div class="arena-card__content">
+                <div>
+                  <div class="arena-card-top">
+                    <span class="arena-card-tag" style="color: #C084FC; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.15);">Megatron</span>
+                    <div class="custom-check" id="check-agentic-paradox">✓</div>
+                  </div>
+                  <img src="events/assets/title-agentic-paradox.png" alt="AGENTIC PARADOX" class="arena-title-img">
+                  <p class="arena-card-desc">AI Agent Building Challenge: Select a theme and build a working autonomous agent using n8n/Python.</p>
                 </div>
-                <h3 class="arena-card-title">AGENTIC PARADOX</h3>
-                <p class="arena-card-desc">AI Agent Building Challenge: Select a theme and build a working autonomous agent using n8n/Python.</p>
-              </div>
-              <div class="arena-card-meta">
-                <span>👥 Squad: 2–3</span> · <span>⏱️ 90 Mins</span>
+                <div class="arena-card-meta">
+                  <span>👥 Squad: 2–3</span> · <span>⏱️ 90 Mins</span> · <span>1st: ₹1,500</span>
+                </div>
               </div>
             </div>
 
             <!-- Arena 4: Tech Crime Scene -->
             <div class="arena-checkbox-card" id="card-tech-crime-scene" onclick="toggleArena('tech-crime-scene')">
-              <div>
-                <div class="arena-card-top">
-                  <span class="arena-card-tag" style="color: #F87171;">Soundwave</span>
-                  <div class="custom-check" id="check-tech-crime-scene">✓</div>
+              <div class="arena-card__bg bg-reg-starscream"></div>
+              <div class="arena-card__content">
+                <div>
+                  <div class="arena-card-top">
+                    <span class="arena-card-tag" style="color: #F87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.15);">Starscream</span>
+                    <div class="custom-check" id="check-tech-crime-scene">✓</div>
+                  </div>
+                  <img src="events/assets/title-tech-crime-scene.png" alt="TECH CRIME SCENE" class="arena-title-img">
+                  <p class="arena-card-desc">Simulated cybercrime investigation: analyze digital evidence, identify attacker and attack method.</p>
                 </div>
-                <h3 class="arena-card-title">TECH CRIME SCENE</h3>
-                <p class="arena-card-desc">Simulated cybercrime investigation: analyze digital evidence, identify attacker and attack method.</p>
-              </div>
-              <div class="arena-card-meta">
-                <span>👥 Squad: 2–3</span> · <span>👤 Coord: Dilli</span>
+                <div class="arena-card-meta">
+                  <span>👥 Squad: 2–3</span> · <span>⏱️ 60–90 Mins</span> · <span>Coord: Dilli</span>
+                </div>
               </div>
             </div>
 
             <!-- Arena 5: Workshop -->
             <div class="arena-checkbox-card" id="card-workshop" onclick="toggleArena('workshop')">
-              <div>
-                <div class="arena-card-top">
-                  <span class="arena-card-tag" style="color: #4ADE80;">Ratchet</span>
-                  <div class="custom-check" id="check-workshop">✓</div>
+              <div class="arena-card__bg bg-reg-workshop"></div>
+              <div class="arena-card__content">
+                <div>
+                  <div class="arena-card-top">
+                    <span class="arena-card-tag" style="color: #4ADE80; border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.15);">Heavy Mecha</span>
+                    <div class="custom-check" id="check-workshop">✓</div>
+                  </div>
+                  <img src="events/assets/title-workshop.png" alt="WORKSHOP" class="arena-title-img">
+                  <p class="arena-card-desc">Applied AI & Frameworks Masterclass: Production prompt engineering, RAG, and agent deployment.</p>
                 </div>
-                <h3 class="arena-card-title">WORKSHOP</h3>
-                <p class="arena-card-desc">Applied AI & Frameworks Masterclass: Production prompt engineering, RAG, and agent deployment.</p>
-              </div>
-              <div class="arena-card-meta">
-                <span>👥 Individual (1)</span> · <span>💳 ₹300 Fee</span>
+                <div class="arena-card-meta">
+                  <span>👥 Individual (1)</span> · <span>⏱️ 2 Hours</span> · <span>💳 ₹300 Fee</span>
+                </div>
               </div>
             </div>
 
             <!-- Arena 6: Paper Presentation -->
             <div class="arena-checkbox-card" id="card-paper-presentation" onclick="toggleArena('paper-presentation')">
-              <div>
-                <div class="arena-card-top">
-                  <span class="arena-card-tag" style="color: #F472B6;">Shockwave</span>
-                  <div class="custom-check" id="check-paper-presentation">✓</div>
+              <div class="arena-card__bg bg-reg-soundwave"></div>
+              <div class="arena-card__content">
+                <div>
+                  <div class="arena-card-top">
+                    <span class="arena-card-tag" style="color: #F472B6; border-color: rgba(244,114,182,0.4); background: rgba(244,114,182,0.15);">Soundwave</span>
+                    <div class="custom-check" id="check-paper-presentation">✓</div>
+                  </div>
+                  <img src="events/assets/title-paper-presentation.png" alt="PAPER PRESENTATION" class="arena-title-img">
+                  <p class="arena-card-desc">Present innovative research and peer-reviewed scientific contributions before expert jury.</p>
                 </div>
-                <h3 class="arena-card-title">PAPER PRESENTATION</h3>
-                <p class="arena-card-desc">Present innovative research and peer-reviewed scientific contributions before expert jury.</p>
-              </div>
-              <div class="arena-card-meta">
-                <span>👥 Squad: 2–3</span> · <span>⏱️ 45–60 Mins</span>
+                <div class="arena-card-meta">
+                  <span>👥 Squad: 2–3</span> · <span>⏱️ 45–60 Mins</span> · <span>1st: ₹1,500</span>
+                </div>
               </div>
             </div>
 
