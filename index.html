@@ -1311,19 +1311,32 @@
     }
 
     /* ═══════════════════════════════════════════
-       8. FREQUENTLY ASKED QUESTIONS (FAQ MATRIX)
+       8. FREQUENTLY ASKED QUESTIONS (FAQ MATRIX - ZENTRY LAVENDER STYLE)
        ═══════════════════════════════════════════ */
     .faq-section {
-      background: radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.05) 0%, transparent 60%), #050811;
-      border-top: 1px solid var(--border-dark);
-      border-bottom: 1px solid var(--border-dark);
+      background-color: var(--zentry-lavender);
+      color: var(--text-dark);
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       position: relative;
     }
 
     .faq-header {
       text-align: center;
       max-width: 840px;
-      margin: 0 auto clamp(32px, 4vh, 52px);
+      margin: 0 auto clamp(36px, 4.5vh, 56px);
+    }
+
+    .faq-header .caption-meta {
+      color: var(--grey-desc);
+    }
+
+    .faq-header .ink-trap-title {
+      color: var(--text-dark);
+    }
+
+    .faq-header .text-mono-desc {
+      color: #525564;
     }
 
     .faq-filter-tabs {
@@ -1331,35 +1344,38 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 36px;
+      margin-bottom: 38px;
     }
 
     .faq-tab-btn {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      padding: 8px 18px;
+      padding: 10px 22px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.7);
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      color: #000000;
       cursor: pointer;
-      transition: all 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s var(--ease-zentry);
     }
 
     .faq-tab-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: #000000;
       color: #FFFFFF;
-      border-color: rgba(0, 240, 255, 0.3);
+      border-color: #000000;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     }
 
     .faq-tab-btn.active {
-      background: rgba(0, 240, 255, 0.15);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
-      box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+      background: #000000;
+      border-color: #000000;
+      color: #FFFFFF;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
 
     .faq-grid {
@@ -1377,24 +1393,23 @@
     }
 
     .faq-item {
-      background: rgba(13, 18, 31, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 20px;
       overflow: hidden;
       transition: all 0.3s var(--ease-zentry);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
     }
 
     .faq-item:hover {
-      border-color: rgba(0, 240, 255, 0.35);
-      background: rgba(17, 24, 40, 0.9);
+      border-color: rgba(0, 0, 0, 0.22);
       transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
     }
 
     .faq-item.active {
-      border-color: rgba(0, 240, 255, 0.6);
-      background: rgba(0, 240, 255, 0.035);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      border-color: #000000;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.09);
     }
 
     .faq-question-btn {
@@ -1403,39 +1418,40 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      padding: 22px 24px;
+      padding: 24px 26px;
       background: transparent;
       border: none;
-      color: #FFFFFF;
+      color: #000000;
       text-align: left;
       font-family: var(--font-body);
-      font-size: 1.02rem;
-      font-weight: 600;
+      font-size: 1.04rem;
+      font-weight: 700;
       cursor: pointer;
       user-select: none;
       line-height: 1.4;
     }
 
     .faq-icon-wrap {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #DFDFF2;
+      border: 1px solid rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       font-family: var(--font-mono);
-      font-size: 1rem;
-      color: var(--accent-cyan);
-      transition: transform 0.3s var(--ease-zentry), background 0.3s ease;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #000000;
+      transition: transform 0.3s var(--ease-zentry), background 0.3s ease, color 0.3s ease;
     }
 
     .faq-item.active .faq-icon-wrap {
       transform: rotate(45deg);
-      background: rgba(0, 240, 255, 0.2);
-      border-color: var(--accent-cyan);
+      background: #000000;
+      border-color: #000000;
       color: #FFFFFF;
     }
 
@@ -1452,22 +1468,23 @@
     }
 
     .faq-answer-inner {
-      padding: 0 24px 22px;
-      font-size: 0.90rem;
-      color: #94A3B8;
-      line-height: 1.65;
+      padding: 0 26px 26px;
+      font-size: 0.92rem;
+      color: #4B4E5A;
+      line-height: 1.7;
     }
 
     .faq-answer-inner strong {
-      color: #FFFFFF;
+      color: #000000;
+      font-weight: 700;
     }
 
     .faq-help-box {
       margin-top: 48px;
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.06), rgba(168, 85, 247, 0.06));
-      border: 1px dashed rgba(0, 240, 255, 0.3);
-      border-radius: 20px;
-      padding: 28px 32px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 24px;
+      padding: 32px 36px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1476,6 +1493,7 @@
       max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
     }
 
     /* ═══════════════════════════════════════════
@@ -2134,16 +2152,16 @@
   </section>
 
   <!-- ═══ 8. FREQUENTLY ASKED QUESTIONS (FAQ MATRIX) ═══ -->
-  <section class="section-spacing faq-section" id="faq" data-theme="dark" data-theme-prev="dark">
+  <section class="section-spacing faq-section" id="faq" data-theme="lavender" data-theme-prev="dark">
     <div class="container">
       
       <!-- Section Header -->
       <div class="faq-header">
-        <p class="caption-meta" style="color: var(--accent-cyan);">// DELEGATE PROTOCOLS · FAQ MATRIX</p>
-        <h2 class="ink-trap-title ink-section-massive" style="margin-bottom: 16px;">
+        <p class="caption-meta" style="color: #636674;">// DELEGATE PROTOCOLS · FAQ MATRIX</p>
+        <h2 class="ink-trap-title ink-section-massive" style="color: #000000; margin-bottom: 16px;">
           FREQUENTLY ASKED QUESTIONS
         </h2>
-        <p class="text-mono-desc" style="color: var(--grey-text); max-width: 680px; margin: 0 auto;">
+        <p class="text-mono-desc" style="color: #525564; max-width: 680px; margin: 0 auto;">
           Everything you need to know about arena allocations, free & paid pricing rules, team squads, on-campus QR check-in, and official certificates.
         </p>
       </div>
@@ -2278,19 +2296,19 @@
       <!-- FAQ Helpdesk Strip -->
       <div class="faq-help-box">
         <div>
-          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; color: #636674; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
             // SYMPOSIUM HELPDESK & SUPPORT
           </div>
-          <h4 style="font-size: 1.25rem; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">Still have questions or need special assistance?</h4>
-          <p style="font-size: 0.85rem; color: var(--grey-text); margin: 0;">
-            Our organizing convenors are available at <a href="mailto:hod.aids@sairam.edu.in" style="color: var(--accent-cyan); text-decoration: none;">hod.aids@sairam.edu.in</a> · Sri Sairam Campus, Chennai
+          <h4 style="font-family: var(--font-ink-trap); font-size: 1.4rem; text-transform: uppercase; color: #000000; margin-bottom: 6px;">Still have questions or need special assistance?</h4>
+          <p style="font-size: 0.88rem; color: #525564; margin: 0;">
+            Our organizing convenors are available at <a href="mailto:hod.aids@sairam.edu.in" style="color: #000000; font-weight: 700; text-decoration: underline;">hod.aids@sairam.edu.in</a> · Sri Sairam Campus, Chennai
           </p>
         </div>
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <a href="register.html" class="btn-pill-solid">
+          <a href="register.html" class="btn-pill-solid" style="background: #000000; color: #FFFFFF;">
             <span>Register Squad ↗</span>
           </a>
-          <a href="portal.html" class="btn-pill" style="border-color: rgba(255,255,255,0.2); color: #FFFFFF;">
+          <a href="portal.html" class="btn-pill" style="border: 1.5px solid rgba(0,0,0,0.25); color: #000000;">
             <span>Delegate Portal ↗</span>
           </a>
         </div>
