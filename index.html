@@ -472,33 +472,56 @@
       position: relative;
       background-color: var(--zentry-lavender);
       color: var(--text-dark);
-      padding-top: clamp(90px, 14vh, 140px);
-      padding-bottom: 0px;
-      overflow: hidden;
+      padding: 0;
+      overflow: visible;
       z-index: 2;
     }
 
+    .about-track {
+      height: 280vh;
+      position: relative;
+      width: 100%;
+    }
+
+    .about-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: clamp(80px, 11vh, 110px);
+      overflow: hidden;
+    }
+
     .about-header {
-      text-align: center;
+      position: relative;
+      width: 100%;
       max-width: 1100px;
-      margin: 0 auto clamp(36px, 6vh, 64px);
+      text-align: center;
       padding: 0 24px;
+      z-index: 4;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      margin-bottom: 0px;
     }
 
     .about-caption {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.2em;
       color: #636674;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       display: block;
     }
 
     .about-title {
       font-family: var(--font-ink-trap);
-      font-size: clamp(2.3rem, 5.8vw, 4.8rem);
+      font-size: clamp(2rem, 4.4vw, 3.8rem);
       line-height: 0.95;
       text-transform: uppercase;
       letter-spacing: -0.02em;
@@ -508,18 +531,21 @@
 
     /* Pinned Clip Expansion Wrapper */
     .about-clip-wrapper {
-      position: relative;
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
+      padding-bottom: clamp(36px, 6vh, 64px);
+      z-index: 2;
       overflow: hidden;
     }
 
     .about-image-card {
-      width: clamp(300px, 40vw, 560px);
-      height: clamp(400px, 68vh, 720px);
+      width: clamp(320px, 42vw, 560px);
+      height: clamp(340px, 48vh, 500px);
       border-radius: 28px;
       overflow: hidden;
       background: #000000;
@@ -530,9 +556,13 @@
     }
 
     @media (max-width: 768px) {
+      .about-clip-wrapper {
+        padding-bottom: clamp(24px, 4vh, 40px);
+      }
+
       .about-image-card {
-        width: 86vw;
-        height: 58vh;
+        width: 88vw;
+        height: 46vh;
         border-radius: 20px;
       }
     }
@@ -1739,70 +1769,75 @@
 
   <!-- ═══ 2. ABOUT / INTRO SECTION (ZENTRY EXACT FLOW) ═══ -->
   <section class="about-section" id="about-section" data-theme="lavender" data-theme-prev="dark">
-    
-    <!-- Top Header -->
-    <div class="about-header">
-      <span class="about-caption">Welcome to AIRO 6.0 // National Level Symposium</span>
-      <h2 class="about-title">
-        HUMAN INTELLIGENCE POWERS AI<br>
-        AND AI EXPANDS HUMAN POTENTIAL.
-      </h2>
-    </div>
-
-    <!-- Pinned Expansion Track -->
-    <div class="about-clip-wrapper" id="about-clip-wrapper">
-      <div class="about-image-card" id="about-image-card">
-        <video autoplay loop muted playsinline preload="auto" class="about-card-video" id="about-video">
-          <source src="transformer.mp4" type="video/mp4">
-          <source src="transformer.MOV" type="video/quicktime">
-        </video>
-
-        <!-- Initial Card Badge (shown on small card) -->
-        <div class="about-card-badge" id="about-card-badge">
-          <div class="about-card-date">NATIONAL LEVEL SYMPOSIUM · SEPTEMBER 26, 2026</div>
-          <div class="about-card-venue">Sri Sairam Engineering College · Chennai</div>
+    <div class="about-track" id="about-track">
+      <div class="about-sticky" id="about-sticky">
+        
+        <!-- Top Header -->
+        <div class="about-header" id="about-header">
+          <span class="about-caption">Welcome to AIRO 6.0 // National Level Symposium</span>
+          <h2 class="about-title">
+            HUMAN INTELLIGENCE POWERS AI<br>
+            AND AI EXPANDS HUMAN POTENTIAL.
+          </h2>
         </div>
 
-        <!-- Red Glowing About The Event Overlay (reveals on expansion) -->
-        <div class="about-card-overlay" id="about-card-overlay">
-          <div class="about-card-content">
-            
-            <div class="about-red-badge">
-              <span class="about-red-dot"></span>
-              <span>// ABOUT AIRO 6.0 · NATIONAL LEVEL SYMPOSIUM</span>
+        <!-- Pinned Expansion Track -->
+        <div class="about-clip-wrapper" id="about-clip-wrapper">
+          <div class="about-image-card" id="about-image-card">
+            <video autoplay loop muted playsinline preload="auto" class="about-card-video" id="about-video">
+              <source src="transformer.mp4" type="video/mp4">
+              <source src="transformer.MOV" type="video/quicktime">
+            </video>
+
+            <!-- Initial Card Badge (shown on small card) -->
+            <div class="about-card-badge" id="about-card-badge">
+              <div class="about-card-date">NATIONAL LEVEL SYMPOSIUM · SEPTEMBER 26, 2026</div>
+              <div class="about-card-venue">Sri Sairam Engineering College · Chennai</div>
             </div>
 
-            <h3 class="about-red-title">
-              NATIONAL LEVEL SYMPOSIUM
-            </h3>
+            <!-- Red Glowing About The Event Overlay (reveals on expansion) -->
+            <div class="about-card-overlay" id="about-card-overlay">
+              <div class="about-card-content">
+                
+                <div class="about-red-badge">
+                  <span class="about-red-dot"></span>
+                  <span>// ABOUT AIRO 6.0 · NATIONAL LEVEL SYMPOSIUM</span>
+                </div>
 
-            <p class="about-red-desc">
-              Organized by the <strong>Department of Artificial Intelligence & Data Science</strong> at <strong>Sri Sairam Engineering College (Autonomous)</strong>, AIRO 6.0 is a prestigious <strong>National Level Technical Symposium</strong>. Over 350+ student innovators across 50+ institutions compete in 6 high-stakes arenas testing machine learning, cyber forensics, AI agents, algorithmic combat, and venture pitching.
-            </p>
+                <h3 class="about-red-title">
+                  NATIONAL LEVEL SYMPOSIUM
+                </h3>
 
-            <div class="about-red-metrics">
-              <div class="about-red-metric">
-                <span class="metric-num">06</span>
-                <span class="metric-label">Technical Arenas</span>
-              </div>
-              <div class="about-red-metric">
-                <span class="metric-num">₹19K+</span>
-                <span class="metric-label">Prize Pool</span>
-              </div>
-              <div class="about-red-metric">
-                <span class="metric-num">50+</span>
-                <span class="metric-label">Colleges</span>
-              </div>
-              <div class="about-red-metric">
-                <span class="metric-num">SEP 26</span>
-                <span class="metric-label">Symposium Day</span>
-              </div>
-            </div>
+                <p class="about-red-desc">
+                  Organized by the <strong>Department of Artificial Intelligence & Data Science</strong> at <strong>Sri Sairam Engineering College (Autonomous)</strong>, AIRO 6.0 is a prestigious <strong>National Level Technical Symposium</strong>. Over 350+ student innovators across 50+ institutions compete in 6 high-stakes arenas testing machine learning, cyber forensics, AI agents, algorithmic combat, and venture pitching.
+                </p>
 
-            <div class="about-red-cta">
-              <button class="btn-pill-red" onclick="document.getElementById('arenas').scrollIntoView({behavior:'smooth'})">
-                <span>Explore The 6 Arenas ▾</span>
-              </button>
+                <div class="about-red-metrics">
+                  <div class="about-red-metric">
+                    <span class="metric-num">06</span>
+                    <span class="metric-label">Technical Arenas</span>
+                  </div>
+                  <div class="about-red-metric">
+                    <span class="metric-num">₹19K+</span>
+                    <span class="metric-label">Prize Pool</span>
+                  </div>
+                  <div class="about-red-metric">
+                    <span class="metric-num">50+</span>
+                    <span class="metric-label">Colleges</span>
+                  </div>
+                  <div class="about-red-metric">
+                    <span class="metric-num">SEP 26</span>
+                    <span class="metric-label">Symposium Day</span>
+                  </div>
+                </div>
+
+                <div class="about-red-cta">
+                  <button class="btn-pill-red" onclick="document.getElementById('arenas').scrollIntoView({behavior:'smooth'})">
+                    <span>Explore The 6 Arenas ▾</span>
+                  </button>
+                </div>
+
+              </div>
             </div>
 
           </div>
@@ -1810,9 +1845,6 @@
 
       </div>
     </div>
-
-
-
   </section>
 
   <!-- ═══ 3. ARENA GRID (BENTO PRODUCT GRID) ═══ -->
@@ -2542,107 +2574,81 @@
     }
 
     /* ═══════════════════════════════════════════
-       SECTION 3: IMAGE-TO-VIDEO CINEMATIC SCROLL EXPANSION
+       SECTION 2: ABOUT / VIDEO EXPANSION TIMELINE (ZENTRY SIGNATURE)
        ═══════════════════════════════════════════ */
-    const imageToVideoTrack = document.getElementById('image-to-video-track');
-    const imageCard = document.getElementById('expanding-image-card');
-    const bgVideo = document.getElementById('about-video');
-    const aboutNarrative = document.getElementById('about-narrative');
-    const cardBadge = document.getElementById('image-card-badge');
+    const aboutTrack = document.getElementById('about-track');
+    const aboutImageCard = document.getElementById('about-image-card');
+    const aboutHeader = document.getElementById('about-header');
+    const aboutCardBadge = document.getElementById('about-card-badge');
+    const aboutCardOverlay = document.getElementById('about-card-overlay');
+    const aboutBgVideo = document.getElementById('about-video');
 
-    if (imageToVideoTrack && imageCard && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
+    if (aboutTrack && aboutImageCard && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
       const isMobile = window.innerWidth <= 768;
-      const initialW = isMobile ? '78vw' : '420px';
-      const initialH = isMobile ? '46vh' : '260px';
-      const initialRadius = isMobile ? '20px' : '24px';
+      const initialW = isMobile ? '88vw' : 'clamp(320px, 42vw, 560px)';
+      const initialH = isMobile ? '46vh' : 'clamp(340px, 48vh, 500px)';
+      const initialRadius = isMobile ? '20px' : '28px';
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: imageToVideoTrack,
+          trigger: aboutTrack,
           start: 'top top',
           end: 'bottom bottom',
           scrub: 0.8,
-          pin: false,
-        },
+        }
       });
 
-      tl.to(imageCard,
-        {
-          width: '100vw',
-          height: '100vh',
-          borderRadius: '0px',
+      // 1. Header fade & slide up
+      if (aboutHeader) {
+        tl.to(aboutHeader, {
+          opacity: 0,
+          y: -40,
+          duration: 0.22,
           ease: 'power2.inOut',
-          duration: 0.35,
-        },
-        0
-      );
-
-      if (cardBadge) {
-        tl.to(cardBadge, { opacity: 0, duration: 0.1 }, 0.05);
+        }, 0);
       }
 
-      if (bgVideo) {
-        tl.to(bgVideo,
-          {
-            opacity: 1,
-            scale: 1,
-            ease: 'power1.out',
-            duration: 0.25,
-            onStart: () => {
-              bgVideo.play().catch(() => {});
-            },
-          },
-          0.12
-        );
+      // 2. Initial card badge fade
+      if (aboutCardBadge) {
+        tl.to(aboutCardBadge, {
+          opacity: 0,
+          duration: 0.15,
+          ease: 'power2.inOut',
+        }, 0.05);
       }
 
-      if (aboutNarrative) {
-        tl.to(aboutNarrative,
-          {
-            opacity: 1,
-            y: 0,
-            ease: 'power2.out',
-            duration: 0.2,
-          },
-          0.22
-        );
-
-        tl.to(aboutNarrative,
-          {
-            opacity: 0,
-            y: -30,
-            ease: 'power1.in',
-            duration: 0.15,
-          },
-          0.50
-        );
-      }
-
-      if (bgVideo) {
-        tl.to(bgVideo,
-          {
-            opacity: 0,
-            scale: 1.05,
-            ease: 'power1.in',
-            duration: 0.2,
-          },
-          0.58
-        );
-      }
-
-      tl.to(imageCard,
+      // 3. Card expansion to full viewport
+      tl.fromTo(aboutImageCard,
         {
           width: initialW,
           height: initialH,
           borderRadius: initialRadius,
-          ease: 'power1.inOut',
-          duration: 0.35,
         },
-        0.65
+        {
+          width: '100vw',
+          height: '100vh',
+          borderRadius: '0px',
+          duration: 0.55,
+          ease: 'power2.inOut',
+        },
+        0.08
       );
 
-      if (cardBadge) {
-        tl.to(cardBadge, { opacity: 1, duration: 0.15 }, 0.82);
+      // 4. Red cyber overlay reveal
+      if (aboutCardOverlay) {
+        tl.fromTo(aboutCardOverlay,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power2.out',
+            onUpdate: function () {
+              const prog = this.progress();
+              aboutCardOverlay.style.pointerEvents = prog > 0.3 ? 'auto' : 'none';
+            },
+          },
+          0.50
+        );
       }
     }
 
