@@ -1581,8 +1581,241 @@
     }
 
     /* ═══════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   ═══════════════════════════════════════════ */
+       MOBILE NAVIGATION & HAMBURGER DRAWER (ZENTRY SIGNATURE)
+       ═══════════════════════════════════════════ */
+    .nav__mobile-actions {
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-reg-pill {
+      display: none;
+      padding: 8px 16px;
+      font-size: 0.70rem;
+      background: rgba(0, 240, 255, 0.12);
+      border-color: rgba(0, 240, 255, 0.4);
+      color: #00F0FF;
+    }
+
+    .nav__hamburger-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-zentry);
+      z-index: 102;
+    }
+
+    body.theme-lavender .nav__hamburger-btn {
+      background: rgba(0, 0, 0, 0.08);
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .hamburger-line {
+      width: 18px;
+      height: 2px;
+      background-color: #FFFFFF;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    body.theme-lavender .hamburger-line {
+      background-color: #000000;
+    }
+
+    .nav__hamburger-btn.is-active .hamburger-line:nth-child(1),
+    .nav__hamburger-btn.active .hamburger-line:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav__hamburger-btn.is-active .hamburger-line:nth-child(2),
+    .nav__hamburger-btn.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .nav__hamburger-btn.is-active .hamburger-line:nth-child(3),
+    .nav__hamburger-btn.active .hamburger-line:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile Menu Drawer Overlay */
+    .mobile-menu-drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.35s ease, opacity 0.35s ease;
+      pointer-events: none;
+    }
+
+    .mobile-menu-drawer.is-open,
+    .mobile-menu-drawer.open {
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    .mobile-menu-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+    }
+
+    .mobile-menu-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 360px;
+      background: rgba(10, 14, 26, 0.98);
+      border-left: 1px solid rgba(0, 240, 255, 0.25);
+      box-shadow: -15px 0 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 100000;
+    }
+
+    .mobile-menu-drawer.is-open .mobile-menu-panel,
+    .mobile-menu-drawer.open .mobile-menu-panel {
+      transform: translateX(0) !important;
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .mobile-menu-brand {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent-cyan);
+    }
+
+    .mobile-menu-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-menu-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #FFFFFF;
+      transition: all 0.25s ease;
+    }
+
+    .mobile-menu-link span {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: var(--accent-cyan);
+    }
+
+    .mobile-menu-link:hover,
+    .mobile-menu-link:active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: rgba(0, 240, 255, 0.3);
+      transform: translateX(4px);
+    }
+
+    .mobile-menu-sublinks {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-left: 20px;
+      margin-top: -4px;
+      margin-bottom: 6px;
+    }
+
+    .mobile-sublink {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .mobile-sublink:hover,
+    .mobile-sublink:active {
+      color: #00F0FF;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .mobile-menu-cta {
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-menu-reg-btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 0.82rem;
+      background: linear-gradient(135deg, #00F0FF 0%, #0088FF 100%);
+      color: #000000;
+      border: none;
+      font-weight: 800;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+    }
+
+    /* ═══════════════════════════════════════════
+    RESPONSIVE BREAKPOINTS
+    ═══════════════════════════════════════════ */
     @media (max-width: 1024px) {
       .arena-grid__sub {
         grid-template-columns: 1fr 1fr;
@@ -1624,9 +1857,36 @@
       }
     }
 
+    @media (max-width: 992px) {
+      .nav__right,
+      .desktop-only-btn {
+        display: none !important;
+      }
+
+      .nav__mobile-actions,
+      .mobile-reg-pill {
+        display: flex !important;
+      }
+
+      .nav {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+    }
+
     @media (max-width: 768px) {
-      .nav__right {
-        display: none;
+      .hero {
+        padding-top: 85px;
+        padding-bottom: 24px;
+      }
+
+      .hero__desc-box {
+        font-size: 0.78rem;
+        line-height: 1.5;
+      }
+
+      .about-title {
+        font-size: clamp(1.8rem, 6.5vw, 3rem);
       }
 
       .arena-grid__main {
@@ -1635,6 +1895,11 @@
 
       .bento-card--large {
         grid-row: auto;
+        min-height: 380px;
+      }
+
+      .bento-card--small {
+        min-height: 320px;
       }
 
       .arena-grid__sub {
@@ -1643,6 +1908,44 @@
 
       .metrics__grid {
         grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .metric-card {
+        padding: 24px 18px;
+      }
+
+      .faq-filter-tabs {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        width: 100%;
+      }
+
+      .faq-filter-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .faq-tab-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .faq-question-btn {
+        padding: 20px 18px;
+        font-size: 0.98rem;
+      }
+
+      .faq-help-box {
+        padding: 24px 20px;
       }
 
       .cta-frames {
@@ -1651,21 +1954,35 @@
 
       .footer__top {
         flex-direction: column;
+        gap: 36px;
       }
 
       .footer__cols {
         flex-wrap: wrap;
-        gap: 36px;
+        gap: 32px;
       }
 
       .who-we-are__message {
-        font-size: clamp(1.8rem, 7vw, 2.8rem);
+        font-size: clamp(1.6rem, 6vw, 2.4rem);
       }
     }
 
     @media (max-width: 480px) {
+      :root {
+        --gutter: 18px;
+      }
+
       .metrics__grid {
         grid-template-columns: 1fr;
+      }
+
+      .about-red-metrics {
+        gap: 10px;
+      }
+
+      .about-red-metric {
+        min-width: 44%;
+        padding: 10px 12px;
       }
 
       .cta-frames {
@@ -1674,6 +1991,13 @@
 
       .cta-frame:first-child {
         aspect-ratio: 16/9;
+      }
+
+      .partners__item {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
     }
   </style>
@@ -1687,10 +2011,10 @@
       <header class="nav" id="navbar">
         <div class="nav__left">
           <a href="/" class="nav__logo">AIRO 6.0</a>
-          <button class="btn-pill" onclick="window.location.href='register.html'" style="background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;">
+          <button class="btn-pill desktop-only-btn" onclick="window.location.href='register.html'" style="background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.4); color: #00F0FF;">
             <span>Register ↗</span>
           </button>
-          <button class="btn-pill" onclick="document.getElementById('arenas').scrollIntoView({behavior:'smooth'})">
+          <button class="btn-pill desktop-only-btn" onclick="document.getElementById('arenas').scrollIntoView({behavior:'smooth'})">
             <span>Arenas ▾</span>
           </button>
         </div>
@@ -1703,7 +2027,52 @@
           <a href="portal.html" class="nav__link">Portal <span class="nav__arrow-icon">↗</span></a>
           <a href="register.html" class="nav__link" style="color: var(--accent-cyan);">Register <span class="nav__arrow-icon">↗</span></a>
         </div>
+        <!-- Mobile Navigation Actions (Quick CTA + Hamburger) -->
+        <div class="nav__mobile-actions">
+          <a href="register.html" class="btn-pill mobile-reg-pill">
+            <span>Register ↗</span>
+          </a>
+          <button class="nav__hamburger-btn" id="navHamburger" aria-label="Toggle Navigation Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
       </header>
+    </div>
+  </div>
+
+  <!-- ═══ MOBILE MENU DRAWER (ZENTRY SIGNATURE) ═══ -->
+  <div class="mobile-menu-drawer" id="mobileMenuDrawer">
+    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+    <div class="mobile-menu-panel">
+      <div class="mobile-menu-header">
+        <div class="mobile-menu-brand">AIRO 6.0 // SYSTEM NAV</div>
+        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Navigation Menu">✕</button>
+      </div>
+      <nav class="mobile-menu-nav">
+        <a href="#hero" class="mobile-menu-link"><span>01</span> Home ↗</a>
+        <a href="#about-section" class="mobile-menu-link"><span>02</span> About Symposium ↗</a>
+        <a href="#arenas" class="mobile-menu-link"><span>03</span> Technical Arenas (6) ▾</a>
+        <div class="mobile-menu-sublinks">
+          <a href="events/tech-auction.html" class="mobile-sublink">⚔ Tech Auction (Free)</a>
+          <a href="events/code-combat.html" class="mobile-sublink">⚔ Code Combat (Free)</a>
+          <a href="events/agentic-paradox.html" class="mobile-sublink">⚔ Agentic Paradox (Free)</a>
+          <a href="events/tech-crime-scene.html" class="mobile-sublink">⚔ Tech Crime Scene (Free)</a>
+          <a href="events/workshop.html" class="mobile-sublink">⚡ GenAI Workshop (₹300)</a>
+          <a href="events/paper-presentation.html" class="mobile-sublink">📄 Paper Presentation (₹250)</a>
+        </div>
+        <a href="#schedule" class="mobile-menu-link"><span>04</span> Event Schedule ↗</a>
+        <a href="team.html" class="mobile-menu-link"><span>05</span> Architects & Team ↗</a>
+        <a href="#faq" class="mobile-menu-link"><span>06</span> FAQ Matrix ↗</a>
+        <a href="portal.html" class="mobile-menu-link"><span>07</span> Delegate Portal ↗</a>
+        <a href="scanner.html" class="mobile-menu-link"><span>08</span> Volunteer Scanner ↗</a>
+      </nav>
+      <div class="mobile-menu-cta">
+        <a href="register.html" class="btn-pill-solid mobile-menu-reg-btn">
+          <span>Register Squad for AIRO 6.0 ↗</span>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -2740,6 +3109,72 @@
     });
 
     /* ═══════════════════════════════════════════
+       MOBILE DRAWER NAVIGATION LOGIC
+       ═══════════════════════════════════════════ */
+    const navHamburger = document.getElementById('navHamburger');
+    const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+    const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+    function openMobileMenu(e) {
+      if (e && e.cancelable) e.preventDefault();
+      if (!mobileMenuDrawer) return;
+      mobileMenuDrawer.classList.add('is-open', 'open');
+      if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add('is-open', 'open');
+      if (navHamburger) {
+        navHamburger.classList.add('is-active', 'active');
+        navHamburger.setAttribute('aria-expanded', 'true');
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu(e) {
+      if (e && e.cancelable) e.preventDefault();
+      if (!mobileMenuDrawer) return;
+      mobileMenuDrawer.classList.remove('is-open', 'open');
+      if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove('is-open', 'open');
+      if (navHamburger) {
+        navHamburger.classList.remove('is-active', 'active');
+        navHamburger.setAttribute('aria-expanded', 'false');
+      }
+      document.body.style.overflow = '';
+    }
+
+    if (navHamburger) {
+      navHamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (mobileMenuDrawer && (mobileMenuDrawer.classList.contains('is-open') || mobileMenuDrawer.classList.contains('open'))) {
+          closeMobileMenu(e);
+        } else {
+          openMobileMenu(e);
+        }
+      });
+    }
+
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener('click', closeMobileMenu);
+    }
+
+    if (mobileMenuBackdrop) {
+      mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenuDrawer && (mobileMenuDrawer.classList.contains('is-open') || mobileMenuDrawer.classList.contains('open'))) {
+        closeMobileMenu();
+      }
+    });
+
+    // Auto-close on link click
+    if (mobileMenuDrawer) {
+      mobileMenuDrawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          closeMobileMenu();
+        });
+      });
+    }
+
+    /* ═══════════════════════════════════════════
        SMOOTH SCROLL NAVIGATION
        ═══════════════════════════════════════════ */
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -2747,7 +3182,7 @@
         const target = document.querySelector(link.getAttribute('href'));
         if (target) {
           e.preventDefault();
-          if (lenis) {
+          if (typeof lenis !== 'undefined' && lenis) {
             lenis.scrollTo(target, { offset: -70 });
           } else {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });

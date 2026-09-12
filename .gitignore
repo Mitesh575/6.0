@@ -3,3 +3,7 @@ node_modules/
 *.log
 .claude/
 .impeccable/
+audit_screenshots/
+audit_report.json
+*.mjs
+

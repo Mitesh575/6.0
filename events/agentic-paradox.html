@@ -535,6 +535,206 @@ body::after {
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.05em;
 }
+
+/* ═══════════════════════════════════════════
+   MOBILE NAV & DRAWER STYLES
+   ═══════════════════════════════════════════ */
+.nav__mobile-actions {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav__hamburger-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+  z-index: 102;
+}
+
+.nav__hamburger-btn span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav__hamburger-btn.is-active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav__hamburger-btn.is-active span:nth-child(2) {
+  opacity: 0;
+}
+.nav__hamburger-btn.is-active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 10, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.mobile-menu-backdrop.is-open,
+.mobile-menu-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-height: 90vh;
+  background: rgba(9, 14, 27, 0.98);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.1);
+  z-index: 99999;
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.mobile-menu-drawer.is-open,
+.mobile-menu-drawer.open {
+  transform: translateY(0);
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 20px;
+}
+
+.mobile-menu-title {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+}
+
+.mobile-menu-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.mobile-nav-link {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.mobile-nav-link:hover, .mobile-nav-link.active {
+  color: var(--accent-cyan);
+  padding-left: 8px;
+}
+
+.mobile-nav-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.mobile-nav-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  display: block;
+}
+
+.mobile-nav-btn.primary {
+  background: var(--zentry-lavender);
+  color: #03050A;
+  box-shadow: 0 4px 16px rgba(223, 223, 242, 0.3);
+}
+
+.mobile-nav-btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 900px) {
+  .nav__right {
+    display: none !important;
+  }
+  .nav__mobile-actions {
+    display: flex;
+  }
+  .nav__left .btn-pill {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-event__title {
+    font-size: clamp(2rem, 9vw, 3.2rem);
+  }
+  .section-box {
+    padding: 24px 18px;
+  }
+}
 </style>
 </head>
 <body>
@@ -562,7 +762,42 @@ body::after {
           <a href="../portal.html" class="nav__link">Portal <span class="nav__arrow-icon">↗</span></a>
           <a href="../register.html?event=agentic-paradox" class="nav__link" style="color: var(--accent-cyan);">Register <span class="nav__arrow-icon">↗</span></a>
         </div>
+
+        <!-- Mobile Actions -->
+        <div class="nav__mobile-actions">
+          <a href="../register.html?event=agentic-paradox" class="btn-pill" style="padding: 6px 12px; font-size: 0.68rem; background: rgba(0,240,255,0.1); border-color: rgba(0,240,255,0.3); color: var(--accent-cyan);">Register ↗</a>
+          <button class="nav__hamburger-btn" id="navHamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
     </header>
+  </div>
+</div>
+
+<!-- Mobile Menu Drawer Backdrop -->
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+
+<!-- Mobile Menu Drawer Content -->
+<div class="mobile-menu-drawer" id="mobileMenuDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+  <div class="mobile-menu-header">
+    <span class="mobile-menu-title">AIRO 6.0</span>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav class="mobile-nav-links">
+    <a href="../index.html" class="mobile-nav-link">Home <span>↗</span></a>
+    <a href="../index.html#arenas" class="mobile-nav-link active">Combat Arenas <span>●</span></a>
+    <a href="../index.html#schedule" class="mobile-nav-link">Nexus Schedule <span>↗</span></a>
+    <a href="../index.html#about-section" class="mobile-nav-link">About AIRO <span>↗</span></a>
+    <a href="../index.html#faq-section" class="mobile-nav-link">FAQ Matrix <span>↗</span></a>
+    <a href="../team.html" class="mobile-nav-link">Crew & Leadership <span>↗</span></a>
+    <a href="../portal.html" class="mobile-nav-link">Delegate Portal <span>↗</span></a>
+    <a href="../register.html" class="mobile-nav-link">Register Now <span>↗</span></a>
+  </nav>
+  <div class="mobile-nav-footer">
+    <a href="../register.html?event=agentic-paradox" class="mobile-nav-btn primary">REGISTER FOR THIS ARENA ↗</a>
+    <a href="../portal.html" class="mobile-nav-btn secondary">DELEGATE PORTAL ↗</a>
   </div>
 </div>
 
@@ -707,5 +942,71 @@ body::after {
   </div>
 </footer>
 
+<script>
+  /* ═══════════════════════════════════════════
+     MOBILE DRAWER NAVIGATION LOGIC
+     ═══════════════════════════════════════════ */
+  const navHamburger = document.getElementById('navHamburger');
+  const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+  const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+  function openMobileMenu(e) {
+    if (e && e.cancelable) e.preventDefault();
+    if (!mobileMenuDrawer) return;
+    mobileMenuDrawer.classList.add('is-open', 'open');
+    if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add('is-open', 'open');
+    if (navHamburger) {
+      navHamburger.classList.add('is-active', 'active');
+      navHamburger.setAttribute('aria-expanded', 'true');
+    }
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu(e) {
+    if (e && e.cancelable) e.preventDefault();
+    if (!mobileMenuDrawer) return;
+    mobileMenuDrawer.classList.remove('is-open', 'open');
+    if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove('is-open', 'open');
+    if (navHamburger) {
+      navHamburger.classList.remove('is-active', 'active');
+      navHamburger.setAttribute('aria-expanded', 'false');
+    }
+    document.body.style.overflow = '';
+  }
+
+  if (navHamburger) {
+    navHamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (mobileMenuDrawer && (mobileMenuDrawer.classList.contains('is-open') || mobileMenuDrawer.classList.contains('open'))) {
+        closeMobileMenu(e);
+      } else {
+        openMobileMenu(e);
+      }
+    });
+  }
+
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', closeMobileMenu);
+  }
+
+  if (mobileMenuBackdrop) {
+    mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenuDrawer && (mobileMenuDrawer.classList.contains('is-open') || mobileMenuDrawer.classList.contains('open'))) {
+      closeMobileMenu();
+    }
+  });
+
+  if (mobileMenuDrawer) {
+    mobileMenuDrawer.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+  }
+</script>
 </body>
 </html>
